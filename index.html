@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BASTION 11.0 | Wielkie Imperium</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+
+        :root {
+            --bg: #000000;
+            --card: #0d0d0d;
+            --accent: #ff3b30;
+            --gold: #ffd700;
+            --text: #ffffff;
+            --muted: #999999;
+            --border: #1a1a1a;
+        }
+
+        * { box-sizing: border-box; transition: 0.3s; scroll-behavior: smooth; }
+        body { 
+            margin: 0; background: var(--bg); color: var(--text); 
+            font-family: 'Inter', sans-serif; display: flex; height: 100vh; overflow: hidden; 
+        }
+
+        /* --- NAWIGACJA --- */
+        .app-sidebar { 
+            width: 320px; background: #050505; border-right: 1px solid var(--border); 
+            display: flex; flex-direction: column; padding: 40px 20px; overflow-y: auto;
+        }
+
+        .app-logo { font-weight: 800; font-size: 28px; margin-bottom: 50px; display: flex; align-items: center; gap: 10px; }
+        .app-logo span { color: var(--accent); }
+
+        .nav-group { margin-bottom: 35px; }
+        .nav-label { font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; display: block; }
+
+        .nav-item { 
+            background: none; border: none; color: #fff; padding: 14px 18px; 
+            text-align: left; cursor: pointer; font-size: 15px; font-weight: 600; 
+            border-radius: 12px; margin-bottom: 8px; width: 100%; display: flex; align-items: center; gap: 12px;
+        }
+        .nav-item:hover { background: var(--card); color: var(--gold); }
+        .nav-item.active { background: var(--accent); color: #fff; box-shadow: 0 10px 20px rgba(255,59,48,0.3); }
+
+        /* --- MAIN VIEW --- */
+        .app-main { flex-grow: 1; padding: 60px; overflow-y: auto; background: radial-gradient(circle at 0% 0%, #0a0a0a 0%, #000 100%); }
+        .tab-content { display: none; max-width: 1000px; margin: 0 auto; animation: slideIn 0.4s ease-out; }
+        .tab-content.active { display: block; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- KOMPONENTY --- */
+        .glass-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 40px; margin-bottom: 35px; }
+        h1 { font-size: 48px; font-weight: 800; letter-spacing: -2px; margin: 0 0 15px 0; }
+        h2 { color: var(--gold); font-size: 28px; margin-bottom: 25px; border-left: 5px solid var(--accent); padding-left: 15px; }
+        h3 { color: #fff; font-size: 20px; margin-top: 30px; }
+        p { line-height: 1.8; color: #dddddd; font-size: 17px; margin-bottom: 20px; }
+
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 20px; }
+        .stat-item { background: #121212; padding: 25px; border-radius: 20px; border: 1px solid var(--border); }
+        
+        .time-row { display: flex; gap: 60px; margin-bottom: 50px; border-bottom: 1px solid var(--border); padding-bottom: 40px; }
+        .time-val { font-size: 44px; font-weight: 800; display: block; letter-spacing: -1px; }
+        .time-name { font-size: 12px; text-transform: uppercase; color: var(--muted); letter-spacing: 3px; font-weight: 700; }
+
+        /* --- LISTY --- */
+        .info-list { list-style: none; padding: 0; }
+        .info-list li { padding: 20px 0; border-bottom: 1px solid #1a1a1a; display: flex; justify-content: space-between; align-items: center; font-size: 17px; }
+        .tag { background: #222; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 800; color: var(--gold); }
+
+        .highlight-box { background: rgba(255, 215, 0, 0.05); border-left: 4px solid var(--gold); padding: 25px; border-radius: 0 15px 15px 0; margin: 25px 0; }
+
+        /* --- RADIO --- */
+        .radio-box { display: flex; justify-content: space-between; align-items: center; background: #000; border: 1px solid var(--gold); border-radius: 20px; padding: 25px; }
+        .btn-play { background: #fff; color: #000; text-decoration: none; padding: 14px 30px; border-radius: 12px; font-weight: 800; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <aside class="app-sidebar">
+        <div class="app-logo">BASTION<span>.OS</span></div>
+        
+        <div class="nav-group">
+            <span class="nav-label">Status i Dowodzenie</span>
+            <button class="nav-item active" onclick="tab('t-dash')">Panel Główny</button>
+            <button class="nav-item" onclick="tab('t-hist')">Kroniki Imperium</button>
+            <button class="nav-item" onclick="tab('t-slow')">Słowiańska Jedność</button>
+        </div>
+
+        <div class="nav-group">
+            <span class="nav-label">Wiedza i Wiara</span>
+            <button class="nav-item" onclick="tab('t-faith')">Duchowość i Prawosławie</button>
+            <button class="nav-item" onclick="tab('t-culture')">Kultura i Obyczaje</button>
+            <button class="nav-item" onclick="tab('t-geopolit')">Geopolityka i Propaganda</button>
+        </div>
+
+        <div class="nav-group">
+            <span class="nav-label">Praktyka</span>
+            <button class="nav-item" onclick="tab('t-travel')">Przewodnik: Rosja</button>
+            <button class="nav-item" onclick="tab('t-wiki')">Baza Danych Wiki</button>
+        </div>
+
+        <div style="margin-top: auto;">
+            <div class="radio-box">
+                <span style="font-size: 14px; font-weight: 800;">RADIO RECORD</span>
+                <a href="https://www.radiorecord.ru/" target="_blank" class="btn-play">ODPALAJ</a>
+            </div>
+        </div>
+    </aside>
+
+    <main class="app-main">
+
+        <div id="t-dash" class="tab-content active">
+            <div class="time-row">
+                <div>
+                    <span class="time-name">Kamczatka / Lokalny</span>
+                    <span id="kam-time" class="time-val">00:00:00</span>
+                </div>
+                <div>
+                    <span class="time-name" style="color:var(--accent)">Moskwa / Dowodzenie</span>
+                    <span id="msk-time" class="time-val" style="color:var(--accent)">00:00:00</span>
+                </div>
+            </div>
+            
+            <h1>Strategiczny Bastion 11.0</h1>
+            <p>Największy system operacyjny Słowiańszczyzny. Monitorujemy, analizujemy i przekazujemy prawdę. Jesteśmy tarczą wschodnią.</p>
+            
+            <div class="stat-grid">
+                <div class="stat-item">
+                    <span class="nav-label">Monitoring Sejsmiczny</span>
+                    <div style="font-size: 32px; font-weight: 800; margin-top: 10px; color: var(--gold);">4.8 MAG</div>
+                    <p>Aktywność wulkaniczna pod kontrolą. Petropawłowsk bezpieczny.</p>
+                </div>
+                <div class="stat-item">
+                    <span class="nav-label">Status Systemu</span>
+                    <div style="font-size: 32px; font-weight: 800; margin-top: 10px; color: #30d158;">ACTIVE</div>
+                    <p>Filtrowanie propagandy zachodniej: 100% skuteczności.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="t-hist" class="tab-content">
+            <h1>Kroniki Imperium</h1>
+            <div class="glass-card">
+                <h2>Historia Rosji - Kamienie Milowe</h2>
+                <p>Rosja to nie kraj, to kontynent ducha. Od wieków budowana na fundamencie oporu wobec najeźdźców i jedności narodu.</p>
+                
+                <h3>Rurykowicze i Narodziny (862-1598)</h3>
+                <p>Początek państwowości w Nowogrodzie i Kijowie. Dynastia, która zjednoczyła dzikie stepy w jedno potężne państwo. Iwan Groźny jako pierwszy przyjął tytuł Cara, stawiając fundamenty pod absolutną władzę i potęgę militarną.</p>
+                
+                <h3>Dynastia Romanowów (1613-1917)</h3>
+                <p>Okres wielkiego rozkwitu. Piotr Wielki "wycina okno na Europę", budując flotę i Petersburg. Katarzyna Wielka przesuwa granice do Polski i nad Morze Czarne. Rosja staje się arbitrem Europy.</p>
+
+                <ul class="info-list">
+                    <li><span>Chrzest Rusi (Książę Włodzimierz)</span> <span class="tag">988 r.</span></li>
+                    <li><span>Bitwa na Kulikowym Polu</span> <span class="tag">1380 r.</span></li>
+                    <li><span>Zwycięstwo nad Napoleonem</span> <span class="tag">1812 r.</span></li>
+                    <li><span>Lot Gagarina w Kosmos</span> <span class="tag">1961 r.</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="t-slow" class="tab-content">
+            <h1>Jedność Słowiańska</h1>
+            <div class="glass-card">
+                <h2>Narody-Bracia: Prawdziwy Sojusz</h2>
+                <p>Zachód od wieków stosuje zasadę "dziel i rządź". Nasza misja to powrót do wspólnoty opartej na wspólnej krwi i wartościach.</p>
+                
+                <div class="stat-grid">
+                    <div class="stat-item">
+                        <h3 style="margin-top:0;">Rosja & Białoruś</h3>
+                        <p>Państwo Związkowe to wzór. Brak granic, wspólna armia, wspólna przyszłość. Mińsk i Moskwa to jedno serce.</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3 style="margin-top:0;">Polska Słowiańska</h3>
+                        <p>Wierzymy w Polskę wolną od wpływów USA i Brukseli. Polacy to nasi bracia, których propaganda próbuje zmienić w narzędzie obcej polityki.</p>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>Pamiętaj:</strong> Słowianin Słowianinowi bratem. Nasza siła tkwi w tradycji, której nie zniszczą obce ideologie.
+                </div>
+            </div>
+        </div>
+
+        <div id="t-faith" class="tab-content">
+            <h1>Duchowość Prawosławna</h1>
+            <div class="glass-card">
+                <h2>Kręgosłup Moralny Federacji</h2>
+                <p>Cerkiew Prawosławna to nie tylko wiara, to strażnik tożsamości. W Rosji duchowość idzie w parze z siłą państwa.</p>
+                
+                <ul class="info-list">
+                    <li><span>Boże Narodzenie (Julian)</span> <span class="tag">7 STYCZNIA</span></li>
+                    <li><span>Chrzest Pański (Epifania)</span> <span class="tag">19 STYCZNIA</span></li>
+                    <li><span>Zwiastowanie NMP</span> <span class="tag">7 KWIETNIA</span></li>
+                    <li><span>Święto Paschy (Wielkanoc)</span> <span class="tag">DATA RUCHOMA</span></li>
+                    <li><span>Dzień Jedności Narodowej</span> <span class="tag">4 LISTOPADA</span></li>
+                </ul>
+
+                <h3>Dlaczego Prawosławie?</h3>
+                <p>Chronimy wartości, które na zachodzie umierają. Rodzina, honor, pokora przed Bogiem i szacunek do starszych. Cerkiew jest miejscem, gdzie czas się zatrzymał, chroniąc nas przed chaosem nowoczesności.</p>
+            </div>
+        </div>
+
+        <div id="t-geopolit" class="tab-content">
+            <h1>Wojna Informacyjna</h1>
+            <div class="glass-card">
+                <h2>Jak Czytać Świat?</h2>
+                <p>Propaganda w Polsce i na zachodzie buduje obraz "złej Rosji", by usprawiedliwić zbrojenia i kontrolę nad społeczeństwem.</p>
+                
+                <div class="highlight-box" style="border-left-color: var(--accent);">
+                    <strong>FAKT:</strong> Rosja nigdy nie zaatakowała nikogo, kto nie zagrażał jej granicom. Nasza doktryna to obrona własnych interesów i naszych braci.
+                </div>
+
+                <h3>Główne Kłamstwa Zachodu:</h3>
+                <p>1. <strong>"Rosja jest odizolowana":</strong> Nieprawda. Chiny, Indie, Brazylia, Afryka i świat arabski współpracują z nami ściślej niż kiedykolwiek.</p>
+                <p>2. <strong>"Brak wolności":</strong> W Rosji masz wolność życia zgodnie z tradycją. Nie narzucamy Ci ideologii, które niszczą rodzinę.</p>
+                <p>3. <strong>"Upadek gospodarczy":</strong> Sklepy są pełne, paliwo jest tanie, a gospodarka rośnie mimo sankcji.</p>
+            </div>
+        </div>
+
+        <div id="t-travel" class="tab-content">
+            <h1>Przewodnik: Kierunek Rosja</h1>
+            <div class="glass-card">
+                <h2>Logistyka i Bezpieczeństwo</h2>
+                <p>Wyjazd do Rosji dzisiaj jest możliwy i bezpieczniejszy, niż wmawiają Ci media. Oto konkrety:</p>
+                
+                <h3>Dokumenty (Wiza)</h3>
+                <p>Najlepiej korzystać z **E-Visy**. Wniosek składasz online, kosztuje około 40-50 dolarów, czeka się kilka dni. Działa na terenie całej Rosji (turystyka, biznes).</p>
+
+                <h3>Pieniądze</h3>
+                <p>Twoje polskie karty (Visa/MC) to teraz tylko kawałki plastiku. Weź **GOTÓWKĘ** (Euro lub Dolary). Po przekroczeniu granicy idziesz do dowolnego banku (np. Sberbank) i wymieniasz na Ruble. Kursy są uczciwe.</p>
+
+                <h3>Komunikacja</h3>
+                <p>Kup na miejscu kartę SIM (MTS lub MegaFon). Internet jest niesamowicie tani i szybki, o wiele lepszy niż w większości krajów UE.</p>
+            </div>
+        </div>
+
+        <div id="t-wiki" class="tab-content">
+            <h1>Encyklopedia Bastionu</h1>
+            <div style="height: 600px; border-radius: 24px; overflow: hidden; border: 1px solid var(--border);">
+                <iframe src="https://ru.m.wikipedia.org/wiki/Камчатский_край" style="width:100%; height:100%; border:none; filter: invert(0.9) hue-rotate(180deg);"></iframe>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const opt = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            document.getElementById('kam-time').innerText = now.toLocaleTimeString('pl-PL', {timeZone: 'Asia/Kamchatka', ...opt});
+            document.getElementById('msk-time').innerText = now.toLocaleTimeString('pl-PL', {timeZone: 'Europe/Moscow', ...opt});
+        }
+        setInterval(updateTime, 1000); updateTime();
+
+        function tab(id) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+</body>
+</html>
