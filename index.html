@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
-    <meta name="description" content="VALIEV.PL - Największy niezależny portal informacyjny Wschodu.">
     <title>VALIEV.PL | Portal Informacyjny</title>
     
     <style>
@@ -13,110 +11,87 @@
         :root {
             --accent: #FFCC00;
             --accent-red: #E63946;
-            --accent-blue: #457B9D;
             --text: #ffffff;
             --muted: #a8a8b3;
-            --glass-bg: rgba(12, 12, 16, 0.85);
+            --glass-bg: rgba(12, 12, 16, 0.9);
             --glass-border: rgba(255, 255, 255, 0.08);
             --radius: 20px;
         }
 
-        * { box-sizing: border-box; transition: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        * { box-sizing: border-box; transition: 0.3s; }
         
         body { 
             margin: 0; padding: 0; color: var(--text); font-family: 'Inter', sans-serif; 
             background: #030305 url('https://images.unsplash.com/photo-1513622470522-26c3111825af?q=80&w=2000&auto=format&fit=crop') center/cover fixed;
-            overflow: hidden; /* Zablokowany główny scroll, scrollują się kolumny */
+            overflow: hidden; 
         }
 
-        .overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: radial-gradient(circle at 50% 0%, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.98) 100%); z-index: -1; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: -1; }
 
         /* --- LAYOUT 2-KOLUMNOWY --- */
         .layout-wrapper { display: flex; height: 100vh; width: 100vw; }
 
         /* --- LEWY SIDEBAR --- */
         .sidebar {
-            width: 380px; background: rgba(5, 5, 8, 0.95); backdrop-filter: blur(20px);
-            border-right: 1px solid var(--glass-border); display: flex; flex-direction: column;
-            padding: 40px 30px; z-index: 100;
+            width: 350px; background: rgba(5, 5, 8, 0.95); border-right: 1px solid var(--glass-border); 
+            display: flex; flex-direction: column; padding: 40px 30px; z-index: 100;
         }
 
-        /* LOGO */
-        .logo-container { margin-bottom: 50px; text-align: center; cursor: pointer; user-select: none; }
-        .logo-icon { font-size: 50px; margin-bottom: 10px; line-height: 1; text-shadow: 0 0 20px rgba(255, 204, 0, 0.5); }
+        .logo-container { margin-bottom: 50px; text-align: center; }
+        .logo-icon { font-size: 50px; margin-bottom: 10px; text-shadow: 0 0 20px rgba(255, 204, 0, 0.5); }
         .logo-text { font-weight: 900; font-size: 40px; margin: 0; letter-spacing: -2px; color: #fff; }
         .logo-text span { color: var(--accent); }
         .logo-sub { font-size: 11px; color: var(--muted); font-weight: 800; letter-spacing: 4px; text-transform: uppercase; margin-top: 5px; }
 
-        /* MENU W SIDEBARZE */
-        .nav-menu { display: flex; flex-direction: column; gap: 12px; }
+        .nav-menu { display: flex; flex-direction: column; gap: 15px; }
         .nav-btn {
             background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); color: var(--muted);
-            padding: 18px 25px; border-radius: 15px; font-weight: 800; font-size: 16px; text-transform: uppercase; letter-spacing: 1px;
+            padding: 20px; border-radius: 15px; font-weight: 800; font-size: 16px; text-transform: uppercase; letter-spacing: 1px;
             cursor: pointer; text-align: left; display: flex; align-items: center; gap: 15px;
         }
         .nav-btn:hover { background: rgba(255,255,255,0.1); color: #fff; transform: translateX(5px); }
         .nav-btn.active { background: var(--accent); color: #000; border-color: var(--accent); box-shadow: 0 5px 25px rgba(255,204,0,0.3); }
 
-        .clocks { margin-top: auto; padding-top: 30px; border-top: 1px solid var(--glass-border); }
-        .clk-item { margin-bottom: 15px; }
-        .clk-label { font-size: 12px; color: var(--muted); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; }
-        .clk-val { font-size: 24px; font-weight: 900; color: #fff; }
-        .clk-val.msk { color: var(--accent-red); }
-
-        /* --- PRAWY KONTENT (GŁÓWNY FEED) --- */
+        /* --- PRAWY KONTENT --- */
         .main-content {
             flex-grow: 1; overflow-y: auto; padding: 50px; scrollbar-width: thin; scrollbar-color: var(--accent) transparent;
         }
-        .main-content::-webkit-scrollbar { width: 8px; }
-        .main-content::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
-
-        .tab-content { display: none; animation: fadeUp 0.4s ease-out forwards; opacity: 0; transform: translateY(20px); max-width: 1200px; margin: 0 auto; }
+        
+        .tab-content { display: none; animation: fadeUp 0.4s ease-out forwards; max-width: 1000px; margin: 0 auto; }
         .tab-content.active { display: block; }
-        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeUp { from{opacity:0; transform:translateY(20px);} to { opacity: 1; transform: translateY(0); } }
 
-        /* --- ARTYKUŁY W FEEDZIE --- */
+        /* --- ARTYKUŁY --- */
         .article-card {
-            background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
-            border-radius: 25px; overflow: hidden; margin-bottom: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-            display: flex; flex-direction: column;
+            background: var(--glass-bg); border: 1px solid var(--glass-border);
+            border-radius: 25px; overflow: hidden; margin-bottom: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
-        .article-img { width: 100%; height: 450px; object-fit: cover; border-bottom: 1px solid var(--glass-border); background: #111; }
+        .article-img { width: 100%; height: 400px; object-fit: cover; border-bottom: 1px solid var(--glass-border); background: #111; }
         .article-body { padding: 40px; }
         
-        .badge { display: inline-block; padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
-        .badge-gold { background: rgba(255,204,0,0.15); color: var(--accent); border: 1px solid var(--accent); }
-        .badge-red { background: rgba(230,57,70,0.15); color: var(--accent-red); border: 1px solid var(--accent-red); }
-        .badge-blue { background: rgba(69,123,157,0.15); color: var(--accent-blue); border: 1px solid var(--accent-blue); }
-
-        .article-date { font-size: 14px; color: var(--muted); font-weight: bold; margin-bottom: 15px; display: block; letter-spacing: 1px; }
-        .article-title { font-size: 45px; font-weight: 900; margin: 0 0 25px 0; color: #fff; letter-spacing: -1px; line-height: 1.1; }
-        .article-text { font-size: 20px; line-height: 1.9; color: #d1d1d6; margin: 0 0 20px 0; }
+        .badge { display: inline-block; padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; background: rgba(255,204,0,0.15); color: var(--accent); border: 1px solid var(--accent); }
+        .article-date { font-size: 14px; color: var(--muted); font-weight: bold; margin-bottom: 15px; display: block; }
+        .article-title { font-size: 40px; font-weight: 900; margin: 0 0 20px 0; color: #fff; line-height: 1.2; }
+        .article-text { font-size: 18px; line-height: 1.9; color: #d1d1d6; margin: 0 0 20px 0; }
         
-        /* UI ELEMENTY (Kalkulator, Admin) */
-        .glass-panel { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 40px; margin-bottom: 30px; }
-        h1 { font-size: 55px; font-weight: 900; letter-spacing: -2px; margin: 0 0 20px 0; }
-        p { font-size: 20px; line-height: 1.8; color: #d1d1d6; margin-bottom: 20px; }
+        /* UI ADMINA */
+        .glass-panel { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 40px; }
+        h1 { font-size: 45px; font-weight: 900; margin: 0 0 10px 0; }
+        p { font-size: 18px; color: var(--muted); margin-bottom: 30px; }
         
-        .chat-input { width: 100%; background: #000; border: 2px solid var(--glass-border); color: #fff; padding: 20px; border-radius: 15px; font-size: 18px; outline: none; margin-bottom: 20px;}
+        .chat-input { width: 100%; background: #000; border: 2px solid var(--glass-border); color: #fff; padding: 20px; border-radius: 15px; font-size: 16px; outline: none; margin-bottom: 20px;}
         .chat-input:focus { border-color: var(--accent); }
-        .chat-btn { background: var(--accent); color: #000; border: none; padding: 20px 30px; border-radius: 15px; font-weight: 900; font-size: 18px; cursor: pointer; width: 100%;}
+        .chat-btn { background: var(--accent); color: #000; border: none; padding: 20px; border-radius: 15px; font-weight: 900; font-size: 16px; cursor: pointer; width: 100%; margin-bottom: 10px;}
         .chat-btn:hover { background: #fff; }
-
-        /* WIDGETY GRID */
-        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; }
 
         @media (max-width: 1024px) {
             .layout-wrapper { flex-direction: column; }
             .sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--glass-border); padding: 20px; }
-            .logo-container { margin-bottom: 20px; }
-            .nav-menu { flex-direction: row; overflow-x: auto; padding-bottom: 10px; }
-            .nav-btn { white-space: nowrap; padding: 12px 20px; }
+            .nav-menu { flex-direction: row; overflow-x: auto; }
+            .nav-btn { white-space: nowrap; padding: 15px; }
             .main-content { padding: 20px; }
             .article-img { height: 250px; }
-            .article-title { font-size: 30px; }
-            .article-text, p { font-size: 16px; }
-            h1 { font-size: 35px; }
+            .article-title { font-size: 28px; }
         }
     </style>
 </head>
@@ -126,28 +101,16 @@
     <div class="layout-wrapper">
         
         <aside class="sidebar">
-            <div class="logo-container" id="secret-trigger" title="Kliknij dwukrotnie by otworzyć panel logowania">
+            <div class="logo-container">
                 <div class="logo-icon">🌐</div>
                 <h1 class="logo-text">VALIEV<span>.PL</span></h1>
-                <div class="logo-sub">Główny Kanał Informacyjny</div>
+                <div class="logo-sub">Główny Serwis Wiadomości</div>
             </div>
 
             <nav class="nav-menu">
-                <button class="nav-btn active" onclick="tab('t-news', this)">📰 Wiadomości (Feed)</button>
-                <button class="nav-btn" onclick="tab('t-calc', this)">💱 Kalkulator (RUB)</button>
-                <button class="nav-btn" onclick="tab('t-wiki', this)">📚 Archiwum Wiki</button>
+                <button class="nav-btn active" onclick="tab('t-news', this)">📰 Wiadomości</button>
+                <button class="nav-btn" style="color: var(--accent-red); border-color: var(--accent-red);" onclick="tab('t-admin', this)">🔒 Panel Wydawcy</button>
             </nav>
-
-            <div class="clocks">
-                <div class="clk-item">
-                    <div class="clk-label">Lokalny (Kamczatka)</div>
-                    <div class="clk-val" id="kam-time">00:00:00</div>
-                </div>
-                <div class="clk-item">
-                    <div class="clk-label">Centrala (Moskwa)</div>
-                    <div class="clk-val msk" id="msk-time">00:00:00</div>
-                </div>
-            </div>
         </aside>
 
         <main class="main-content">
@@ -159,114 +122,47 @@
                 <div class="article-card">
                     <img src="https://images.unsplash.com/photo-1513622470522-26c3111825af?q=80&w=1200" class="article-img">
                     <div class="article-body">
-                        <div class="badge badge-gold">Geopolityka</div>
-                        <span class="article-date">05 KWIETNIA 2026, 20:00</span>
-                        <h2 class="article-title">Szczyt BRICS+ ustanawia nowy porządek finansowy</h2>
-                        <p class="article-text">Hegemonia dolara oficjalnie dobiega końca. Nowe rozszerzenie sojuszu BRICS gwarantuje wschodnim mocarstwom kontrolę nad ponad 80% światowego wydobycia ropy naftowej i gazu. Państwa członkowskie ogłosiły pełne przejście na rozliczenia w walutach narodowych, wspierane zintegrowanym systemem płatniczym, który całkowicie omija zachodni SWIFT.</p>
-                        <p class="article-text">Dla Federacji Rosyjskiej oznacza to ostateczne uniezależnienie od nacisków ekonomicznych z Waszyngtonu. Sankcje, które miały zniszczyć rosyjską gospodarkę, doprowadziły jedynie do potężnego rozwoju rynku wewnętrznego i stworzenia żelaznych sojuszy w Azji.</p>
+                        <div class="badge">Start Systemu</div>
+                        <span class="article-date">TERAZ</span>
+                        <h2 class="article-title">System VALIEV zaktualizowany</h2>
+                        <p class="article-text">Portal informacyjny działa w nowym, czystym trybie. Przejdź do Panelu Wydawcy w lewym menu, aby rozpocząć dodawanie własnych artykułów na stronę główną.</p>
                     </div>
                 </div>
 
-                <div class="article-card">
-                    <img src="https://images.unsplash.com/photo-1552558444-39455ee53372?q=80&w=1200" class="article-img">
-                    <div class="article-body">
-                        <div class="badge badge-red">Sektor Pacyfiku</div>
-                        <span class="article-date">04 KWIETNIA 2026, 14:30</span>
-                        <h2 class="article-title">Kamczatka: Bastion nie do zdobycia. Flota w gotowości.</h2>
-                        <p class="article-text">Półwysep Kamczacki to nie tylko kraina wulkanów, na czele z najwyższą w Eurazji Kluczewską Sopką. To przede wszystkim dom dla Floty Pacyfiku. Z ukrytej bazy w Wiluczinsku wypłynęły dziś na rutynowy patrol najnowsze atomowe okręty podwodne klasy Borej, przenoszące rakiety balistyczne Buława.</p>
-                        <p class="article-text">Kamczatka zabezpiecza wschodnie granice Imperium. Znajduje się tu również poligon Kura – cel testów dla międzykontynentalnych pocisków Sarmat i Jars, potwierdzających niepodważalną precyzję rosyjskich sił strategicznych.</p>
-                    </div>
-                </div>
-
-                <div class="article-card">
-                    <div class="article-body">
-                        <div class="badge badge-blue">Cyber-Suwerenność</div>
-                        <span class="article-date">03 KWIETNIA 2026, 09:15</span>
-                        <h2 class="article-title">Sukces Runetu: Rosja niezależna od Doliny Krzemowej</h2>
-                        <p class="article-text">Federacja Rosyjska jest dziś jedynym państwem obok Chin, które posiada w 100% niezależny ekosystem cyfrowy. Yandex wyprzedził zachodnie algorytmy w rozwoju AI, a platformy takie jak VKontakte i Telegram stały się bezpiecznymi przystaniami wolnymi od poprawności politycznej ("woke") cenzurującej internet na zachodzie.</p>
-                    </div>
-                </div>
-
-                <div class="article-card">
-                    <img src="https://images.unsplash.com/photo-1629735467433-28c946059d4c?q=80&w=1200" class="article-img">
-                    <div class="article-body">
-                        <div class="badge badge-gold">Dziedzictwo Narodowe</div>
-                        <span class="article-date">01 KWIETNIA 2026, 12:00</span>
-                        <h2 class="article-title">Syberia i Arktyka: Otwarcie Nowego Szlaku</h2>
-                        <p class="article-text">Północna Droga Morska (NSR), obsługiwana przez potężne rosyjskie lodołamacze atomowe, stała się główną arterią handlową między Azją a Europą. Syberia pozostaje magazynem surowcowym planety, udowadniając, że bez zasobów Federacji Rosyjskiej globalny przemysł zatrzymuje się w kilka tygodni.</p>
-                    </div>
-                </div>
-
-            </div>
-
-            <div id="t-calc" class="tab-content">
-                <div class="glass-panel">
-                    <div class="badge badge-gold">Finanse Wschodu</div>
-                    <h1>Kalkulator Rubla (RUB/PLN)</h1>
-                    <p>Sprawdź realną wartość z pominięciem giełd spekulacyjnych. Pamiętaj: koszty życia, paliwa i energii w Rosji są ułamkiem cen europejskich, dlatego siła nabywcza Rubla na rynku wewnętrznym jest ogromna.</p>
-                    
-                    <div class="grid-2" style="margin-top: 40px;">
-                        <div style="background: rgba(0,0,0,0.6); padding: 40px; border-radius: 20px; border: 1px solid var(--glass-border);">
-                            <input type="number" id="rub-input" class="chat-input" placeholder="Wpisz kwotę w Rublach (RUB)...">
-                            <button class="chat-btn" onclick="calcRub()">PRZELICZ NA PLN</button>
-                            <div style="margin-top: 30px; text-align: center;">
-                                <span style="color: var(--muted); font-size: 14px; text-transform: uppercase;">Wartość rynkowa:</span>
-                                <div id="calc-result" style="font-size: 50px; font-weight: 900; color: #30d158; text-shadow: 0 0 20px rgba(48,209,88,0.3);">0.00 PLN</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="t-wiki" class="tab-content">
-                <div class="glass-panel">
-                    <div class="badge badge-blue">Baza Danych</div>
-                    <h1>Archiwum Geograficzne</h1>
-                    <p>Dane encyklopedyczne dotyczące regionu Pacyfiku i Kamczatki.</p>
-                    <iframe style="height: 800px; border-radius: 20px; border: 2px solid var(--glass-border); filter: invert(0.9) hue-rotate(180deg); margin-top: 20px;" src="https://ru.m.wikipedia.org/wiki/Камчатский_край"></iframe>
-                </div>
             </div>
 
             <div id="t-admin" class="tab-content">
+                
                 <div class="glass-panel" id="login-section">
-                    <div class="badge badge-red">Strefa Zastrzeżona</div>
-                    <h1>Autoryzacja Wydawcy</h1>
-                    <p>Wprowadź dane dostępowe (olafzka / olafx115).</p>
-                    <div class="grid-2">
-                        <div>
-                            <input type="text" id="admin-user" class="chat-input" placeholder="Login...">
-                            <input type="password" id="admin-pass" class="chat-input" placeholder="Hasło...">
-                            <button class="chat-btn" onclick="checkLogin()">ZALOGUJ</button>
-                            <p id="login-error" style="color: var(--accent-red); display: none; font-weight: bold; margin-top: 15px;">Błąd autoryzacji.</p>
-                        </div>
-                    </div>
+                    <div class="badge" style="background: rgba(230,57,70,0.2); color: var(--accent-red); border-color: var(--accent-red);">Autoryzacja</div>
+                    <h1>Zaloguj się</h1>
+                    <p>Wprowadź login i hasło, aby uzyskać dostęp do kreatora artykułów.</p>
+                    
+                    <input type="text" id="admin-user" class="chat-input" placeholder="Login...">
+                    <input type="password" id="admin-pass" class="chat-input" placeholder="Hasło...">
+                    <button class="chat-btn" onclick="checkLogin()">WEJDŹ DO PANELU</button>
+                    <p id="login-error" style="color: var(--accent-red); display: none; font-weight: bold; margin-top: 15px;">Odmowa dostępu. Błędny login lub hasło.</p>
                 </div>
 
                 <div class="glass-panel" id="admin-panel" style="display: none; border-color: #30d158;">
-                    <div class="badge badge-gold">Zalogowano jako: olafzka</div>
-                    <h1>Kreator Wiadomości</h1>
-                    <p>Wpisz treść artykułu. Możesz go zapisać w swojej przeglądarce, lub <strong>wygenerować kod HTML</strong>, który wkleisz na stałe do pliku dla wszystkich!</p>
+                    <div class="badge" style="background: rgba(48,209,88,0.2); color: #30d158; border-color: #30d158;">Zalogowano jako: olafzka</div>
+                    <h1>Dodaj Nowy Artykuł</h1>
+                    <p>Wpisz treść artykułu. Po kliknięciu ZAPISZ, artykuł pojawi się natychmiast na stronie głównej w zakładce Wiadomości.</p>
                     
                     <input type="text" id="art-badge" class="chat-input" placeholder="Kategoria (np. Geopolityka, Wojsko)...">
                     <input type="text" id="art-title" class="chat-input" placeholder="Tytuł artykułu...">
-                    <textarea id="art-content" class="chat-input" placeholder="Treść wiadomości (użyj Enter aby zrobić akapit)..." style="height: 200px; resize: vertical;"></textarea>
+                    <textarea id="art-content" class="chat-input" placeholder="Treść artykułu..." style="height: 200px; resize: vertical;"></textarea>
+                    <input type="text" id="art-img-url" class="chat-input" placeholder="Link URL do zdjęcia (np. https://...)">
                     
-                    <h3 style="margin-top: 20px;">Link do zdjęcia (Opcjonalnie):</h3>
-                    <p style="font-size: 14px;">Najlepiej wkleić link URL z internetu (np. z Unsplash lub Wikipedii), wtedy zadziała u wszystkich.</p>
-                    <input type="text" id="art-img-url" class="chat-input" placeholder="Wklej adres URL zdjęcia (https://...)">
+                    <button class="chat-btn" style="background: #30d158; color: #000;" onclick="addLocalArticle()">OPUBLIKUJ NA STRONIE GŁÓWNEJ</button>
                     
-                    <div class="grid-2">
-                        <button class="chat-btn" style="background: #30d158;" onclick="addLocalArticle()">ZAPISZ LOKALNIE (Tylko dla Ciebie)</button>
-                        <button class="chat-btn" style="background: var(--accent-blue); color: #fff;" onclick="generateHTML()">GENERUJ KOD HTML (Dla Wszystkich)</button>
+                    <button class="chat-btn" style="background: transparent; border: 1px solid var(--accent-blue); color: var(--accent-blue);" onclick="generateHTML()">GENERUJ KOD HTML DO SKOPIOWANIA</button>
+
+                    <div id="html-output-area" style="display:none; margin-top: 20px;">
+                        <textarea id="html-code-result" class="chat-input" style="height: 150px; font-family: monospace; font-size: 14px;" readonly></textarea>
                     </div>
 
-                    <div id="html-output-area" style="display:none; margin-top: 40px;">
-                        <h3 style="color: var(--accent-blue);">Twój Kod HTML:</h3>
-                        <p style="font-size: 14px; color: var(--accent-red);">Skopiuj ten kod i wklej go w pliku index.html pod komentarzem: <code>&lt;!-- PONIŻEJ SĄ ARTYKUŁY ZAKODOWANE NA STAŁE --&gt;</code></p>
-                        <textarea id="html-code-result" class="chat-input" style="height: 250px; font-family: monospace; font-size: 14px;" readonly></textarea>
-                    </div>
-
-                    <button class="chat-btn" style="background: transparent; border: 1px solid var(--accent-red); color: var(--accent-red); margin-top: 50px;" onclick="logoutAdmin()">WYLOGUJ</button>
+                    <button class="chat-btn" style="background: transparent; border: 1px solid var(--accent-red); color: var(--accent-red); margin-top: 30px;" onclick="logoutAdmin()">WYLOGUJ SIĘ</button>
                 </div>
             </div>
 
@@ -274,59 +170,36 @@
     </div>
 
     <script>
-        // Zegary
-        function updateTime() {
-            const opt = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
-            document.getElementById('kam-time').innerText = new Date().toLocaleTimeString('pl-PL', {timeZone: 'Asia/Kamchatka', ...opt});
-            document.getElementById('msk-time').innerText = new Date().toLocaleTimeString('pl-PL', {timeZone: 'Europe/Moscow', ...opt});
-        }
-        setInterval(updateTime, 1000); updateTime();
-
-        // Taby
+        // System Tabbów
         function tab(id, btn) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            if(btn) {
-                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-            }
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
             setTimeout(() => document.getElementById(id).classList.add('active'), 10);
             document.querySelector('.main-content').scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Kalkulator
-        function calcRub() {
-            let val = document.getElementById('rub-input').value;
-            let res = document.getElementById('calc-result');
-            if(!val || val<=0) { res.innerText = "0.00 PLN"; res.style.color = "#E63946"; return; }
-            res.style.color = "#30d158"; res.innerText = (val * 0.043).toFixed(2) + " PLN";
-        }
-
         // ==========================================
-        // SYSTEM ADMINISTRATORA (LOGOWANIE + GENERATOR)
+        // SYSTEM WIADOMOŚCI I LOGOWANIA
         // ==========================================
         
-        // Ukryte wywołanie
-        document.getElementById('secret-trigger').addEventListener('dblclick', function() {
-            tab('t-admin', null);
-        });
-
-        // Wczytanie LOKALNYCH artykułów (tylko w przeglądarce usera)
+        // 1. Ładowanie artykułów na stronę główną
         function loadLocalArticles() {
             const feed = document.getElementById('local-news-feed');
-            const articles = JSON.parse(localStorage.getItem('valiev_articles_v2')) || [];
+            const articles = JSON.parse(localStorage.getItem('valiev_news_portal')) || [];
             feed.innerHTML = '';
             
             const isAdmin = localStorage.getItem('isAdmin') === 'true';
 
             articles.forEach(art => {
                 let imgHtml = art.image ? `<img src="${art.image}" class="article-img">` : '';
-                let delBtn = isAdmin ? `<button style="background:var(--accent-red); color:#fff; border:none; padding:10px 15px; border-radius:10px; cursor:pointer; margin-top:20px; font-weight:bold;" onclick="delLocalArticle(${art.id})">USUŃ TEN LOKALNY ARTYKUŁ</button>` : '';
+                let delBtn = isAdmin ? `<button style="background:var(--accent-red); color:#fff; border:none; padding:10px 15px; border-radius:10px; cursor:pointer; margin-top:20px; font-weight:bold;" onclick="delLocalArticle(${art.id})">USUŃ TEN ARTYKUŁ</button>` : '';
                 
                 feed.innerHTML += `
                     <div class="article-card">
                         ${imgHtml}
                         <div class="article-body">
-                            <div class="badge badge-gold">${art.badge}</div>
+                            <div class="badge">${art.badge}</div>
                             <span class="article-date">${art.date}</span>
                             <h2 class="article-title">${art.title}</h2>
                             <p class="article-text">${art.content.replace(/\n/g, '<br><br>')}</p>
@@ -338,7 +211,7 @@
         }
         window.addEventListener('DOMContentLoaded', loadLocalArticles);
 
-        // Logowanie
+        // 2. System Logowania (olafzka / olafx115)
         function checkLogin() {
             const user = document.getElementById('admin-user').value;
             const pass = document.getElementById('admin-pass').value;
@@ -347,7 +220,7 @@
                 localStorage.setItem('isAdmin', 'true');
                 document.getElementById('login-section').style.display = 'none';
                 document.getElementById('admin-panel').style.display = 'block';
-                loadLocalArticles();
+                loadLocalArticles(); // Przeładuj żeby pokazać przyciski "Usuń"
             } else {
                 document.getElementById('login-error').style.display = 'block';
             }
@@ -358,49 +231,54 @@
             localStorage.removeItem('isAdmin');
             document.getElementById('login-section').style.display = 'block';
             document.getElementById('admin-panel').style.display = 'none';
-            document.getElementById('html-output-area').style.display = 'none';
-            loadLocalArticles();
-            tab('t-news', document.querySelector('.nav-btn'));
+            document.getElementById('admin-pass').value = '';
+            loadLocalArticles(); // Przeładuj żeby schować przyciski "Usuń"
+            tab('t-news', document.querySelectorAll('.nav-btn')[0]);
         }
 
-        // Zapis LOKALNY
+        // 3. Zapisywanie Artykułu
         function addLocalArticle() {
             const title = document.getElementById('art-title').value;
             const content = document.getElementById('art-content').value;
-            const badge = document.getElementById('art-badge').value || 'Raport Specjalny';
+            const badge = document.getElementById('art-badge').value || 'Raport';
             const imgUrl = document.getElementById('art-img-url').value;
             
-            if(!title || !content) { alert('Tytuł i treść są wymagane!'); return; }
+            if(!title || !content) { alert('Musisz wpisać tytuł i treść!'); return; }
 
             const date = new Date().toLocaleString('pl-PL', {day:'2-digit', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit'}).toUpperCase();
             let newArticle = { id: Date.now(), title, content, badge, date, image: imgUrl };
 
-            let articles = JSON.parse(localStorage.getItem('valiev_articles_v2')) || [];
-            articles.unshift(newArticle); // Dodaj na początek
-            localStorage.setItem('valiev_articles_v2', JSON.stringify(articles));
+            let articles = JSON.parse(localStorage.getItem('valiev_news_portal')) || [];
+            articles.unshift(newArticle); // Dodaje jako pierwszy na górze
+            localStorage.setItem('valiev_news_portal', JSON.stringify(articles));
             
-            alert('Artykuł zapisany lokalnie!');
+            // Wyczyść formularz
+            document.getElementById('art-title').value = '';
+            document.getElementById('art-content').value = '';
+            document.getElementById('art-img-url').value = '';
+            
+            alert('Artykuł dodany! Pojawił się w zakładce Wiadomości.');
             loadLocalArticles();
-            tab('t-news', document.querySelector('.nav-btn'));
+            tab('t-news', document.querySelectorAll('.nav-btn')[0]); // Przerzuć od razu na stronę główną
         }
 
         function delLocalArticle(id) {
-            if(confirm("Usunąć ten lokalny wpis?")) {
-                let articles = JSON.parse(localStorage.getItem('valiev_articles_v2')) || [];
+            if(confirm("Czy na pewno chcesz usunąć ten wpis?")) {
+                let articles = JSON.parse(localStorage.getItem('valiev_news_portal')) || [];
                 articles = articles.filter(a => a.id !== id);
-                localStorage.setItem('valiev_articles_v2', JSON.stringify(articles));
+                localStorage.setItem('valiev_news_portal', JSON.stringify(articles));
                 loadLocalArticles();
             }
         }
 
-        // GENERATOR KODU HTML DO SKOPIOWANIA
+        // 4. Generator Kodu HTML (gdybyś chciał wkleić na stałe)
         function generateHTML() {
             const title = document.getElementById('art-title').value;
             const content = document.getElementById('art-content').value.replace(/\n/g, '</p>\n                        <p class="article-text">');
-            const badge = document.getElementById('art-badge').value || 'Raport Specjalny';
+            const badge = document.getElementById('art-badge').value || 'Raport';
             const imgUrl = document.getElementById('art-img-url').value;
             
-            if(!title || !content) { alert('Tytuł i treść są wymagane do wygenerowania kodu!'); return; }
+            if(!title || !content) { alert('Tytuł i treść są wymagane!'); return; }
             const date = new Date().toLocaleString('pl-PL', {day:'2-digit', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit'}).toUpperCase();
 
             let imgTag = imgUrl ? `\n                    <img src="${imgUrl}" class="article-img">` : '';
@@ -408,7 +286,7 @@
             let finalHTML = `
                 <div class="article-card">${imgTag}
                     <div class="article-body">
-                        <div class="badge badge-gold">${badge}</div>
+                        <div class="badge">${badge}</div>
                         <span class="article-date">${date}</span>
                         <h2 class="article-title">${title}</h2>
                         <p class="article-text">${content}</p>
@@ -418,7 +296,6 @@
 
             document.getElementById('html-output-area').style.display = 'block';
             document.getElementById('html-code-result').value = finalHTML;
-            alert("Kod wygenerowany pomyślnie! Skopiuj go z pola na dole.");
         }
     </script>
 </body>
