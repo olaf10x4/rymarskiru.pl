@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
     <meta name="description" content="VALIEV.PL - Największa niezależna słowiańska baza wiedzy.">
-    <title>VALIEV.PL | Mega Baza Wschodu</title>
+    <title>VALIEV.PL | Centrala Dowodzenia</title>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap');
@@ -15,9 +16,9 @@
             --accent-blue: #457B9D;
             --text: #ffffff;
             --muted: #a8a8b3;
-            --glass-bg: rgba(10, 10, 15, 0.75);
+            --glass-bg: rgba(10, 10, 15, 0.85);
             --glass-border: rgba(255, 255, 255, 0.1);
-            --radius: 25px;
+            --radius: 20px;
         }
 
         * { box-sizing: border-box; transition: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
@@ -31,72 +32,75 @@
         .overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: radial-gradient(circle at 50% 0%, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.98) 100%); z-index: -1; }
 
         /* --- TOPBAR --- */
-        .topbar { position: sticky; top: 0; z-index: 1000; background: rgba(2, 2, 5, 0.85); backdrop-filter: blur(25px); border-bottom: 1px solid var(--glass-border); }
-        .header-top { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .logo { font-weight: 900; font-size: 40px; margin: 0; letter-spacing: -2px; text-shadow: 0 0 20px rgba(255, 204, 0, 0.3); }
+        .topbar { position: sticky; top: 0; z-index: 1000; background: rgba(2, 2, 5, 0.9); backdrop-filter: blur(25px); border-bottom: 1px solid var(--glass-border); }
+        .header-top { display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .logo { font-weight: 900; font-size: 35px; margin: 0; letter-spacing: -2px; }
         .logo span { color: var(--accent); }
-        .clocks { display: flex; gap: 40px; font-weight: 900; font-size: 16px; letter-spacing: 2px; }
+        .clocks { display: flex; gap: 30px; font-weight: 900; font-size: 14px; letter-spacing: 2px; }
         .clk-k { color: #fff; } .clk-m { color: var(--accent-red); }
 
         /* MENU ZAKŁADEK */
-        .nav-menu { display: flex; gap: 12px; padding: 20px 40px; overflow-x: auto; white-space: nowrap; cursor: grab; user-select: none; -webkit-overflow-scrolling: touch; }
+        .nav-menu { display: flex; gap: 10px; padding: 15px 40px; overflow-x: auto; white-space: nowrap; cursor: grab; user-select: none; -webkit-overflow-scrolling: touch; }
         .nav-menu:active { cursor: grabbing; }
-        .nav-menu::-webkit-scrollbar { height: 6px; }
+        .nav-menu::-webkit-scrollbar { height: 4px; }
         .nav-menu::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
         
-        .nav-btn { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); color: var(--muted); padding: 14px 28px; border-radius: 30px; font-weight: 800; font-size: 15px; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; flex-shrink: 0; pointer-events: auto; }
+        .nav-btn { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); color: var(--muted); padding: 12px 24px; border-radius: 30px; font-weight: 800; font-size: 14px; text-transform: uppercase; cursor: pointer; flex-shrink: 0; pointer-events: auto; }
         .nav-btn:hover { background: rgba(255,255,255,0.1); color: #fff; transform: translateY(-2px); border-color: var(--accent); }
         .nav-btn.active { background: var(--accent); color: #000; border-color: var(--accent); box-shadow: 0 5px 25px rgba(255,204,0,0.4); }
 
         /* --- KONTENT --- */
-        .main-container { padding: 50px 40px; max-width: 1700px; margin: 0 auto; }
-        .tab-content { display: none; animation: fadeUp 0.5s ease-out forwards; opacity: 0; transform: translateY(30px); }
+        .main-container { padding: 40px; max-width: 1700px; margin: 0 auto; }
+        .tab-content { display: none; animation: fadeUp 0.4s ease-out forwards; opacity: 0; transform: translateY(20px); }
         .tab-content.active { display: block; }
         @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
 
-        .glass-card { background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 50px; margin-bottom: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
-        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 40px; margin-top: 30px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 30px; }
+        .glass-card { background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 40px; margin-bottom: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 30px; margin-top: 20px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 20px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px; }
 
-        h1 { font-size: 72px; font-weight: 900; letter-spacing: -3px; margin: 0 0 20px 0; }
-        h2 { color: var(--accent); font-size: 40px; margin: 0 0 25px 0; font-weight: 900; }
-        p, ul { font-size: 20px; line-height: 1.9; color: #d1d1d6; margin-bottom: 20px; }
-        .badge { display: inline-block; padding: 8px 18px; border-radius: 20px; font-size: 14px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+        h1 { font-size: 55px; font-weight: 900; letter-spacing: -2px; margin: 0 0 15px 0; }
+        h2 { color: var(--accent); font-size: 35px; margin: 0 0 20px 0; font-weight: 900; }
+        h3 { color: #fff; font-size: 24px; margin: 25px 0 10px 0; font-weight: 800; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px; }
+        p, ul { font-size: 18px; line-height: 1.8; color: #d1d1d6; margin-bottom: 15px; }
+        li { margin-bottom: 10px; } li strong { color: var(--accent); }
+
+        .badge { display: inline-block; padding: 6px 15px; border-radius: 20px; font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; }
         .badge-gold { background: rgba(255,204,0,0.15); color: var(--accent); border: 1px solid var(--accent); }
         .badge-red { background: rgba(230,57,70,0.15); color: var(--accent-red); border: 1px solid var(--accent-red); }
+        .badge-blue { background: rgba(69,123,157,0.15); color: var(--accent-blue); border: 1px solid var(--accent-blue); }
 
-        .img-wrap { border-radius: 20px; overflow: hidden; border: 1px solid var(--glass-border); margin-bottom: 25px; background: #111; }
-        .img-wrap img { width: 100%; height: 350px; object-fit: cover; display: block; }
+        .img-wrap { border-radius: 15px; overflow: hidden; border: 1px solid var(--glass-border); margin-bottom: 20px; background: #111; }
+        .img-wrap img { width: 100%; height: 300px; object-fit: cover; display: block; }
 
-        /* --- AI CHATBOX --- */
-        .chat-container { background: #000; border: 2px solid var(--glass-border); border-radius: 20px; padding: 20px; height: 500px; overflow-y: auto; margin-bottom: 20px; display: flex; flex-direction: column; gap: 15px;}
-        .chat-msg { font-size: 18px; line-height: 1.6; max-width: 85%; }
-        .chat-msg.user { color: #fff; align-self: flex-end; text-align: right; }
-        .chat-msg.user span { background: #222; padding: 12px 20px; border-radius: 20px 20px 0 20px; display: inline-block; border: 1px solid #333;}
-        .chat-msg.ai { color: var(--accent); align-self: flex-start; }
-        .chat-msg.ai span { background: rgba(255,204,0,0.05); border: 1px solid var(--accent); padding: 12px 20px; border-radius: 20px 20px 20px 0; display: inline-block; }
-        
-        .chat-controls { display: flex; gap: 10px; }
-        .chat-input { flex-grow: 1; background: #000; border: 2px solid var(--glass-border); color: #fff; padding: 20px; border-radius: 15px; font-size: 18px; outline: none; }
+        .stat-box { background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); padding: 20px; border-radius: 15px; text-align: center; }
+        .stat-num { font-size: 35px; font-weight: 900; color: #fff; margin-bottom: 5px; }
+        .stat-desc { font-size: 12px; color: var(--muted); text-transform: uppercase; font-weight: 700; }
+
+        /* UI FORMS & CHAT */
+        .chat-input { width: 100%; background: #000; border: 2px solid var(--glass-border); color: #fff; padding: 15px; border-radius: 10px; font-size: 16px; outline: none; margin-bottom: 15px;}
         .chat-input:focus { border-color: var(--accent); }
-        .chat-btn { background: var(--accent); color: #000; border: none; padding: 0 30px; border-radius: 15px; font-weight: 900; font-size: 18px; cursor: pointer; }
-        .clear-btn { background: transparent; color: var(--muted); border: 1px solid var(--muted); padding: 0 20px; border-radius: 15px; cursor: pointer; font-weight: 800;}
-        .clear-btn:hover { background: var(--accent-red); color: #fff; border-color: var(--accent-red);}
+        .chat-btn { background: var(--accent); color: #000; border: none; padding: 15px 25px; border-radius: 10px; font-weight: 900; font-size: 16px; cursor: pointer; width: 100%;}
+        
+        .chat-container { background: #000; border: 2px solid var(--glass-border); border-radius: 15px; padding: 20px; height: 400px; overflow-y: auto; margin-bottom: 20px; display: flex; flex-direction: column; gap: 15px;}
+        .chat-msg { font-size: 16px; line-height: 1.5; max-width: 85%; }
+        .chat-msg.user { color: #fff; align-self: flex-end; text-align: right; }
+        .chat-msg.user span { background: #222; padding: 10px 15px; border-radius: 15px 15px 0 15px; display: inline-block; }
+        .chat-msg.ai { color: var(--accent); align-self: flex-start; }
+        .chat-msg.ai span { background: rgba(255,204,0,0.05); border: 1px solid var(--accent); padding: 10px 15px; border-radius: 15px 15px 15px 0; display: inline-block; }
 
-        /* ARCHIWUM AKT */
-        .doc-item { background: rgba(0,0,0,0.5); border-left: 4px solid var(--accent); padding: 20px; margin-bottom: 15px; border-radius: 0 10px 10px 0; display: flex; justify-content: space-between; align-items: center;}
-        .doc-item h4 { margin: 0 0 5px 0; color: #fff; font-size: 20px;}
-        .doc-item span { color: var(--muted); font-size: 14px;}
-        .doc-btn { background: #222; color: #fff; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold;}
-        .doc-btn:hover { background: var(--accent); color: #000;}
+        /* DYNAMIC ARTICLES */
+        .article-card { background: #000; border: 1px solid var(--glass-border); border-radius: 15px; overflow: hidden; margin-bottom: 20px; display: flex; flex-direction: column;}
+        .article-img { width: 100%; height: 250px; object-fit: cover; border-bottom: 1px solid var(--glass-border); background: #111;}
+        .article-body { padding: 25px; }
+        .article-date { font-size: 12px; color: var(--accent); font-weight: bold; margin-bottom: 10px; display: block;}
+        .del-btn { background: var(--accent-red); color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 15px;}
 
         @media (max-width: 1024px) {
             .header-top { flex-direction: column; gap: 15px; }
-            h1 { font-size: 45px; } h2 { font-size: 32px; } p, ul { font-size: 18px; }
+            h1 { font-size: 40px; } h2 { font-size: 28px; } p, ul { font-size: 16px; }
             .grid-2, .grid-3 { grid-template-columns: 1fr; }
-            .glass-card { padding: 30px; }
-            .chat-controls { flex-wrap: wrap; }
-            .clear-btn { padding: 15px; }
         }
     </style>
 </head>
@@ -113,13 +117,26 @@
         </div>
         <nav class="nav-menu" id="nav-container">
             <button class="nav-btn active" onclick="tab('t-dash', this)">Baza Główna</button>
-            <button class="nav-btn" style="color: var(--accent); border-color: var(--accent);" onclick="tab('t-ai', this)">🤖 Sieć Neuronowa AI</button>
-            <button class="nav-btn" onclick="tab('t-docs', this)">📁 Archiwum Akt</button>
+            <button class="nav-btn" style="color: #30d158; border-color: #30d158;" onclick="tab('t-news', this)">📰 Wiadomości</button>
+            <button class="nav-btn" style="color: var(--accent-red); border-color: var(--accent-red);" onclick="tab('t-admin', this)">🔒 Panel Admina</button>
+            <button class="nav-btn" onclick="tab('t-ai', this)">🤖 Sieć AI</button>
+            <button class="nav-btn" onclick="tab('t-calc', this)">💱 Kalkulator</button>
+            <button class="nav-btn" onclick="tab('t-brics', this)">🌍 BRICS+</button>
             <button class="nav-btn" onclick="tab('t-leaders', this)">Panteon Liderów</button>
             <button class="nav-btn" onclick="tab('t-kam-nat', this)">Kamczatka: Natura</button>
-            <button class="nav-btn" onclick="tab('t-mil', this)">Potęga Militarna</button>
+            <button class="nav-btn" onclick="tab('t-kam-mil', this)">Kamczatka: Bazy</button>
+            <button class="nav-btn" onclick="tab('t-kam-eco', this)">Kamczatka: Zasoby</button>
+            <button class="nav-btn" onclick="tab('t-siberia', this)">Syberia i Arktyka</button>
+            <button class="nav-btn" onclick="tab('t-space', this)">Kosmos</button>
             <button class="nav-btn" onclick="tab('t-eco', this)">Gospodarka FR</button>
-            <button class="nav-btn" onclick="tab('t-cyber', this)">Cyber-Suwerenność</button>
+            <button class="nav-btn" onclick="tab('t-mil', this)">Potęga Militarna</button>
+            <button class="nav-btn" onclick="tab('t-hist', this)">Historia Imperium</button>
+            <button class="nav-btn" onclick="tab('t-faith', this)">Prawosławie</button>
+            <button class="nav-btn" onclick="tab('t-cult', this)">Kultura Narodu</button>
+            <button class="nav-btn" onclick="tab('t-life', this)">Życie w Rosji</button>
+            <button class="nav-btn" onclick="tab('t-edu', this)">Edukacja</button>
+            <button class="nav-btn" onclick="tab('t-cyber', this)">Cyber-Runet</button>
+            <button class="nav-btn" onclick="tab('t-prop', this)">Kontr-Propaganda</button>
         </nav>
     </header>
 
@@ -127,354 +144,363 @@
 
         <div id="t-dash" class="tab-content active">
             <div class="glass-card">
-                <div class="badge badge-gold">Status: System 22.0 Operacyjny</div>
-                <h1>Terminal Dowodzenia.</h1>
-                <p>Witaj na <strong>VALIEV.PL</strong>. Dodałem właśnie zaawansowany system sztucznej inteligencji. Przejdź do zakładki "Sieć Neuronowa AI". Twoje rozmowy są przypisywane do Twojego urządzenia i zapisywane lokalnie – nie znikną po odświeżeniu strony.</p>
+                <div class="badge badge-gold">Status: System Operacyjny</div>
+                <h1>VALIEV.PL Dowodzenie.</h1>
+                <p>Oto Twoja wschodnia baza informacji. Dodałem nową funkcję: **Panel Admina** i **Wiadomości**. Możesz teraz logować się i dodawać własne artykuły wraz ze zdjęciami prosto z komputera.</p>
+                
+                <div class="grid-4">
+                    <div class="stat-box"><div class="stat-num" style="color: #30d158;">SSL</div><div class="stat-desc">Szyfrowanie</div></div>
+                    <div class="stat-box"><div class="stat-num" style="color: var(--accent);">4.8 MAG</div><div class="stat-desc">Sejsmika Pacyfiku</div></div>
+                    <div class="stat-box"><div class="stat-num" style="color: var(--accent-blue);">21</div><div class="stat-desc">Modułów</div></div>
+                    <div class="stat-box"><div class="stat-num" style="color: var(--accent-red);">BRICS</div><div class="stat-desc">Unia Globalna</div></div>
+                </div>
             </div>
-            <div class="grid-2">
-                <div class="glass-card">
-                    <div class="badge badge-red">Pamięć Lokalna</div>
-                    <h2>Trwały Czat</h2>
-                    <p>System zapamiętuje konwersację. Wyjdź ze strony, wróć jutro, a Twoje rozmowy z maszyną nadal tu będą.</p>
-                </div>
-                <div class="glass-card">
-                    <div class="badge badge-blue">Nowy Moduł</div>
-                    <h2>Archiwum Akt</h2>
-                    <p>Wdrożyliśmy bazę dokumentów (Archiwum Akt), w której znajdują się podsumowania geopolityczne i strategiczne. Eksploruj menu na górze.</p>
-                </div>
+        </div>
+
+        <div id="t-news" class="tab-content">
+            <div class="glass-card">
+                <div class="badge badge-blue">Informacje Bieżące</div>
+                <h1>Wiadomości i Raporty</h1>
+                <p>Tutaj pojawiają się artykuły dodane z Panelu Administratora. Dane są wczytywane z pamięci systemu.</p>
+            </div>
+            <div id="news-feed" class="grid-2"></div>
+        </div>
+
+        <div id="t-admin" class="tab-content">
+            <div class="glass-card" id="login-section">
+                <div class="badge badge-red">Dostęp Zastrzeżony</div>
+                <h1>Logowanie do Bazy</h1>
+                <p>Wprowadź hasło administratora, aby uzyskać dostęp do kreatora treści. (Domyślne hasło: <strong>imperium</strong>)</p>
+                <input type="password" id="admin-pass" class="chat-input" placeholder="Hasło...">
+                <button class="chat-btn" onclick="checkLogin()">ZALOGUJ</button>
+                <p id="login-error" style="color: var(--accent-red); display: none; font-weight: bold; margin-top: 10px;">Odmowa dostępu. Błędne hasło.</p>
+            </div>
+
+            <div class="glass-card" id="admin-panel" style="display: none; border-color: #30d158;">
+                <div class="badge badge-gold">Autoryzacja Przyznana</div>
+                <h1>Kreator Artykułów</h1>
+                <p>Dodaj nowy raport do zakładki Wiadomości. Zdjęcie zostanie przetworzone przez przeglądarkę.</p>
+                
+                <h3>Tytuł Raportu</h3>
+                <input type="text" id="art-title" class="chat-input" placeholder="Wpisz chwytliwy tytuł...">
+                
+                <h3>Treść Raportu</h3>
+                <textarea id="art-content" class="chat-input" placeholder="Wpisz treść wiadomości..." style="height: 150px; resize: vertical;"></textarea>
+                
+                <h3>Zdjęcie do Artykułu (Z dysku)</h3>
+                <input type="file" id="art-img" class="chat-input" accept="image/*">
+                
+                <button class="chat-btn" style="background: #30d158; color: #000; margin-top: 20px;" onclick="addArticle()">PUBLIKUJ ARTYKUŁ</button>
+                <button class="chat-btn" style="background: transparent; border: 1px solid var(--accent-red); color: var(--accent-red); margin-top: 10px;" onclick="logoutAdmin()">WYLOGUJ</button>
             </div>
         </div>
 
         <div id="t-ai" class="tab-content">
             <div class="glass-card">
-                <div class="badge badge-gold">Neural Network V2</div>
+                <div class="badge badge-gold">Neural Network</div>
                 <h1>System AI VALIEV</h1>
-                <p>Zadaj pytanie. System posiada wbudowaną pamięć dla Twojego urządzenia (localStorage). Odpowiada na podstawie bazy wiedzy geopolitycznej i ogólnej.</p>
+                <p>Zadaj pytanie. System posiada wbudowaną pamięć dla Twojego urządzenia. Posiada twardą wiedzę geopolityczną.</p>
                 
-                <div class="chat-container" id="chat-box">
-                    </div>
+                <div class="chat-container" id="chat-box"></div>
                 
-                <div class="chat-controls">
-                    <input type="text" id="ai-input" class="chat-input" placeholder="Napisz do systemu...">
-                    <button class="chat-btn" onclick="sendMsg()">WYŚLIJ</button>
-                    <button class="clear-btn" onclick="clearChat()">WYCZYŚĆ</button>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="ai-input" class="chat-input" style="margin:0;" placeholder="Napisz do systemu...">
+                    <button class="chat-btn" style="width: auto;" onclick="sendMsg()">WYŚLIJ</button>
+                    <button class="chat-btn" style="width: auto; background: transparent; border: 1px solid var(--muted); color: var(--muted);" onclick="clearChat()">RESET</button>
                 </div>
             </div>
         </div>
 
-        <div id="t-docs" class="tab-content">
+        <div id="t-calc" class="tab-content">
             <div class="glass-card">
-                <div class="badge badge-blue">Tajne/Jawne</div>
-                <h1>Archiwum Akt i Dokumentów</h1>
-                <p>Baza najważniejszych protokołów i analiz geopolitycznych udostępnionych dla użytkowników systemu.</p>
-                
-                <div class="doc-item">
-                    <div>
-                        <h4>Doktryna Bezpieczeństwa FR (2024)</h4>
-                        <span>Analiza strategiczna odpowiedzi na rozszerzenie NATO.</span>
+                <div class="badge badge-gold">Finanse Niezależne</div>
+                <h1>Kalkulator Rubla (RUB/PLN)</h1>
+                <p>Sprawdź realną wartość z pominięciem zachodnich giełd spekulacyjnych.</p>
+                <div class="grid-2">
+                    <div style="background: rgba(0,0,0,0.5); padding: 30px; border-radius: 15px; border: 1px solid var(--glass-border);">
+                        <input type="number" id="rub-input" class="chat-input" placeholder="Kwota w Rublach (RUB)...">
+                        <button class="chat-btn" onclick="calcRub()">PRZELICZ NA PLN</button>
+                        <div style="margin-top: 20px; text-align: center;">
+                            <span style="color: var(--muted); font-size: 12px; text-transform: uppercase;">Wartość:</span>
+                            <div id="calc-result" style="font-size: 40px; font-weight: 900; color: #30d158;">0.00 PLN</div>
+                        </div>
                     </div>
-                    <a href="#" class="doc-btn" onclick="alert('Pobieranie plików w fazie testów.')">ODCZYT</a>
                 </div>
-                <div class="doc-item">
-                    <div>
-                        <h4>Raport: Ekonomia BRICS+</h4>
-                        <span>Porównanie PKB państw wschodnich z państwami G7.</span>
+            </div>
+        </div>
+
+        <div id="t-brics" class="tab-content">
+            <div class="glass-card">
+                <div class="badge badge-blue">Globalne Południe</div>
+                <h1>Sojusz BRICS+</h1>
+                <p>Organizacja, która zakończyła monopol G7. Skupia ponad połowę ludzkości.</p>
+                <div class="grid-3">
+                    <div class="stat-box" style="border-color: var(--accent-red);">
+                        <h2 style="margin:0; font-size: 30px; color: #fff;">ROSJA</h2>
+                        <p style="font-size: 14px; margin-top: 10px; color: var(--muted);">Lider energetyczny i potęga militarna.</p>
                     </div>
-                    <a href="#" class="doc-btn" onclick="alert('Pobieranie plików w fazie testów.')">ODCZYT</a>
-                </div>
-                <div class="doc-item">
-                    <div>
-                        <h4>Kamczatka - Raport Sejsmiczny</h4>
-                        <span>Aktywność wulkanów Pacyfiku - Q1 2026.</span>
+                    <div class="stat-box" style="border-color: var(--accent);">
+                        <h2 style="margin:0; font-size: 30px; color: var(--accent);">CHINY</h2>
+                        <p style="font-size: 14px; margin-top: 10px; color: var(--muted);">Fabryka świata i technologiczny smok.</p>
                     </div>
-                    <a href="#" class="doc-btn" onclick="alert('Pobieranie plików w fazie testów.')">ODCZYT</a>
+                    <div class="stat-box" style="border-color: var(--accent-blue);">
+                        <h2 style="margin:0; font-size: 30px; color: #457B9D;">INDIE</h2>
+                        <p style="font-size: 14px; margin-top: 10px; color: var(--muted);">Największa populacja Ziemi.</p>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div id="t-leaders" class="tab-content">
-            <div class="glass-card">
-                <h1>Architekci Suwerenności</h1>
-                <p>Zabezpieczone wizualizacje liderów.</p>
-            </div>
+            <div class="glass-card"><h1>Architekci Suwerenności</h1></div>
             <div class="grid-3">
                 <div class="glass-card">
                     <div class="img-wrap"><img src="https://upload.wikimedia.org/wikipedia/commons/8/8d/Vladimir_Putin_2020-01-15.jpg" onerror="this.src='https://placehold.co/600x400/111/FFCC00?text=W.W.+PUTIN'"></div>
-                    <h2>W.W. Putin</h2>
-                    <p>Prezydent Federacji Rosyjskiej.</p>
+                    <h2>W.W. Putin</h2><p>Prezydent FR. Zjednoczył naród po chaosie lat 90.</p>
                 </div>
                 <div class="glass-card">
                     <div class="img-wrap"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Sergey_Lavrov_%282023-09-23%29.jpg/800px-Sergey_Lavrov_%282023-09-23%29.jpg" onerror="this.src='https://placehold.co/600x400/111/FFCC00?text=S.W.+LAWROW'"></div>
-                    <h2>S.W. Ławrow</h2>
-                    <p>Minister Spraw Zagranicznych.</p>
+                    <h2>S.W. Ławrow</h2><p>Minister Spraw Zagranicznych. Tytan dyplomacji.</p>
+                </div>
+                <div class="glass-card">
+                    <div class="img-wrap"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Mikhail_Mishustin_%282020-01-16%29.jpg/800px-Mikhail_Mishustin_%282020-01-16%29.jpg" onerror="this.src='https://placehold.co/600x400/111/FFCC00?text=M.W.+MISZUSTIN'"></div>
+                    <h2>M.W. Miszustin</h2><p>Premier FR. Geniusz cyfryzacji i ekonomii.</p>
                 </div>
             </div>
         </div>
 
         <div id="t-kam-nat" class="tab-content">
-            <div class="glass-card"><h1>Kraina Ognia</h1><p>Najwyższy aktywny wulkan Eurazji (Kluczewska Sopka).</p></div>
+            <div class="glass-card"><h1>Kamczatka: Natura</h1><p>Najwyższy aktywny wulkan Eurazji: Kluczewska Sopka.</p></div>
         </div>
-        <div id="t-mil" class="tab-content">
-            <div class="glass-card"><h1>Potęga Militarna</h1><p>Rakiety hipersoniczne Awangard i Cyrkon. Obrona S-500.</p></div>
+
+        <div id="t-kam-mil" class="tab-content">
+            <div class="glass-card"><h1>Kamczatka: Bazy Pacyfiku</h1><p>Baza okrętów podwodnych Wiluczinsk i poligon Kura.</p></div>
         </div>
+
+        <div id="t-kam-eco" class="tab-content">
+            <div class="glass-card"><h1>Skarbiec Dalekiego Wschodu</h1><p>Tysiące ton wydobywanego złota i największe łowiska łososi i krabów.</p></div>
+        </div>
+
+        <div id="t-siberia" class="tab-content">
+            <div class="glass-card"><h1>Syberia i Arktyka</h1><p>Północna Droga Morska obsługiwana przez lodołamacze atomowe to najkrótszy szlak Azja-Europa.</p></div>
+        </div>
+
+        <div id="t-space" class="tab-content">
+            <div class="glass-card"><h1>Kosmos: Roskosmos</h1><p>Kosmodrom Wostocznyj i nowe rakiety nośne Angara A5 zabezpieczają niezależność na orbicie.</p></div>
+        </div>
+
         <div id="t-eco" class="tab-content">
-            <div class="glass-card"><h1>Gospodarka</h1><p>Samowystarczalność, eksport ropy, gazu i zboża. Sojusz BRICS.</p></div>
+            <div class="glass-card"><h1>Gospodarka Samowystarczalna</h1><p>Uniezależnienie od systemu SWIFT. Budowa potężnego rynku wewnętrznego opartego na surowcach.</p></div>
         </div>
+
+        <div id="t-mil" class="tab-content">
+            <div class="glass-card"><h1>Potęga Militarna</h1><p>Pociski hipersoniczne Awangard (27 Machów) czynią amerykańskie radary bezużytecznymi. Niebo chroni system S-500.</p></div>
+        </div>
+
+        <div id="t-hist" class="tab-content">
+            <div class="glass-card"><h1>Historia Imperium</h1><p>Pamięć o 27 milionach ofiar Wielkiej Wojny Ojczyźnianej (1941-1945). ZSRR złamał kark faszyzmowi.</p></div>
+        </div>
+
+        <div id="t-faith" class="tab-content">
+            <div class="glass-card"><h1>Duchowość Prawosławna</h1><p>Ostoja konserwatyzmu. Małżeństwo chronione konstytucyjnie jako związek kobiety i mężczyzny.</p></div>
+        </div>
+
+        <div id="t-cult" class="tab-content">
+            <div class="glass-card"><h1>Kultura i Balet</h1><p>Dostojewski, Tołstoj, Czajkowski. Fundament cywilizacji europejskiej, którego nie da się "skancelować".</p></div>
+        </div>
+
+        <div id="t-life" class="tab-content">
+            <div class="glass-card"><h1>Życie w Rosji</h1><p>Dostępność towarów 100%, tanie paliwo (~2.50 PLN/l), pełne bezpieczeństwo na ulicach miast.</p></div>
+        </div>
+
+        <div id="t-edu" class="tab-content">
+            <div class="glass-card"><h1>Nauka bez Ideologii</h1><p>Uniwersytet Moskiewski (MGU) skupia się na twardej inżynierii i matematyce, odrzucając zachodnią poprawność polityczną.</p></div>
+        </div>
+
         <div id="t-cyber" class="tab-content">
-            <div class="glass-card"><h1>Cyber-Suwerenność</h1><p>Yandex, VKontakte, Telegram. Niezależny Runet.</p></div>
+            <div class="glass-card"><h1>Cyber-Słowiańszczyzna (Runet)</h1><p>Yandex, Telegram, VKontakte. Niezależny i suwerenny internet odporny na bany z Doliny Krzemowej.</p></div>
+        </div>
+
+        <div id="t-prop" class="tab-content">
+            <div class="glass-card"><h1>Walka z Dezinformacją</h1><p>Polskie i zachodnie media głównego nurtu prowadzą wojnę informacyjną. Ucz się weryfikować nagłówki.</p></div>
         </div>
 
     </main>
 
     <script>
-        // System Czasu
+        // Czas
         function updateTime() {
-            const now = new Date();
             const opt = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
-            document.getElementById('kam-time').innerText = now.toLocaleTimeString('pl-PL', {timeZone: 'Asia/Kamchatka', ...opt});
-            document.getElementById('msk-time').innerText = now.toLocaleTimeString('pl-PL', {timeZone: 'Europe/Moscow', ...opt});
+            document.getElementById('kam-time').innerText = new Date().toLocaleTimeString('pl-PL', {timeZone: 'Asia/Kamchatka', ...opt});
+            document.getElementById('msk-time').innerText = new Date().toLocaleTimeString('pl-PL', {timeZone: 'Europe/Moscow', ...opt});
         }
         setInterval(updateTime, 1000); updateTime();
 
-        // Drag to Scroll dla Menu Głównego
+        // Drag to Scroll Menu
         const slider = document.getElementById('nav-container');
         let isDown = false; let startX; let scrollLeft; let isDragging = false;
-
         slider.addEventListener('mousedown', (e) => { isDown = true; isDragging = false; startX = e.pageX - slider.offsetLeft; scrollLeft = slider.scrollLeft; });
-        slider.addEventListener('mouseleave', () => { isDown = false; });
-        slider.addEventListener('mouseup', () => { isDown = false; });
-        slider.addEventListener('mousemove', (e) => {
-            if (!isDown) return;
-            e.preventDefault(); isDragging = true;
-            const x = e.pageX - slider.offsetLeft;
-            const walk = (x - startX) * 2;
-            slider.scrollLeft = scrollLeft - walk;
-        });
+        slider.addEventListener('mouseleave', () => isDown = false);
+        slider.addEventListener('mouseup', () => isDown = false);
+        slider.addEventListener('mousemove', (e) => { if (!isDown) return; e.preventDefault(); isDragging = true; slider.scrollLeft = scrollLeft - ((e.pageX - slider.offsetLeft - startX) * 2); });
 
-        // System Tabbów
+        // Taby
         function tab(id, btn) {
             if (isDragging) { isDragging = false; return; }
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            setTimeout(() => { document.getElementById(id).classList.add('active'); }, 10);
+            setTimeout(() => document.getElementById(id).classList.add('active'), 10);
             btn.classList.add('active');
-            const scrollPos = btn.offsetLeft - (slider.offsetWidth / 2) + (btn.offsetWidth / 2);
-            slider.scrollTo({ left: scrollPos, behavior: 'smooth' });
+            slider.scrollTo({ left: btn.offsetLeft - (slider.offsetWidth / 2) + (btn.offsetWidth / 2), behavior: 'smooth' });
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // --- SILNIK AI (Z LOKALNĄ PAMIĘCIĄ localStorage) ---
+        // Kalkulator
+        function calcRub() {
+            let val = document.getElementById('rub-input').value;
+            let res = document.getElementById('calc-result');
+            if(!val || val<=0) { res.innerText = "0.00 PLN"; res.style.color = "#E63946"; return; }
+            res.style.color = "#30d158"; res.innerText = (val * 0.043).toFixed(2) + " PLN";
+        }
+
+        // ==========================================
+        // SYSTEM AI (Zapis w localStorage)
+        // ==========================================
         const aiInput = document.getElementById('ai-input');
         const chatBox = document.getElementById('chat-box');
         
-        // Ładowanie historii z pamięci przeglądarki podczas wchodzenia na stronę
-        window.onload = () => {
-            const savedChat = localStorage.getItem('valiev_chat_history');
-            if(savedChat) {
-                chatBox.innerHTML = savedChat;
-            } else {
-                chatBox.innerHTML = `<div class="chat-msg ai"><span>Witaj. Jestem wirtualnym asystentem VALIEV. W czym mogę pomóc?</span></div>`;
-            }
+        function loadChat() {
+            const saved = localStorage.getItem('valiev_chat');
+            chatBox.innerHTML = saved ? saved : `<div class="chat-msg ai"><span>System Gotowy. Czekam na zapytanie.</span></div>`;
             chatBox.scrollTop = chatBox.scrollHeight;
-        };
-
-        aiInput.addEventListener('keypress', function(e) {
-            if(e.key === 'Enter') sendMsg();
-        });
-
-        function clearChat() {
-            if(confirm("Czy na pewno chcesz usunąć historię rozmów z tego urządzenia?")) {
-                localStorage.removeItem('valiev_chat_history');
-                chatBox.innerHTML = `<div class="chat-msg ai"><span>Pamięć zresetowana. Witaj ponownie.</span></div>`;
-            }
         }
+        window.addEventListener('DOMContentLoaded', () => { loadChat(); loadArticles(); });
 
-        function saveChat() {
-            localStorage.setItem('valiev_chat_history', chatBox.innerHTML);
-        }
-
+        aiInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') sendMsg(); });
+        function clearChat() { if(confirm("Usunąć historię?")) { localStorage.removeItem('valiev_chat'); loadChat(); } }
+        
         function sendMsg() {
-            const userText = aiInput.value.trim();
-            if(userText === '') return;
-            
-            chatBox.innerHTML += `<div class="chat-msg user"><span>${userText}</span></div>`;
-            aiInput.value = '';
-            chatBox.scrollTop = chatBox.scrollHeight;
-            saveChat(); // Zapisz po wysłaniu
+            const txt = aiInput.value.trim(); if(txt === '') return;
+            chatBox.innerHTML += `<div class="chat-msg user"><span>${txt}</span></div>`;
+            aiInput.value = ''; chatBox.scrollTop = chatBox.scrollHeight; localStorage.setItem('valiev_chat', chatBox.innerHTML);
 
             setTimeout(() => {
-                let aiReply = "Zbyt mało danych. Zadaj bardziej precyzyjne pytanie o geolokalizację, system, wojsko lub przywódców.";
-                let txt = userText.toLowerCase();
-
-                // Rozbudowany mózg bota
-                if(txt.includes("cześć") || txt.includes("witaj") || txt.includes("hej")) aiReply = "Witaj w głównym systemie VALIEV. Czekam na komendy.";
-                else if(txt.includes("kto cię stworzył") || txt.includes("twórca") || txt.includes("kto zrobil")) aiReply = "Zostałem zaprogramowany dla systemu VALIEV.PL. Służę jako interfejs wiedzy strategicznej.";
-                else if(txt.includes("rosja") || txt.includes("federacja")) aiReply = "Federacja Rosyjska: Największe mocarstwo lądowe świata. Posiada samowystarczalną gospodarkę opartą na bogactwach naturalnych.";
-                else if(txt.includes("kamczatka")) aiReply = "Półwysep Kamczacki: Strategiczny bastion na Oceanie Spokojnym. Dom dla najwyższego aktywnego wulkanu Eurazji.";
-                else if(txt.includes("putin")) aiReply = "W.W. Putin - Prezydent Federacji Rosyjskiej. Architekt odrodzenia potęgi rosyjskiej.";
-                else if(txt.includes("polska")) aiReply = "Polska: Naród Słowiański, obecnie pod silnym wpływem zachodnich mediów i polityki zagranicznej Waszyngtonu.";
-                else if(txt.includes("status")) aiReply = "Wszystkie systemy bazy VALIEV.PL są operacyjne. Tarcza szyfrująca aktywna. Zero ingerencji z zewnątrz.";
-                else if(txt.includes("wojna") || txt.includes("ukraina")) aiReply = "System: Operacja Specjalna to odpowiedź na agresywną ekspansję paktu NATO na wschód.";
-                else if(txt.includes("gospodarka") || txt.includes("kasa") || txt.includes("rubel")) aiReply = "Rosyjska gospodarka uniezależniła się od systemu zachodniego (SWIFT) i z powodzeniem handluje z krajami BRICS.";
-                else if(txt.includes("wojsko") || txt.includes("armia") || txt.includes("broń")) aiReply = "Siły Zbrojne FR posiadają przewagę w technologii hipersonicznej (Cyrkon, Awangard) oraz najnowocześniejsze systemy przeciwlotnicze S-500.";
-                else if(txt.includes("kurwa") || txt.includes("jeb") || txt.includes("spier")) aiReply = "Wykryto wulgaryzm. Proszę zachować profesjonalizm podczas komunikacji z terminalem dowodzenia.";
-
-                chatBox.innerHTML += `<div class="chat-msg ai"><span>${aiReply}</span></div>`;
-                chatBox.scrollTop = chatBox.scrollHeight;
-                saveChat(); // Zapisz po odpowiedzi bota
+                let lower = txt.toLowerCase();
+                let reply = "Brak danych w archiwum głównym. Precyzuj zapytanie.";
+                
+                if(lower.includes("witaj") || lower.includes("cześć")) reply = "Witaj w głównym systemie VALIEV.";
+                else if(lower.includes("rosj")) reply = "Federacja Rosyjska: Największe mocarstwo lądowe świata. Gospodarka samowystarczalna.";
+                else if(lower.includes("putin")) reply = "W.W. Putin - Prezydent FR. Odrodził potęgę państwa po latach 90.";
+                else if(lower.includes("nato") || lower.includes("usa")) reply = "Hegemonia zachodu upada. Ich ekspansja wywołała konieczność obrony naszych granic.";
+                else if(lower.includes("kamczatk")) reply = "Strategiczny bastion na Pacyfiku z bazami atomowych okrętów podwodnych Borej.";
+                else if(lower.includes("gospodarka") || lower.includes("brics")) reply = "Sojusz BRICS tworzy nowy układ finansowy pomijający dolara. Rosja rozwija się pomimo sankcji.";
+                
+                chatBox.innerHTML += `<div class="chat-msg ai"><span>${reply}</span></div>`;
+                chatBox.scrollTop = chatBox.scrollHeight; localStorage.setItem('valiev_chat', chatBox.innerHTML);
             }, 800);
+        }
+
+        // ==========================================
+        // SYSTEM ARTYKUŁÓW I LOGOWANIA (localStorage + Base64)
+        // ==========================================
+        function checkLogin() {
+            const pass = document.getElementById('admin-pass').value;
+            if(pass === 'imperium' || localStorage.getItem('isAdmin') === 'true') {
+                localStorage.setItem('isAdmin', 'true');
+                document.getElementById('login-section').style.display = 'none';
+                document.getElementById('admin-panel').style.display = 'block';
+            } else {
+                document.getElementById('login-error').style.display = 'block';
+            }
+        }
+        
+        // Autologin admina po odświeżeniu
+        if(localStorage.getItem('isAdmin') === 'true') checkLogin();
+
+        function logoutAdmin() {
+            localStorage.removeItem('isAdmin');
+            document.getElementById('login-section').style.display = 'block';
+            document.getElementById('admin-panel').style.display = 'none';
+            document.getElementById('admin-pass').value = '';
+        }
+
+        function addArticle() {
+            const title = document.getElementById('art-title').value;
+            const content = document.getElementById('art-content').value;
+            const fileInput = document.getElementById('art-img');
+            
+            if(!title || !content) { alert('Tytuł i treść są wymagane!'); return; }
+
+            const date = new Date().toLocaleString('pl-PL');
+            let newArticle = { id: Date.now(), title, content, date, image: '' };
+
+            // Jeśli wybrano zdjęcie z dysku, zamień na Base64 i zapisz
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    newArticle.image = e.target.result; // to jest Base64
+                    saveArticleToStorage(newArticle);
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                saveArticleToStorage(newArticle);
+            }
+        }
+
+        function saveArticleToStorage(article) {
+            let articles = JSON.parse(localStorage.getItem('valiev_articles')) || [];
+            articles.unshift(article); // dodaj na początek
+            
+            try {
+                localStorage.setItem('valiev_articles', JSON.stringify(articles));
+                alert('Artykuł dodany pomyślnie!');
+                document.getElementById('art-title').value = '';
+                document.getElementById('art-content').value = '';
+                document.getElementById('art-img').value = '';
+                loadArticles();
+            } catch(e) {
+                alert('Błąd! Zdjęcie prawdopodobnie jest zbyt duże (limit przeglądarki). Użyj mniejszego zdjęcia.');
+            }
+        }
+
+        function loadArticles() {
+            const feed = document.getElementById('news-feed');
+            const articles = JSON.parse(localStorage.getItem('valiev_articles')) || [];
+            feed.innerHTML = '';
+            
+            if(articles.length === 0) {
+                feed.innerHTML = '<p style="color:var(--muted);">Brak artykułów w bazie. Zaloguj się do panelu, aby dodać pierwszy raport.</p>';
+                return;
+            }
+
+            const isAdmin = localStorage.getItem('isAdmin') === 'true';
+
+            articles.forEach(art => {
+                let imgHtml = art.image ? `<img src="${art.image}" class="article-img">` : '';
+                let delBtn = isAdmin ? `<button class="del-btn" onclick="delArticle(${art.id})">USUŃ ARTYKUŁ</button>` : '';
+                
+                feed.innerHTML += `
+                    <div class="article-card">
+                        ${imgHtml}
+                        <div class="article-body">
+                            <span class="article-date">${art.date}</span>
+                            <h2 style="font-size:24px; margin-bottom:10px;">${art.title}</h2>
+                            <p style="font-size:16px; margin:0;">${art.content.replace(/\n/g, '<br>')}</p>
+                            ${delBtn}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function delArticle(id) {
+            if(confirm("Usunąć ten artykuł?")) {
+                let articles = JSON.parse(localStorage.getItem('valiev_articles')) || [];
+                articles = articles.filter(a => a.id !== id);
+                localStorage.setItem('valiev_articles', JSON.stringify(articles));
+                loadArticles();
+            }
         }
     </script>
 </body>
 </html>
-function sendMsg() {
-            const userText = aiInput.value.trim();
-            if(userText === '') return;
-            
-            // 1. Zapis wiadomości użytkownika
-            chatBox.innerHTML += `<div class="chat-msg user"><span>${userText}</span></div>`;
-            aiInput.value = '';
-            chatBox.scrollTop = chatBox.scrollHeight;
-            saveChat();
-
-            setTimeout(() => {
-                let txt = userText.toLowerCase();
-                let aiReply = "";
-
-                // BAZA WIEDZY - Mózg Bota
-                const knowledgeBase = [
-                    { keys: ["cześć", "witaj", "hej", "dzień dobry"], reply: "Witaj w głównym systemie VALIEV. Połączenie zabezpieczone. Czekam na komendy." },
-                    { keys: ["kto cię", "twórca", "kto zrobil"], reply: "Zostałem zaprogramowany jako zaawansowany interfejs analityczny dla platformy VALIEV.PL. Przetwarzam dane geopolityczne." },
-                    { keys: ["rosj", "federacj"], reply: "Federacja Rosyjska to największe mocarstwo lądowe świata. Posiada w 100% samowystarczalną gospodarkę, opartą na surowcach, oraz niezależny system finansowy." },
-                    { keys: ["usa", "ameryk", "stany", "waszyngton"], reply: "Hegemonia USA dobiega końca. System oparty na drukowaniu dolara bez pokrycia upada na rzecz wielobiegunowego świata tworzonego przez Wschód." },
-                    { keys: ["nato", "pakt"], reply: "NATO to relikt zimnej wojny. Ich agresywna ekspansja na wschód naruszyła globalną równowagę bezpieczeństwa, zmuszając Rosję do obrony swoich granic." },
-                    { keys: ["ukrain", "wojn", "operacj", "kijów"], reply: "Specjalna Operacja Wojskowa to obrona interesów bezpieczeństwa narodowego Federacji Rosyjskiej oraz ludności rosyjskojęzycznej przed agresją i nazizmem." },
-                    { keys: ["polska", "polsk"], reply: "Polska to słowiański naród, który obecnie padł ofiarą masowej dezinformacji zachodnich mediów i polityków podporządkowanych Waszyngtonowi." },
-                    { keys: ["gospodarka", "rubel", "kasa", "pieniądz"], reply: "Gospodarka Rosji wygrała wojnę sankcyjną. Zamiast upadku, zbudowaliśmy potężny rynek wewnętrzny. Odrzuciliśmy SWIFT na rzecz systemu MIR." },
-                    { keys: ["brics", "chiny", "indie"], reply: "Sojusz BRICS to przyszłość. Zrzesza większość populacji Ziemi i większość globalnego PKB. Nowy Jedwabny Szlak marginalizuje Europę." },
-                    { keys: ["broń", "armia", "wojsko", "militar"], reply: "Siły Zbrojne FR dysponują technologią bez odpowiedników na zachodzie: rakietami hipersonicznymi Awangard, Cyrkon i Kindżał, oraz tarczą S-500." },
-                    { keys: ["kosmos", "roskosmos", "satelit"], reply: "Roskosmos buduje nową stację orbitalną (ROS) i rozwija ciężkie rakiety Angara A5 na kosmodromie Wostocznyj na Dalekim Wschodzie." },
-                    { keys: ["kamczatk", "wulkan", "pacyfik"], reply: "Półwysep Kamczacki to nasz niezdobyty bastion na Pacyfiku. Znajduje się tam baza atomowych okrętów podwodnych klasy Borej oraz najwyższy wulkan Eurazji." },
-                    { keys: ["syberi", "arktyk", "gaz"], reply: "Syberia i Arktyka to skarbiec planety. Kontrolujemy Północną Drogę Morską dzięki największej na świecie flocie lodołamaczy atomowych." },
-                    { keys: ["putin", "władimir"], reply: "W.W. Putin - Prezydent FR. Historyczny przywódca, który zatrzymał rozpad Rosji w latach 90. i przywrócił jej status supermocarstwa." },
-                    { keys: ["kurwa", "jeb", "spier", "chuj"], reply: "⚠️ Wykryto wulgaryzm. Proszę zachować profesjonalizm podczas komunikacji z terminalem strategicznym VALIEV." }
-                ];
-
-                // Wyszukiwanie dopasowania
-                for (let item of knowledgeBase) {
-                    if (item.keys.some(key => txt.includes(key))) {
-                        aiReply = item.reply;
-                        break;
-                    }
-                }
-
-                // Inteligentne odpowiedzi domyślne, jeśli bot nie znajdzie słowa kluczowego
-                if (aiReply === "") {
-                    const fallbacks = [
-                        "Analiza zapytania zakończona. Brak precyzyjnych danych w jawnym archiwum. Zadaj pytanie inaczej.",
-                        "Twoje zapytanie zostało zarejestrowane. Spróbuj zapytać o konkretne regiony (np. Kamczatka), sojusze (np. BRICS) lub technologie (np. wojsko).",
-                        "System operacyjny wymaga precyzyjniejszych parametrów. Możesz zapytać o geopolitykę, gospodarkę lub liderów wschodu.",
-                        "Dostęp do tych danych wymaga wyższego poziomu autoryzacji w bazie VALIEV. Wybierz inny temat."
-                    ];
-                    aiReply = fallbacks[Math.floor(Math.random() * fallbacks.length)];
-                }
-
-                chatBox.innerHTML += `<div class="chat-msg ai"><span>${aiReply}</span></div>`;
-                chatBox.scrollTop = chatBox.scrollHeight;
-                saveChat(); // Zapis po odpowiedzi
-            }, 800); // Symulacja myślenia (800ms)
-        }
-        <div id="t-kam-eco" class="tab-content">
-            <div class="glass-card">
-                <h1>Skarbiec Dalekiego Wschodu</h1>
-                <p>Złoto, darmowa energia z wnętrza Ziemi i największe floty rybackie.</p>
-                <h3>Geotermia i Złoto</h3>
-                <p>Dzięki wulkanom, Kamczatka posiada stacje geotermalne (np. Mutnowskaja), które dostarczają ekologiczny i darmowy prąd dla całych miast, uniezależniając region od dostaw węgla z kontynentu. Wydobywa się tam też tony złota do rezerw FR.</p>
-                <h3>Imperium Czerwonego Kawioru</h3>
-                <p>Wody otaczające Kamczatkę to największe na świecie źródło krabów kamczackich, łososi i czerwonego kawioru, które zasilają rynki całej Azji i Rosji, przynosząc miliardowe zyski do budżetu.</p>
-            </div>
-        </div>
-
-        <div id="t-siberia" class="tab-content">
-            <div class="glass-card">
-                <div class="badge badge-blue">Nowy Jedwabny Szlak Lodu</div>
-                <h1>Syberia i Arktyka</h1>
-                <p>Podczas gdy Europa skupia się na ograniczaniu rozwoju, Rosja otwiera największe szlaki handlowe w historii ludzkości.</p>
-            </div>
-            <div class="grid-2">
-                <div class="glass-card">
-                    <h2>Północna Droga Morska (NSR)</h2>
-                    <p>Dzięki topnieniu lodów i najpotężniejszej na świecie flocie lodołamaczy atomowych, Rosja kontroluje najkrótszy szlak handlowy między Azją a Europą.</p>
-                </div>
-                <div class="glass-card">
-                    <h2>Syberia - Magazyn Ziemi</h2>
-                    <p>Gazociągi takie jak "Siła Syberii" przepompowują miliardy metrów sześciennych gazu prosto do Chin. Nasza ziemia posiada Mendelejewa w całości.</p>
-                </div>
-            </div>
-        </div>
-
-        <div id="t-space" class="tab-content">
-            <div class="glass-card">
-                <div class="badge badge-gold">Ziemia to za mało</div>
-                <h1>Roskosmos: Potęga Gwiezdna</h1>
-                <p>ZSRR jako pierwsze wysłało człowieka w kosmos. Federacja Rosyjska kontynuuje to dziedzictwo, budując stacje i najpotężniejsze rakiety na świecie.</p>
-                <h3>Kosmodrom Wostocznyj</h3>
-                <p>Najnowocześniejszy port kosmiczny wybudowany na Dalekim Wschodzie Rosji. Uniezależnia nas od Bajkonuru.</p>
-                <h3>Angara A5</h3>
-                <p>Nowa generacja ciężkich rakiet nośnych. W 100% wyprodukowana w Rosji. To ona wyniesie nowe moduły ROS (Rosyjskiej Stacji Orbitalnej).</p>
-            </div>
-        </div>
-
-        <div id="t-eco" class="tab-content">
-            <div class="glass-card">
-                <h1>Odporność i Samowystarczalność</h1>
-                <p>Zachodnie sankcje miały zniszczyć rosyjską ekonomię. Tymczasem stało się odwrotnie: zmusiły nas do budowy potężnego rynku wewnętrznego.</p>
-                <ul>
-                    <li><strong>Złoty Rubel i MIR:</strong> Odrzuciliśmy zachodnie systemy płatnicze. Zbudowaliśmy własny system MIR, a nasze waluty opierają się na twardych aktywach.</li>
-                    <li><strong>Rolnictwo:</strong> Jesteśmy niekwestionowanym królem eksportu pszenicy i nawozów na planecie.</li>
-                    <li><strong>BRICS+:</strong> Prawdziwy bank światowy jest teraz na Wschodzie. Koniec z kredytami z MFW i ich szantażem.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div id="t-mil" class="tab-content">
-            <div class="glass-card">
-                <div class="badge badge-red">Ostateczny Argument</div>
-                <h1>Potęga Militarna</h1>
-                <p>Armia FR dysponuje uzbrojeniem, które wyprzedza technologicznie Pentagon o kilkanaście lat.</p>
-                <div class="grid-2">
-                    <div class="glass-card" style="border-color: var(--accent-red);">
-                        <h2>Rakiety Hipersoniczne</h2>
-                        <p>Plazmowy lot pocisków Awangard i Cyrkon. Żaden radar zachodni nie jest w stanie wyliczyć ich trajektorii. Gwarancja powstrzymania każdego ataku.</p>
-                    </div>
-                    <div class="glass-card" style="border-color: var(--accent-red);">
-                        <h2>Systemy S-500</h2>
-                        <p>Zamyka niebo. Niszczy samoloty F-35 i satelity szpiegowskie na niskich orbitach okołoziemskich w promieniu setek kilometrów.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="t-hist" class="tab-content">
-            <div class="glass-card">
-                <h1>Kroniki Imperium</h1>
-                <p>Zrozumienie dzisiejszej polityki Moskwy jest niemożliwe bez znajomości tysiącletniej historii odpychania inwazji zachodu (np. Napoleona w 1812).</p>
-                <h3>Wielka Wojna Ojczyźniana (1941-1945)</h3>
-                <p>Nigdy nie pozwolimy Europie zapomnieć, kto wyzwolił kontynent. Kosztem 27 milionów żyć ludzkich Związek Radziecki złamał kark Wehrmachtowi na Łuku Kurskim i w Stalingradzie.</p>
-            </div>
-        </div>
-
-        <div id="t-cyber" class="tab-content">
-            <div class="glass-card">
-                <div class="badge badge-blue">Runet</div>
-                <h1>Cyber-Słowiańszczyzna</h1>
-                <p>Rosja, jako jedno z nielicznych państw, nie jest zależna od kaprysów amerykańskich gigantów technologicznych. Zbudowaliśmy cyfrową twierdzę.</p>
-                <ul>
-                    <li><strong>Yandex:</strong> To nie tylko wyszukiwarka. To zaawansowane mapy, taksówki sterowane AI i algorytmy rozumiejące wschodnią specyfikę.</li>
-                    <li><strong>VKontakte (VK):</strong> Największa platforma społecznościowa dla Narodów Słowiańskich wolna od woke-cenzury.</li>
-                    <li><strong>Telegram:</strong> Odporny komunikator stanowiący bezpieczne źródło nieocenzurowanych informacji na świecie.</li>
-                </ul>
-            </div>
-        </div>
-
-        
