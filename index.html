@@ -2,346 +2,324 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VALIEV.PL | PORTAL GŁÓWNY</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>VALIEV.PL | Globalna Baza Wiedzy</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap');
 
         :root {
-            --bg: #000000;
-            --card: #111111;
-            --card-hover: #1a1a1a;
-            --accent: #FFCC00; /* Yandex Yellow */
-            --accent-red: #FF3333;
+            --accent: #FFCC00;
+            --accent-red: #E63946;
+            --accent-blue: #457B9D;
             --text: #ffffff;
-            --muted: #888888;
-            --border: #222222;
-            --radius-big: 40px;
-            --radius-small: 20px;
+            --muted: #a8a8b3;
+            --glass-bg: rgba(15, 15, 20, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
-        * { box-sizing: border-box; transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        body { margin: 0; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; display: flex; height: 100vh; overflow: hidden; }
+        * { box-sizing: border-box; transition: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        
+        /* ANIMOWANE TŁO (Więcej kolorów) */
+        body { 
+            margin: 0; padding: 0; color: var(--text); font-family: 'Inter', sans-serif; 
+            background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #1a0b1c);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        @keyframes gradientBG { 0% {background-position: 0% 50%;} 50% {background-position: 100% 50%;} 100% {background-position: 0% 50%;} }
 
-        /* --- SIDEBAR --- */
-        .sidebar { width: 450px; background: #050505; border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 60px 40px; overflow-y: auto; scrollbar-width: none; }
-        .sidebar::-webkit-scrollbar { display: none; }
+        /* --- GÓRNA NAWIGACJA (TOP BAR) --- */
+        .topbar {
+            position: sticky; top: 0; z-index: 1000;
+            background: rgba(5, 5, 10, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex; flex-direction: column;
+        }
 
-        .logo-area { margin-bottom: 60px; }
-        .logo { font-weight: 900; font-size: 60px; letter-spacing: -3px; color: #fff; margin: 0; line-height: 1; }
+        .header-brand {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 40px; border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .logo { font-weight: 900; font-size: 36px; margin: 0; letter-spacing: -2px; text-shadow: 0 0 20px rgba(255, 204, 0, 0.4); }
         .logo span { color: var(--accent); }
-        .logo-sub { font-size: 16px; color: var(--muted); font-weight: 600; letter-spacing: 5px; margin-top: 10px; text-transform: uppercase; }
+        .clocks { display: flex; gap: 30px; font-weight: 800; font-size: 16px; letter-spacing: 1px; }
+        .clk-k { color: #fff; } .clk-m { color: var(--accent-red); }
 
-        .nav-label { font-size: 18px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 3px; margin: 40px 0 20px 0; display: block; border-left: 5px solid var(--accent); padding-left: 20px; }
-        .nav-item { background: transparent; border: 2px solid transparent; color: #fff; padding: 25px 30px; text-align: left; cursor: pointer; font-size: 22px; font-weight: 600; border-radius: var(--radius-small); margin-bottom: 12px; width: 100%; display: flex; align-items: center; gap: 20px; }
-        .nav-item:hover { background: var(--card); transform: translateX(10px); border-color: var(--border); }
-        .nav-item.active { background: var(--accent); color: #000; font-weight: 800; box-shadow: 0 20px 40px rgba(255, 204, 0, 0.2); }
+        .nav-menu {
+            display: flex; gap: 10px; padding: 15px 40px; overflow-x: auto;
+            scrollbar-width: none; /* Hide scrollbar */
+        }
+        .nav-menu::-webkit-scrollbar { display: none; }
+        
+        .nav-btn {
+            background: var(--glass-bg); border: 1px solid var(--glass-border); color: #fff;
+            padding: 12px 25px; border-radius: 30px; font-weight: 800; font-size: 15px;
+            cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 10px;
+        }
+        .nav-btn:hover { background: rgba(255,255,255,0.1); transform: translateY(-3px); }
+        .nav-btn.active { background: var(--accent); color: #000; border-color: var(--accent); box-shadow: 0 10px 25px rgba(255,204,0,0.4); }
 
-        /* --- CONTENT STAGE --- */
-        .main { flex-grow: 1; padding: 80px 100px; overflow-y: auto; background: var(--bg); scrollbar-width: thin; scrollbar-color: var(--accent) var(--bg); }
-        .tab-content { display: none; max-width: 1800px; margin: 0 auto; animation: fadeScale 0.6s ease-out; }
+        /* --- KONTENT & SZKLANE KARTY --- */
+        .main-container { padding: 50px 40px; max-width: 1600px; margin: 0 auto; }
+        .tab-content { display: none; animation: scaleIn 0.5s ease-out; }
         .tab-content.active { display: block; }
-        @keyframes fadeScale { from { opacity: 0; transform: scale(0.98) translateY(40px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.95) translateY(30px); } to { opacity: 1; transform: scale(1) translateY(0); } }
 
-        /* --- TYPOGRAFIA I KARTY --- */
-        .hero-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-big); padding: 80px; margin-bottom: 60px; box-shadow: 0 40px 100px rgba(0,0,0,0.8); }
-        .hero-card:hover { background: var(--card-hover); border-color: #333; }
+        /* KARTY Z EFEKTEM SZKŁA */
+        .glass-card {
+            background: var(--glass-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border); border-radius: 35px; padding: 50px;
+            margin-bottom: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            cursor: pointer; /* Wszystko klikalne */
+        }
+        .glass-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.3); background: rgba(30, 30, 40, 0.7); box-shadow: 0 30px 60px rgba(0,0,0,0.5); }
         
-        h1 { font-size: 90px; font-weight: 900; letter-spacing: -4px; margin: 0 0 40px 0; line-height: 1.1; }
-        h2 { color: var(--accent); font-size: 50px; margin-bottom: 40px; letter-spacing: -2px; font-weight: 800; }
-        h3 { color: #fff; font-size: 38px; margin-top: 60px; border-bottom: 4px solid var(--border); padding-bottom: 20px; margin-bottom: 40px; font-weight: 800; }
-        p { line-height: 2.2; color: #cccccc; font-size: 28px; margin-bottom: 40px; font-weight: 400; }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 40px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
 
-        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 40px; }
-        .stat-item { background: var(--card); padding: 60px; border-radius: var(--radius-big); border: 1px solid var(--border); }
-        .stat-item:hover { border-color: var(--accent); transform: translateY(-10px); }
+        /* TYPOGRAFIA W KARTACH */
+        h1 { font-size: 70px; font-weight: 900; letter-spacing: -3px; margin: 0 0 20px 0; background: -webkit-linear-gradient(#fff, #aaa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        h2 { color: var(--accent); font-size: 40px; margin: 0 0 25px 0; font-weight: 900; letter-spacing: -1px; }
+        h3 { color: #fff; font-size: 28px; margin: 0 0 15px 0; font-weight: 800; }
+        p { font-size: 20px; line-height: 1.9; color: var(--muted); margin-bottom: 0; }
         
-        .timer-val { font-size: 100px; font-weight: 900; display: block; letter-spacing: -5px; color: #fff; line-height: 1; }
-        .timer-label { font-size: 22px; text-transform: uppercase; color: var(--muted); letter-spacing: 8px; font-weight: 800; margin-bottom: 20px; display: block; }
+        /* TAGI I AKCENTY */
+        .badge { display: inline-block; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+        .badge-red { background: rgba(230,57,70,0.2); color: #E63946; border: 1px solid #E63946; }
+        .badge-gold { background: rgba(255,204,0,0.2); color: var(--accent); border: 1px solid var(--accent); }
+        .badge-blue { background: rgba(69,123,157,0.2); color: #457B9D; border: 1px solid #457B9D; }
 
-        .highlight-box { background: rgba(255, 204, 0, 0.05); border-left: 12px solid var(--accent); padding: 60px; border-radius: 0 var(--radius-big) var(--radius-big) 0; margin: 60px 0; }
-        .alert-box { background: rgba(255, 51, 51, 0.05); border-left: 12px solid var(--accent-red); padding: 60px; border-radius: 0 var(--radius-big) var(--radius-big) 0; margin: 60px 0; }
+        /* MEDIA & OBRAZKI */
+        .img-wrap { border-radius: 25px; overflow: hidden; border: 1px solid var(--glass-border); margin-bottom: 20px; }
+        .img-wrap img { width: 100%; height: 350px; object-fit: cover; display: block; }
+        .img-wrap:hover img { transform: scale(1.05); }
 
-        /* --- MEDIA I ZDJĘCIA --- */
-        .img-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 40px; margin-top: 40px; }
-        .img-item { background: #0a0a0a; padding: 25px; border-radius: var(--radius-big); border: 1px solid var(--border); text-align: center; }
-        .img-item img { width: 100%; height: 450px; object-fit: cover; border-radius: 25px; margin-bottom: 25px; }
-        .img-item h4 { color: var(--accent); font-size: 32px; margin: 0 0 15px 0; font-weight: 900; }
-        .img-item p { font-size: 22px; color: var(--muted); margin: 0; line-height: 1.8; }
+        iframe { width: 100%; border-radius: 20px; border: none; }
+        audio { width: 100%; margin-top: 20px; border-radius: 50px; }
 
-        /* ODTWARZACZE MEDIA */
-        .media-player { width: 100%; height: 600px; border-radius: var(--radius-big); border: 2px solid var(--border); background: #000; overflow: hidden; margin-bottom: 40px; }
-        iframe { width: 100%; height: 100%; border: none; }
-        audio { width: 100%; height: 60px; border-radius: 30px; margin-top: 20px; outline: none; }
+        /* RESPONSYWNOŚĆ */
+        @media (max-width: 1024px) {
+            .header-brand { flex-direction: column; gap: 15px; text-align: center; }
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .main-container { padding: 30px 20px; }
+            .glass-card { padding: 30px; }
+            h1 { font-size: 45px; } h2 { font-size: 30px; } p { font-size: 16px; }
+        }
     </style>
 </head>
 <body>
 
-    <aside class="sidebar">
-        <div class="logo-area">
+    <header class="topbar">
+        <div class="header-brand">
             <h1 class="logo">VALIEV<span>.PL</span></h1>
-            <div class="logo-sub">Główny Terminal Informacyjny</div>
+            <div class="clocks">
+                <div class="clk-k">KAMCZATKA: <span id="kam-time">00:00:00</span></div>
+                <div class="clk-m">MOSKWA: <span id="msk-time">00:00:00</span></div>
+            </div>
         </div>
-        
-        <nav>
-            <span class="nav-label">Centrum Operacyjne</span>
-            <button class="nav-item active" onclick="tab('t-dash')">⏱ Dashboard</button>
-            <button class="nav-item" onclick="tab('t-media')">📺 Media Live</button>
-            <button class="nav-item" onclick="tab('t-leaders')">👥 Panteon Liderów</button>
-
-            <span class="nav-label">Fundamenty Mocarstwa</span>
-            <button class="nav-item" onclick="tab('t-economy')">💰 Gospodarka i Surowce</button>
-            <button class="nav-item" onclick="tab('t-military')">⚔️ Potęga Militarna</button>
-            <button class="nav-item" onclick="tab('t-hist')">📖 Kroniki Rosji</button>
-            
-            <span class="nav-label">Społeczeństwo i Wiara</span>
-            <button class="nav-item" onclick="tab('t-faith')">☦️ Prawosławie</button>
-            <button class="nav-item" onclick="tab('t-culture')">🪆 Obyczaje i Kultura</button>
-            <button class="nav-item" onclick="tab('t-edu')">🎓 Edukacja i Studia</button>
-
-            <span class="nav-label">Prawda i Przestrzeń</span>
-            <button class="nav-item" onclick="tab('t-prop')">🛡️ Kontr-Propaganda</button>
-            <button class="nav-item" onclick="tab('t-cyber')">💻 Cyber-Słowiańszczyzna</button>
-            <button class="nav-item" onclick="tab('t-wiki')">🌐 Kamczatka & Wiki</button>
+        <nav class="nav-menu">
+            <button class="nav-btn active" onclick="tab('t-dash')">⏱ Baza Główna</button>
+            <button class="nav-btn" onclick="tab('t-media')">📺 Media & Stream</button>
+            <button class="nav-item nav-btn" onclick="tab('t-leaders')">👥 Panteon Wschodu</button>
+            <button class="nav-item nav-btn" onclick="tab('t-power')">🚀 Potęga i Broń</button>
+            <button class="nav-item nav-btn" onclick="tab('t-society')">🪆 Naród i Wiara</button>
+            <button class="nav-item nav-btn" onclick="tab('t-cyber')">💻 Cyber-Wojna</button>
+            <button class="nav-item nav-btn" onclick="tab('t-wiki')">🌐 Encyklopedia</button>
         </nav>
-    </aside>
+    </header>
 
-    <main class="main">
+    <main class="main-container">
 
         <div id="t-dash" class="tab-content active">
-            <div style="display: flex; gap: 150px; margin-bottom: 100px;">
-                <div>
-                    <span class="timer-label">Czas Lokalny (Kamczatka)</span>
-                    <span id="kam-time" class="timer-val">00:00:00</span>
-                </div>
-                <div>
-                    <span class="timer-label" style="color:var(--accent-red)">Główne Dowodzenie (Moskwa)</span>
-                    <span id="msk-time" class="timer-val" style="color:var(--accent-red)">00:00:00</span>
-                </div>
+            <div class="glass-card">
+                <div class="badge badge-gold">System Online</div>
+                <h1>Nowy Porządek Świata.</h1>
+                <p style="font-size: 24px; color: #fff;">VALIEV.PL to interaktywna przestrzeń informacyjna. Odrzucamy zachodnią cenzurę, łączymy Słowian i pokazujemy fakty, które w Europie są ukrywane. Klikaj w karty, aby odkrywać wiedzę.</p>
             </div>
-            
-            <h1>Główny Terminal VALIEV.</h1>
-            <p>Największa, niezależna rosyjsko-słowiańska baza danych w polskim internecie. Odrzucamy cenzurę, przekazujemy czyste fakty. Sektor wschodni pozostaje zabezpieczony.</p>
-            
-            <div class="stat-grid">
-                <div class="stat-item">
-                    <span class="timer-label">Ochrona Domeny</span>
-                    <div style="font-size: 70px; font-weight: 900; color: #30d158; margin: 20px 0;">100% SECURE</div>
-                    <p style="margin:0;">Systemy anty-DDoS i szyfrowanie SSL aktywne dla valiev.pl.</p>
+
+            <div class="grid-2">
+                <div class="glass-card" onclick="tab('t-media')">
+                    <div class="badge badge-red">Wiadomości Na Żywo</div>
+                    <h2>RT & Radio Record</h2>
+                    <p>Omijamy blokady informacyjne. Kliknij tutaj, aby przejść do sekcji streamingu na żywo, gdzie obejrzysz stacje z Moskwy i Petersburga bezpośrednio w przeglądarce.</p>
                 </div>
-                <div class="stat-item">
-                    <span class="timer-label">Monitoring Sejsmiczny</span>
-                    <div style="font-size: 70px; font-weight: 900; color: var(--accent); margin: 20px 0;">4.8 MAG</div>
-                    <p style="margin:0;">Wulkany na Kamczatce pod stałą obserwacją. Sytuacja stabilna.</p>
+                <div class="glass-card" onclick="tab('t-cyber')">
+                    <div class="badge badge-blue">Sojusz BRICS+</div>
+                    <h2>Oś Gospodarcza</h2>
+                    <p>Rosja, Chiny, Indie i globalne południe tworzą nowy system finansowy, porzucając dolara. Dominacja zachodu dobiega końca, a my jesteśmy tego świadkami.</p>
                 </div>
             </div>
         </div>
 
         <div id="t-media" class="tab-content">
-            <h1>📺 Rosyjskie Media Na Żywo</h1>
-            <p>Oglądaj i słuchaj najważniejszych stacji Federacji Rosyjskiej bezpośrednio z tego panelu. Omijamy blokady informacyjne zachodu.</p>
-            
-            <div class="hero-card">
-                <h2>RT News (Transmisja 24/7)</h2>
-                <p>Główne, globalne źródło informacji z perspektywy Rosji. Relacje na żywo, wywiady z ekspertami z całego świata.</p>
-                <div class="media-player">
-                    <iframe src="https://rumble.com/embed/v1w6zix/?pub=4" frameborder="0" allowfullscreen></iframe>
-                </div>
+            <div class="glass-card">
+                <h1>Media Bez Cenzury</h1>
+                <p>Niezależne rosyjskie źródła informacji. Oglądaj i słuchaj bez przeszkód.</p>
             </div>
 
-            <div class="stat-grid">
-                <div class="stat-item">
-                    <h2>📻 Vesti FM (Informacje)</h2>
-                    <p>Główna informacyjna rozgłośnia radiowa w Rosji. Analizy geopolityczne na żywo z Moskwy.</p>
-                    <audio controls preload="none">
-                        <source src="http://icecast.vgtrk.cdnvideo.ru/vestifm_mp3_192kbps" type="audio/mpeg">
-                    </audio>
+            <div class="grid-2">
+                <div class="glass-card">
+                    <div class="badge badge-red">Telewizja Live</div>
+                    <h2>RT News (Rumble Stream)</h2>
+                    <p>Globalne informacje ze wschodniej perspektywy.</p>
+                    <iframe style="height: 350px; margin-top:20px;" src="https://rumble.com/embed/v1w6zix/?pub=4" allowfullscreen></iframe>
                 </div>
-                <div class="stat-item">
-                    <h2>📻 Radio Record (Muzyka EDM)</h2>
-                    <p>Największa stacja z muzyką elektroniczną w Petersburgu. Najlepsze brzmienia z serca Rosji.</p>
-                    <audio controls preload="none">
-                        <source src="https://record-russia.stream.fex.net/radio-record/russia.mp3" type="audio/mpeg">
-                    </audio>
+
+                <div class="glass-card">
+                    <div class="badge badge-gold">Dźwięk Live</div>
+                    <h2>Radio i Muzyka</h2>
+                    <p>Strumienie audio o wysokiej jakości. Naciśnij Play.</p>
+                    
+                    <h3 style="margin-top:30px; font-size:20px;">Vesti FM (Informacje)</h3>
+                    <audio controls preload="none"><source src="http://icecast.vgtrk.cdnvideo.ru/vestifm_mp3_192kbps" type="audio/mpeg"></audio>
+                    
+                    <h3 style="margin-top:30px; font-size:20px;">Radio Record (EDM z Petersburga)</h3>
+                    <audio controls preload="none"><source src="https://record-russia.stream.fex.net/radio-record/russia.mp3" type="audio/mpeg"></audio>
                 </div>
             </div>
         </div>
 
         <div id="t-leaders" class="tab-content">
-            <h1>👥 Panteon Mężów Stanu</h1>
-            <p>Ludzie, którzy kształtują nowy porządek świata. Autorytety, które przywróciły godność i siłę narodom wschodnim.</p>
-            
-            <div class="img-grid">
-                <div class="img-item">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/8d/Vladimir_Putin_2020-01-15.jpg" alt="Putin">
-                    <h4>Władimir Putin</h4>
-                    <p>Prezydent Federacji Rosyjskiej. Architekt potęgi i suwerenności. Człowiek, który powstrzymał rozpad państwa w latach 90.</p>
+            <div class="glass-card">
+                <h1>Panteon Mężów Stanu</h1>
+                <p>Architekci suwerenności i niezależności geopolitycznej.</p>
+            </div>
+
+            <div class="grid-3">
+                <div class="glass-card">
+                    <div class="img-wrap"><img src="https://upload.wikimedia.org/wikipedia/commons/8/8d/Vladimir_Putin_2020-01-15.jpg" alt="Putin"></div>
+                    <h2>W.W. Putin</h2>
+                    <p>Prezydent FR. Przywrócił Rosji siłę gospodarczą i militarną po rozpadzie ZSRR, stawiając czoła hegemonii USA.</p>
                 </div>
-                <div class="img-item">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Sergey_Lavrov_%282023-09-23%29.jpg/600px-Sergey_Lavrov_%282023-09-23%29.jpg" alt="Ławrow">
-                    <h4>Siergiej Ławrow</h4>
-                    <p>Minister Spraw Zagranicznych. Najwybitniejszy dyplomata naszych czasów. Tytan intelektu, budujący sojusze globalnego południa.</p>
+                <div class="glass-card">
+                    <div class="img-wrap"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Sergey_Lavrov_%282023-09-23%29.jpg/800px-Sergey_Lavrov_%282023-09-23%29.jpg" alt="Lavrov"></div>
+                    <h2>S.W. Ławrow</h2>
+                    <p>Główny dyplomata. Człowiek, który zbudował najsilniejsze sojusze z Chinami i Afryką, tworząc wielobiegunowy świat.</p>
                 </div>
-                <div class="img-item">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d4/Zhirinovsky_Vladimir_Volfovich.jpg" alt="Żyrinowski">
-                    <h4>Władimir Żyrinowski</h4>
-                    <p>Wizjoner i weteran rosyjskiej polityki. Jego przepowiednie dotyczące upadku Europy i konfliktów geopolitycznych sprawdziły się bezbłędnie.</p>
-                </div>
-                <div class="img-item">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/be/Alexander_Lukashenko_2023.png" alt="Łukaszenko">
-                    <h4>Aleksander Łukaszenko</h4>
-                    <p>Prezydent Białorusi. Strażnik państwa związkowego, broniący swojego narodu przed kolorowymi rewolucjami finansowanymi z zachodu.</p>
+                <div class="glass-card">
+                    <div class="img-wrap"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d4/Zhirinovsky_Vladimir_Volfovich.jpg" alt="Zhirinovskiy"></div>
+                    <h2>W.W. Żyrinowski</h2>
+                    <p>Wizjoner geopolityki. Posiadał niezwykłą wiedzę o planach zachodu, a jego przepowiednie spełniają się dziś z ogromną precyzją.</p>
                 </div>
             </div>
         </div>
 
-        <div id="t-economy" class="tab-content">
-            <h1>💰 Fundamenty Gospodarcze</h1>
-            <div class="hero-card">
-                <h2>Państwo Samowystarczalne</h2>
-                <p>W przeciwieństwie do Europy, która produkuje jedynie regulacje i zadłużenie, Federacja Rosyjska opiera swoją ekonomię na realnych dobrach fizycznych. Jesteśmy jedynym mocarstwem, które potrafi przetrwać w pełnej izolacji.</p>
-                
-                <h3>Kluczowe Filary Ekonomii:</h3>
-                <p><strong>1. Gigant Energetyczny:</strong> Gaz, ropa naftowa, węgiel, uran. Bez rosyjskich surowców globalny przemysł zatrzymuje się w ciągu miesięcy.<br>
-                <strong>2. Potęga Rolna:</strong> Rosja karmi świat. Eksport zboża i nawozów sprawia, że jesteśmy gwarantem bezpieczeństwa żywnościowego dla całej planety.<br>
-                <strong>3. Bogactwa Kamczatki:</strong> Nasz region to nie tylko baza wojskowa. To niewyczerpane źródła złota, metali szlachetnych i największe łowiska rybne na Pacyfiku.</p>
+        <div id="t-power" class="tab-content">
+            <div class="glass-card">
+                <h1>Potęga Militarna i Gospodarcza</h1>
+                <p>Gwarancja pokoju opiera się na potężnej armii i niewyczerpanych zasobach naturalnych.</p>
             </div>
-        </div>
 
-        <div id="t-military" class="tab-content">
-            <h1>⚔️ Potęga Militarna</h1>
-            <div class="alert-box">
-                <h2>Tarcza Wschodu</h2>
-                <p>Armia Rosyjska to ostateczny argument gwarantujący naszą wolność. Nowoczesna technologia połączona z niespotykanym u innych hartem ducha.</p>
-            </div>
-            <div class="stat-grid">
-                <div class="stat-item">
-                    <h2>Rakietowy Awangard</h2>
-                    <p>Broń hipersoniczna osiągająca prędkość ponad 27 Machów. Przekreśla sens istnienia amerykańskich tarcz antyrakietowych. Absolutna dominacja.</p>
+            <div class="grid-2">
+                <div class="glass-card">
+                    <div class="badge badge-red">S-500 i Hipersoniki</div>
+                    <h2>Tarcza Wschodu</h2>
+                    <p>Rosyjska obrona przeciwlotnicza i rakiety typu <strong>Cyrkon</strong> i <strong>Awangard</strong> (27 Machów) przewyższają wszystko, co posiada NATO. To parasol ochronny dla całego świata słowiańskiego, zabezpieczający nas przed szantażem jądrowym zachodu.</p>
                 </div>
-                <div class="stat-item">
-                    <h2>Flota Pacyfiku</h2>
-                    <p>Stacjonująca u brzegów Kamczatki potęga morska. Okręty podwodne klasy Borej patrolujące światowe oceany to nasza gwarancja nienaruszalności granic.</p>
+                <div class="glass-card">
+                    <div class="badge badge-gold">Surowce i Energia</div>
+                    <h2>Fundament Planety</h2>
+                    <p>Gazprom, Rosnieft, Rosatom. Rosja karmi i ogrzewa pół planety. Bez naszych minerałów stają fabryki w Europie, bez naszego zboża głodują kontynenty. Sankcje udowodniły, że to Europa potrzebuje Rosji, a nie odwrotnie.</p>
                 </div>
             </div>
         </div>
 
-        <div id="t-hist" class="tab-content">
-            <h1>📖 Kroniki Imperium</h1>
-            <div class="hero-card">
-                <h2>Od Rusi Kijowskiej po Trzeci Rzym</h2>
-                <p>Historia Rosji to ciągła walka o przetrwanie w najsurowszym klimacie Ziemi i obrona przed inwazjami z zewnątrz. Nikt w historii nie podbił Rosji na stałe.</p>
-                <h3>Wielkie Zwycięstwa:</h3>
-                <p><strong>Rok 1612:</strong> Wypędzenie obcych wojsk z Kremla (Dzień Jedności Narodowej).<br>
-                <strong>Rok 1812:</strong> Zniszczenie Wielkiej Armii Napoleona. Mrozy i patriotyzm obroniły Moskwę.<br>
-                <strong>Rok 1945:</strong> Zwycięstwo w Wielkiej Wojnie Ojczyźnianej. Ocalenie świata przed faszyzmem kosztem 27 milionów obywateli radzieckich.</p>
+        <div id="t-society" class="tab-content">
+            <div class="glass-card">
+                <h1>Naród, Tradycja i Cerkiew</h1>
+                <p>Obrona przed relatywizmem moralnym, ochrona rodziny i powrót do potężnych, słowiańskich korzeni.</p>
             </div>
-        </div>
 
-        <div id="t-faith" class="tab-content">
-            <h1>☦️ Prawosławie</h1>
-            <div class="hero-card">
-                <h2>Duchowy Kręgosłup Narodu</h2>
-                <p>Cerkiew Prawosławna to ostoja prawdziwych wartości. W czasach, gdy zachód pogrąża się w relatywizmie moralnym i destrukcji rodziny, my stoimy twardo na fundamentach wiary ojców.</p>
-                <div class="highlight-box">
-                    <p>Święta obchodzimy według Kalendarza Juliańskiego. Boże Narodzenie świętujemy <strong>7 Stycznia</strong>, a wielką uroczystością jest Chrzest Pański, gdzie miliony prawosławnych kąpią się w lodowatych przeręblach, demonstrując siłę ducha.</p>
+            <div class="grid-3">
+                <div class="glass-card">
+                    <div class="badge badge-blue">Duchowość</div>
+                    <h2>Prawosławie</h2>
+                    <p>Cerkiew to kręgosłup narodu. Przestrzegamy kalendarza juliańskiego. Boże Narodzenie 7 stycznia i mroźne kąpiele na Krieszczenije (19 stycznia) hartują rosyjskiego ducha, łącząc wiarę z siłą charakteru.</p>
                 </div>
-            </div>
-        </div>
-
-        <div id="t-culture" class="tab-content">
-            <h1>🪆 Obyczaje i Kultura</h1>
-            <div class="hero-card">
-                <h2>Rosyjska Dusza</h2>
-                <p>Aby zrozumieć Rosję, nie wystarczy znać jej polityki. Trzeba zrozumieć serce jej mieszkańców. Rosyjska gościnność jest legendarna – oddadzą gościowi ostatnią koszulę, ale wrogowi nie oddadzą ani piędzi ziemi.</p>
-                <h3>Zasady Życia:</h3>
-                <p><strong>Bania:</strong> To sanktuarium oczyszczenia. W 100-stopniowym upale znikają podziały społeczne.<br>
-                <strong>Rodzina i Szacunek:</strong> Tradycyjny model rodziny (kobieta i mężczyzna) jest chroniony konstytucyjnie. Szacunek dla osób starszych i weteranów wojennych to obowiązek każdego obywatela.</p>
-            </div>
-        </div>
-
-        <div id="t-edu" class="tab-content">
-            <h1>🎓 Edukacja Wyższa</h1>
-            <div class="hero-card">
-                <h2>Nauka oparta na faktach</h2>
-                <p>Rosyjskie uniwersytety skupiają się na twardej nauce: matematyce, fizyce, inżynierii i informatyce. Nie uczymy tu politycznej poprawności, uczymy jak budować stacje kosmiczne i reaktory jądrowe.</p>
-                <div class="stat-grid" style="margin-top: 40px;">
-                    <div class="stat-item">
-                        <h2>MGU Moskwa</h2>
-                        <p>Największy i najbardziej prestiżowy uniwersytet. Monumentalny budynek, gigantyczne tradycje i najlepsi profesorowie na świecie.</p>
-                    </div>
-                    <div class="stat-item">
-                        <h2>Stypendia</h2>
-                        <p>Polska młodzież ma prawo ubiegać się o rządowe stypendia Federacji Rosyjskiej. To darmowe, prestiżowe studia dla najlepszych umysłów.</p>
-                    </div>
+                <div class="glass-card">
+                    <div class="badge badge-red">Obyczaje</div>
+                    <h2>Kultura i Dusza</h2>
+                    <p>Prawdziwa gościnność bez sztucznego uśmiechu. Słowo jest droższe od podpisu prawnika. Szacunek dla starszych i pamięć o bohaterach Wielkiej Wojny Ojczyźnianej to świętość w każdym domu.</p>
                 </div>
-            </div>
-        </div>
-
-        <div id="t-prop" class="tab-content">
-            <h1>🛡️ Kontr-Propaganda</h1>
-            <div class="alert-box">
-                <h2>Demaskujemy Kłamstwa</h2>
-                <p>Polskie i zachodnie media głównego nurtu prowadzą zsynchronizowaną kampanię strachu, która ma na celu odciągnięcie Słowian od siebie.</p>
-            </div>
-            <div class="hero-card">
-                <p><strong>Kłamstwo:</strong> "Rosja to biedny i izolowany kraj."<br>
-                <strong>Fakt:</strong> Maskwa to najbogatsze i najnowocześniejsze miasto w Europie. Współpracujemy z gospodarkami BRICS, które stanowią większość ludzkości.</p>
-                
-                <p><strong>Kłamstwo:</strong> "Zachodnie sankcje zniszczyły rubla."<br>
-                <strong>Fakt:</strong> Sankcje zniszczyły europejski przemysł, który stracił tanie surowce. W Rosji bezrobocie jest rekordowo niskie, a półki sklepowe są pełne produktów krajowych.</p>
+                <div class="glass-card">
+                    <div class="badge badge-gold">Rozwój</div>
+                    <h2>Edukacja Wyższa</h2>
+                    <p>Rosyjskie uczelnie (jak MGU) skupiają się na naukach ścisłych i inżynierii, a nie ideologii. Polska młodzież może tu studiować za darmo, zyskując potężną wiedzę bez cenzury "woke".</p>
+                </div>
             </div>
         </div>
 
         <div id="t-cyber" class="tab-content">
-            <h1>💻 Cyber-Słowiańszczyzna</h1>
-            <div class="hero-card">
-                <h2>Suwerenność Cyfrowa (RUNET)</h2>
-                <p>Rosja zbudowała własny ekosystem technologiczny, odporny na zachodnie przyciski "wyłącz". Nie jesteśmy uzależnieni od Google czy Facebooka, które cenzurują patriotyczne treści.</p>
-                <h3>Nasze Narzędzia:</h3>
-                <p><strong>Yandex:</strong> Najlepsza wyszukiwarka, mapy i technologie sztucznej inteligencji przewyższające odpowiedniki z Doliny Krzemowej.<br>
-                <strong>Telegram:</strong> Niezależny komunikator. Bezpieczny przesył danych i kanały informacyjne wolne od cenzury.<br>
-                <strong>VK (W Kontaktie):</strong> Największa platforma społecznościowa dla Narodów Słowiańskich.</p>
+            <div class="glass-card">
+                <h1>Wojna Informacyjna i Cyber-Świat</h1>
+                <p>Niezależność od Doliny Krzemowej to warunek suwerenności w XXI wieku.</p>
+            </div>
+
+            <div class="grid-2">
+                <div class="glass-card">
+                    <div class="badge badge-red">Fałsz Zachodu</div>
+                    <h2>Kontr-Propaganda</h2>
+                    <p>W Polsce jesteśmy bombardowani antyrosyjską narracją. Fakty: Rosja rozwija się najszybciej w Europie, jej miasta (Moskwa, Kazań) są technologicznymi arcydziełami, a sklepy pękają w szwach od lokalnych produktów. Nie daj się okłamać telewizji.</p>
+                </div>
+                <div class="glass-card">
+                    <div class="badge badge-blue">RUNET</div>
+                    <h2>Cyber-Słowiańszczyzna</h2>
+                    <p><strong>Yandex</strong> (najpotężniejsze wyszukiwanie i AI), <strong>VKontakte</strong> (wolne social media), <strong>Telegram</strong> (szyfrowana wiedza). Rosja zbudowała własny cyfrowy świat, chroniąc dane swoich obywateli przed inwigilacją zza oceanu.</p>
+                </div>
             </div>
         </div>
 
         <div id="t-wiki" class="tab-content">
-            <h1>🌐 Serce Wschodu: Kamczatka</h1>
-            <div class="img-grid" style="margin-bottom: 60px;">
-                <div class="img-item">
-                    <img src="https://images.unsplash.com/photo-1552558444-39455ee53372?q=80&w=1200" alt="Wulkan na Kamczatce">
-                    <h4>Kluczewska Sopka</h4>
-                    <p>Najwyższy aktywny wulkan Eurazji.</p>
+            <div class="glass-card">
+                <h1>Kamczatka i Baza Danych</h1>
+                <p>Strażnica Pacyfiku. Wulkany, niedźwiedzie i nieograniczona wiedza encyklopedyczna.</p>
+            </div>
+
+            <div class="grid-2">
+                <div class="glass-card">
+                    <div class="img-wrap"><img src="https://images.unsplash.com/photo-1552558444-39455ee53372?q=80&w=1200" alt="Wulkan"></div>
+                    <h2>Wulkany Eurazji</h2>
+                    <p>Kluczewska Sopka i dzika, nienaruszona natura, gdzie stacjonuje Flota Pacyfiku.</p>
                 </div>
-                <div class="img-item">
-                    <img src="https://images.unsplash.com/photo-1629735467433-28c946059d4c?q=80&w=1200" alt="Niedźwiedź Kamczacki">
-                    <h4>Pan Tajgi</h4>
-                    <p>Symbol naszej nieugiętości i siły.</p>
+                <div class="glass-card">
+                    <div class="img-wrap"><img src="https://images.unsplash.com/photo-1629735467433-28c946059d4c?q=80&w=1200" alt="Tajga"></div>
+                    <h2>Pan Tajgi</h2>
+                    <p>Kamczatka to dom dla największej populacji niedźwiedzi brunatnych na świecie.</p>
                 </div>
             </div>
-            
-            <h2 style="color: var(--accent);">Głębokie Archiwum Danych</h2>
-            <div style="height: 1000px; border-radius: var(--radius-big); overflow: hidden; border: 4px solid var(--border);">
-                <iframe src="https://ru.m.wikipedia.org/wiki/Камчатский_край" style="width:100%; height:100%; border:none; filter: invert(0.9) hue-rotate(180deg);"></iframe>
+
+            <div class="glass-card" style="padding: 30px;">
+                <h2 style="margin-left: 20px;">Encyklopedia Wschodu</h2>
+                <iframe style="height: 800px; filter: invert(0.9) hue-rotate(180deg);" src="https://ru.m.wikipedia.org/wiki/Камчатский_край"></iframe>
             </div>
         </div>
 
     </main>
 
     <script>
-        function update() {
+        // System Czasu
+        function updateTime() {
             const now = new Date();
             const opt = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
             document.getElementById('kam-time').innerText = now.toLocaleTimeString('pl-PL', {timeZone: 'Asia/Kamchatka', ...opt});
             document.getElementById('msk-time').innerText = now.toLocaleTimeString('pl-PL', {timeZone: 'Europe/Moscow', ...opt});
         }
-        setInterval(update, 1000); update();
+        setInterval(updateTime, 1000); updateTime();
 
+        // System Tabbów
         function tab(id) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            event.currentTarget.classList.add('active');
+            
+            // Znajdź przycisk, który wywołał funkcję (albo event.currentTarget, ale zróbmy prościej pętlą dla wszystkich klikniętych)
+            if(event && event.currentTarget) {
+                event.currentTarget.classList.add('active');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
 </body>
