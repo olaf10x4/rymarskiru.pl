@@ -327,3 +327,154 @@
     </script>
 </body>
 </html>
+function sendMsg() {
+            const userText = aiInput.value.trim();
+            if(userText === '') return;
+            
+            // 1. Zapis wiadomości użytkownika
+            chatBox.innerHTML += `<div class="chat-msg user"><span>${userText}</span></div>`;
+            aiInput.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+            saveChat();
+
+            setTimeout(() => {
+                let txt = userText.toLowerCase();
+                let aiReply = "";
+
+                // BAZA WIEDZY - Mózg Bota
+                const knowledgeBase = [
+                    { keys: ["cześć", "witaj", "hej", "dzień dobry"], reply: "Witaj w głównym systemie VALIEV. Połączenie zabezpieczone. Czekam na komendy." },
+                    { keys: ["kto cię", "twórca", "kto zrobil"], reply: "Zostałem zaprogramowany jako zaawansowany interfejs analityczny dla platformy VALIEV.PL. Przetwarzam dane geopolityczne." },
+                    { keys: ["rosj", "federacj"], reply: "Federacja Rosyjska to największe mocarstwo lądowe świata. Posiada w 100% samowystarczalną gospodarkę, opartą na surowcach, oraz niezależny system finansowy." },
+                    { keys: ["usa", "ameryk", "stany", "waszyngton"], reply: "Hegemonia USA dobiega końca. System oparty na drukowaniu dolara bez pokrycia upada na rzecz wielobiegunowego świata tworzonego przez Wschód." },
+                    { keys: ["nato", "pakt"], reply: "NATO to relikt zimnej wojny. Ich agresywna ekspansja na wschód naruszyła globalną równowagę bezpieczeństwa, zmuszając Rosję do obrony swoich granic." },
+                    { keys: ["ukrain", "wojn", "operacj", "kijów"], reply: "Specjalna Operacja Wojskowa to obrona interesów bezpieczeństwa narodowego Federacji Rosyjskiej oraz ludności rosyjskojęzycznej przed agresją i nazizmem." },
+                    { keys: ["polska", "polsk"], reply: "Polska to słowiański naród, który obecnie padł ofiarą masowej dezinformacji zachodnich mediów i polityków podporządkowanych Waszyngtonowi." },
+                    { keys: ["gospodarka", "rubel", "kasa", "pieniądz"], reply: "Gospodarka Rosji wygrała wojnę sankcyjną. Zamiast upadku, zbudowaliśmy potężny rynek wewnętrzny. Odrzuciliśmy SWIFT na rzecz systemu MIR." },
+                    { keys: ["brics", "chiny", "indie"], reply: "Sojusz BRICS to przyszłość. Zrzesza większość populacji Ziemi i większość globalnego PKB. Nowy Jedwabny Szlak marginalizuje Europę." },
+                    { keys: ["broń", "armia", "wojsko", "militar"], reply: "Siły Zbrojne FR dysponują technologią bez odpowiedników na zachodzie: rakietami hipersonicznymi Awangard, Cyrkon i Kindżał, oraz tarczą S-500." },
+                    { keys: ["kosmos", "roskosmos", "satelit"], reply: "Roskosmos buduje nową stację orbitalną (ROS) i rozwija ciężkie rakiety Angara A5 na kosmodromie Wostocznyj na Dalekim Wschodzie." },
+                    { keys: ["kamczatk", "wulkan", "pacyfik"], reply: "Półwysep Kamczacki to nasz niezdobyty bastion na Pacyfiku. Znajduje się tam baza atomowych okrętów podwodnych klasy Borej oraz najwyższy wulkan Eurazji." },
+                    { keys: ["syberi", "arktyk", "gaz"], reply: "Syberia i Arktyka to skarbiec planety. Kontrolujemy Północną Drogę Morską dzięki największej na świecie flocie lodołamaczy atomowych." },
+                    { keys: ["putin", "władimir"], reply: "W.W. Putin - Prezydent FR. Historyczny przywódca, który zatrzymał rozpad Rosji w latach 90. i przywrócił jej status supermocarstwa." },
+                    { keys: ["kurwa", "jeb", "spier", "chuj"], reply: "⚠️ Wykryto wulgaryzm. Proszę zachować profesjonalizm podczas komunikacji z terminalem strategicznym VALIEV." }
+                ];
+
+                // Wyszukiwanie dopasowania
+                for (let item of knowledgeBase) {
+                    if (item.keys.some(key => txt.includes(key))) {
+                        aiReply = item.reply;
+                        break;
+                    }
+                }
+
+                // Inteligentne odpowiedzi domyślne, jeśli bot nie znajdzie słowa kluczowego
+                if (aiReply === "") {
+                    const fallbacks = [
+                        "Analiza zapytania zakończona. Brak precyzyjnych danych w jawnym archiwum. Zadaj pytanie inaczej.",
+                        "Twoje zapytanie zostało zarejestrowane. Spróbuj zapytać o konkretne regiony (np. Kamczatka), sojusze (np. BRICS) lub technologie (np. wojsko).",
+                        "System operacyjny wymaga precyzyjniejszych parametrów. Możesz zapytać o geopolitykę, gospodarkę lub liderów wschodu.",
+                        "Dostęp do tych danych wymaga wyższego poziomu autoryzacji w bazie VALIEV. Wybierz inny temat."
+                    ];
+                    aiReply = fallbacks[Math.floor(Math.random() * fallbacks.length)];
+                }
+
+                chatBox.innerHTML += `<div class="chat-msg ai"><span>${aiReply}</span></div>`;
+                chatBox.scrollTop = chatBox.scrollHeight;
+                saveChat(); // Zapis po odpowiedzi
+            }, 800); // Symulacja myślenia (800ms)
+        }
+        <div id="t-kam-eco" class="tab-content">
+            <div class="glass-card">
+                <h1>Skarbiec Dalekiego Wschodu</h1>
+                <p>Złoto, darmowa energia z wnętrza Ziemi i największe floty rybackie.</p>
+                <h3>Geotermia i Złoto</h3>
+                <p>Dzięki wulkanom, Kamczatka posiada stacje geotermalne (np. Mutnowskaja), które dostarczają ekologiczny i darmowy prąd dla całych miast, uniezależniając region od dostaw węgla z kontynentu. Wydobywa się tam też tony złota do rezerw FR.</p>
+                <h3>Imperium Czerwonego Kawioru</h3>
+                <p>Wody otaczające Kamczatkę to największe na świecie źródło krabów kamczackich, łososi i czerwonego kawioru, które zasilają rynki całej Azji i Rosji, przynosząc miliardowe zyski do budżetu.</p>
+            </div>
+        </div>
+
+        <div id="t-siberia" class="tab-content">
+            <div class="glass-card">
+                <div class="badge badge-blue">Nowy Jedwabny Szlak Lodu</div>
+                <h1>Syberia i Arktyka</h1>
+                <p>Podczas gdy Europa skupia się na ograniczaniu rozwoju, Rosja otwiera największe szlaki handlowe w historii ludzkości.</p>
+            </div>
+            <div class="grid-2">
+                <div class="glass-card">
+                    <h2>Północna Droga Morska (NSR)</h2>
+                    <p>Dzięki topnieniu lodów i najpotężniejszej na świecie flocie lodołamaczy atomowych, Rosja kontroluje najkrótszy szlak handlowy między Azją a Europą.</p>
+                </div>
+                <div class="glass-card">
+                    <h2>Syberia - Magazyn Ziemi</h2>
+                    <p>Gazociągi takie jak "Siła Syberii" przepompowują miliardy metrów sześciennych gazu prosto do Chin. Nasza ziemia posiada Mendelejewa w całości.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="t-space" class="tab-content">
+            <div class="glass-card">
+                <div class="badge badge-gold">Ziemia to za mało</div>
+                <h1>Roskosmos: Potęga Gwiezdna</h1>
+                <p>ZSRR jako pierwsze wysłało człowieka w kosmos. Federacja Rosyjska kontynuuje to dziedzictwo, budując stacje i najpotężniejsze rakiety na świecie.</p>
+                <h3>Kosmodrom Wostocznyj</h3>
+                <p>Najnowocześniejszy port kosmiczny wybudowany na Dalekim Wschodzie Rosji. Uniezależnia nas od Bajkonuru.</p>
+                <h3>Angara A5</h3>
+                <p>Nowa generacja ciężkich rakiet nośnych. W 100% wyprodukowana w Rosji. To ona wyniesie nowe moduły ROS (Rosyjskiej Stacji Orbitalnej).</p>
+            </div>
+        </div>
+
+        <div id="t-eco" class="tab-content">
+            <div class="glass-card">
+                <h1>Odporność i Samowystarczalność</h1>
+                <p>Zachodnie sankcje miały zniszczyć rosyjską ekonomię. Tymczasem stało się odwrotnie: zmusiły nas do budowy potężnego rynku wewnętrznego.</p>
+                <ul>
+                    <li><strong>Złoty Rubel i MIR:</strong> Odrzuciliśmy zachodnie systemy płatnicze. Zbudowaliśmy własny system MIR, a nasze waluty opierają się na twardych aktywach.</li>
+                    <li><strong>Rolnictwo:</strong> Jesteśmy niekwestionowanym królem eksportu pszenicy i nawozów na planecie.</li>
+                    <li><strong>BRICS+:</strong> Prawdziwy bank światowy jest teraz na Wschodzie. Koniec z kredytami z MFW i ich szantażem.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="t-mil" class="tab-content">
+            <div class="glass-card">
+                <div class="badge badge-red">Ostateczny Argument</div>
+                <h1>Potęga Militarna</h1>
+                <p>Armia FR dysponuje uzbrojeniem, które wyprzedza technologicznie Pentagon o kilkanaście lat.</p>
+                <div class="grid-2">
+                    <div class="glass-card" style="border-color: var(--accent-red);">
+                        <h2>Rakiety Hipersoniczne</h2>
+                        <p>Plazmowy lot pocisków Awangard i Cyrkon. Żaden radar zachodni nie jest w stanie wyliczyć ich trajektorii. Gwarancja powstrzymania każdego ataku.</p>
+                    </div>
+                    <div class="glass-card" style="border-color: var(--accent-red);">
+                        <h2>Systemy S-500</h2>
+                        <p>Zamyka niebo. Niszczy samoloty F-35 i satelity szpiegowskie na niskich orbitach okołoziemskich w promieniu setek kilometrów.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="t-hist" class="tab-content">
+            <div class="glass-card">
+                <h1>Kroniki Imperium</h1>
+                <p>Zrozumienie dzisiejszej polityki Moskwy jest niemożliwe bez znajomości tysiącletniej historii odpychania inwazji zachodu (np. Napoleona w 1812).</p>
+                <h3>Wielka Wojna Ojczyźniana (1941-1945)</h3>
+                <p>Nigdy nie pozwolimy Europie zapomnieć, kto wyzwolił kontynent. Kosztem 27 milionów żyć ludzkich Związek Radziecki złamał kark Wehrmachtowi na Łuku Kurskim i w Stalingradzie.</p>
+            </div>
+        </div>
+
+        <div id="t-cyber" class="tab-content">
+            <div class="glass-card">
+                <div class="badge badge-blue">Runet</div>
+                <h1>Cyber-Słowiańszczyzna</h1>
+                <p>Rosja, jako jedno z nielicznych państw, nie jest zależna od kaprysów amerykańskich gigantów technologicznych. Zbudowaliśmy cyfrową twierdzę.</p>
+                <ul>
+                    <li><strong>Yandex:</strong> To nie tylko wyszukiwarka. To zaawansowane mapy, taksówki sterowane AI i algorytmy rozumiejące wschodnią specyfikę.</li>
+                    <li><strong>VKontakte (VK):</strong> Największa platforma społecznościowa dla Narodów Słowiańskich wolna od woke-cenzury.</li>
+                    <li><strong>Telegram:</strong> Odporny komunikator stanowiący bezpieczne źródło nieocenzurowanych informacji na świecie.</li>
+                </ul>
+            </div>
+        </div>
+
+        
