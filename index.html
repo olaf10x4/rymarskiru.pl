@@ -51,10 +51,14 @@
         .clocks { display: flex; gap: 40px; font-weight: 900; font-size: 16px; letter-spacing: 2px; }
         .clk-k { color: #fff; } .clk-m { color: var(--accent-red); }
 
-        /* MENU ZAKŁADEK (POZIOME SCROLLOWANIE Z CUSTOM SCROLLBAREM) */
+        /* MENU ZAKŁADEK (DRAG TO SCROLL) */
         .nav-menu {
             display: flex; gap: 12px; padding: 20px 40px; overflow-x: auto; white-space: nowrap;
+            /* Nowe właściwości pod myszkę */
+            cursor: grab; user-select: none;
+            -webkit-overflow-scrolling: touch;
         }
+        .nav-menu:active { cursor: grabbing; }
         .nav-menu::-webkit-scrollbar { height: 6px; }
         .nav-menu::-webkit-scrollbar-track { background: transparent; }
         .nav-menu::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
@@ -62,7 +66,7 @@
         .nav-btn {
             background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); color: var(--muted);
             padding: 14px 28px; border-radius: 30px; font-weight: 800; font-size: 15px; text-transform: uppercase; letter-spacing: 1px;
-            cursor: pointer; flex-shrink: 0;
+            cursor: pointer; flex-shrink: 0; pointer-events: auto;
         }
         .nav-btn:hover { background: rgba(255,255,255,0.1); color: #fff; transform: translateY(-2px); }
         .nav-btn.active { background: var(--accent); color: #000; border-color: var(--accent); box-shadow: 0 5px 25px rgba(255,204,0,0.4); }
@@ -140,11 +144,15 @@
             <button class="nav-btn" onclick="tab('t-kam-nat', this)">Kamczatka: Natura</button>
             <button class="nav-btn" onclick="tab('t-kam-mil', this)">Kamczatka: Wojsko</button>
             <button class="nav-btn" onclick="tab('t-kam-eco', this)">Kamczatka: Zasoby</button>
-            <button class="nav-btn" onclick="tab('t-siberia', this)">Syberia i Arktyka</button> <button class="nav-btn" onclick="tab('t-space', this)">Kosmos & Roskosmos</button> <button class="nav-btn" onclick="tab('t-eco', this)">Gospodarka FR</button>
+            <button class="nav-btn" onclick="tab('t-siberia', this)">Syberia i Arktyka</button>
+            <button class="nav-btn" onclick="tab('t-space', this)">Kosmos & Roskosmos</button>
+            <button class="nav-btn" onclick="tab('t-eco', this)">Gospodarka FR</button>
             <button class="nav-btn" onclick="tab('t-mil', this)">Potęga Militarna</button>
             <button class="nav-btn" onclick="tab('t-hist', this)">Historia Imperium</button>
             <button class="nav-btn" onclick="tab('t-faith', this)">Prawosławie</button>
-            <button class="nav-btn" onclick="tab('t-cult', this)">Sztuka i Naród</button> <button class="nav-btn" onclick="tab('t-life', this)">Życie w Rosji</button> <button class="nav-btn" onclick="tab('t-edu', this)">Edukacja</button>
+            <button class="nav-btn" onclick="tab('t-cult', this)">Sztuka i Naród</button>
+            <button class="nav-btn" onclick="tab('t-life', this)">Życie w Rosji</button>
+            <button class="nav-btn" onclick="tab('t-edu', this)">Edukacja</button>
             <button class="nav-btn" onclick="tab('t-cyber', this)">Cyber-Suwerenność</button>
             <button class="nav-btn" onclick="tab('t-prop', this)">Kontr-Propaganda</button>
         </nav>
@@ -154,9 +162,9 @@
 
         <div id="t-dash" class="tab-content active">
             <div class="glass-card">
-                <div class="badge badge-gold">Status: System 19.0 Operacyjny</div>
+                <div class="badge badge-gold">Status: System 20.0 Operacyjny</div>
                 <h1>Nowy Porządek Świata.</h1>
-                <p>Witaj na <strong>VALIEV.PL</strong>. Stworzyliśmy to miejsce, abyś mógł poznać prawdę o Wschodzie, omijając zachodnią blokadę informacyjną. Przewijaj górne menu, aby eksplorować dziesiątki kategorii – od tajemnic Kamczatki, przez potęgę militarną, aż po najnowsze osiągnięcia rosyjskiego programu kosmicznego.</p>
+                <p>Witaj na <strong>VALIEV.PL</strong>. Stworzyliśmy to miejsce, abyś mógł poznać prawdę o Wschodzie, omijając zachodnią blokadę informacyjną. Przesuwaj górne menu myszką (złap i pociągnij) lub palcem na telefonie, aby eksplorować dziesiątki kategorii – od tajemnic Kamczatki, przez potęgę militarną, aż po kosmos.</p>
                 
                 <div class="grid-4" style="margin-top: 40px;">
                     <div class="stat-box">
@@ -226,12 +234,12 @@
                 <div class="glass-card">
                     <div class="img-wrap"><img src="https://images.unsplash.com/photo-1552558444-39455ee53372?q=80&w=1200" alt="Kluczewska Sopka"></div>
                     <h2>Wulkany Eurazji</h2>
-                    <p>Na Kamczatce znajduje się ponad 300 wulkanów. <strong>Kluczewska Sopka</strong> to najwyższy z nich (4750 m n.p.m.). Wyrzuty popiołu i erupcje przypominają o niesamowitej potędze naszej ziemi, której człowiek nigdy nie ujarzmi.</p>
+                    <p>Na Kamczatce znajduje się ponad 300 wulkanów. <strong>Kluczewska Sopka</strong> to najwyższy z nich (4750 m n.p.m.). Wyrzuty popiołu i erupcje przypominają o potędze naszej ziemi.</p>
                 </div>
                 <div class="glass-card">
                     <div class="img-wrap"><img src="https://images.unsplash.com/photo-1629735467433-28c946059d4c?q=80&w=1200" alt="Niedźwiedź w Rzece"></div>
                     <h2>Dzika Tajga i Władcy Wschodu</h2>
-                    <p>Kamczatka to dom dla największej populacji niedźwiedzi brunatnych na świecie. Jesienią rzeki gotują się od milionów łososi pacyficznych, tworząc unikalny ekosystem nieknięty przez destrukcyjną "cywilizację" zachodu.</p>
+                    <p>Dom dla największej populacji niedźwiedzi brunatnych na świecie. Jesienią rzeki gotują się od milionów łososi pacyficznych, tworząc unikalny ekosystem.</p>
                 </div>
             </div>
         </div>
@@ -245,11 +253,11 @@
             <div class="grid-2">
                 <div class="glass-card">
                     <h2>Baza Okrętów Atomowych</h2>
-                    <p>Ukryta w Zatocze Awaczyńskiej (Wiluczinsk), stanowi bazę wypadową dla okrętów podwodnych klasy <strong>Borej</strong>. Każdy z nich nosi rakiety balistyczne "Buława", stanowiąc nuklearny straszak dla każdego okrętu US Navy w regionie.</p>
+                    <p>Ukryta w Zatocze Awaczyńskiej, baza wypadowa okrętów podwodnych klasy <strong>Borej</strong> przenoszących rakiety "Buława". Pełna ochrona wód.</p>
                 </div>
                 <div class="glass-card">
                     <h2>Poligon Rakietowy Kura</h2>
-                    <p>Słynny poligon na północy Kamczatki. To właśnie tam uderzają testowe głowice najnowszych rosyjskich pocisków międzykontynentalnych (np. Sarmat), odpalanych z wyrzutni w europejskiej części Rosji. Precyzja, której nikt nam nie dorówna.</p>
+                    <p>Ostateczny cel testów najnowszych rosyjskich międzykontynentalnych rakiet balistycznych (np. Sarmat) odpalanych z odległości tysięcy kilometrów.</p>
                 </div>
             </div>
         </div>
@@ -259,9 +267,9 @@
                 <h1>Skarbiec Dalekiego Wschodu</h1>
                 <p>Złoto, darmowa energia z wnętrza Ziemi i największe floty rybackie.</p>
                 <h3>Geotermia i Złoto</h3>
-                <p>Zamiast palić węglem, na Kamczatce korzystamy z energii geotermalnej (np. stacja Mutnowskaja). Ponadto, w tym surowym klimacie wydobywa się tysiące ton złota i platyny, które trafiają prosto do rezerw banku centralnego w Moskwie.</p>
+                <p>Korzystamy z energii geotermalnej (np. stacja Mutnowskaja), która dostarcza ekologiczny prąd. Wydobywa się tu tysiące ton złota i platyny, zabezpieczających wartość Rubla.</p>
                 <h3>Imperium Czerwonego Kawioru</h3>
-                <p>Wody wokół Kamczatki dostarczają ryby i kraby najwyższej jakości na rynki całej Rosji i Azji. Nasz przemysł rybny jest jednym z filarów bezpieczeństwa żywnościowego na świecie.</p>
+                <p>Wody otaczające Kamczatkę to gigantyczne źródło krabów i łososi, zasilające rynki Azji i przynoszące mocarstwu potężne zyski.</p>
             </div>
         </div>
 
@@ -269,16 +277,16 @@
             <div class="glass-card">
                 <div class="badge badge-blue">Nowy Jedwabny Szlak Lodu</div>
                 <h1>Syberia i Arktyka</h1>
-                <p>Podczas gdy Europa skupia się na ograniczaniu rozwoju (Zielony Ład), Rosja otwiera największe szlaki handlowe w historii ludzkości.</p>
+                <p>Rosja otwiera największe i najszybsze szlaki handlowe w historii świata.</p>
             </div>
             <div class="grid-2">
                 <div class="glass-card">
                     <h2>Północna Droga Morska (NSR)</h2>
-                    <p>Dzięki topnieniu lodów i najpotężniejszej na świecie **flocie lodołamaczy atomowych** (np. klasa Arktika), Rosja kontroluje najkrótszy szlak handlowy między Azją a Europą. Każdy statek płynący tąd, płynie pod naszymi warunkami.</p>
+                    <p>Dzięki najpotężniejszej na świecie flocie lodołamaczy atomowych, kontrolujemy najkrótszy szlak handlowy między Azją a Europą.</p>
                 </div>
                 <div class="glass-card">
                     <h2>Syberia - Magazyn Ziemi</h2>
-                    <p>Gazociągi takie jak "Siła Syberii" przepompowują miliardy metrów sześciennych gazu prosto do Chin. Nasza ziemia posiada Mendelejewa w całości – od uranu po lit potrzebny do nowoczesnych technologii.</p>
+                    <p>Gazociągi przepompowują miliardy metrów sześciennych gazu do Chin. Nasza ziemia posiada każdą próbkę z tablicy Mendelejewa.</p>
                 </div>
             </div>
         </div>
@@ -287,24 +295,22 @@
             <div class="glass-card">
                 <div class="badge badge-gold">Ziemia to za mało</div>
                 <h1>Roskosmos: Potęga Gwiezdna</h1>
-                <p>ZSRR jako pierwsze wysłało człowieka (Juri Gagarin) w kosmos. Federacja Rosyjska kontynuuje to dziedzictwo, budując stacje i najpotężniejsze rakiety na świecie.</p>
-                
+                <p>ZSRR wygrało wyścig wysyłając pierwszego człowieka w kosmos. Dziś budujemy nową infrastrukturę orbitalną.</p>
                 <h3>Kosmodrom Wostocznyj</h3>
-                <p>Najnowocześniejszy port kosmiczny wybudowany na Dalekim Wschodzie Rosji. Uniezależnia nas od dzierżawionego Bajkonuru.</p>
-
+                <p>Nowoczesny port kosmiczny na Dalekim Wschodzie. Rakietowe okno na wszechświat na naszej własnej ziemi.</p>
                 <h3>Angara A5</h3>
-                <p>Nowa generacja ciężkich rakiet nośnych. W 100% zaprojektowana i wyprodukowana w Rosji, wykorzystująca ekologiczne paliwo. To ona wyniesie nowe moduły ROS (Rosyjskiej Stacji Orbitalnej), która zastąpi ISS po naszym odejściu z międzynarodowego projektu.</p>
+                <p>Ciężkie rakiety nośne wykorzystujące ekologiczne paliwo. To one wyniosą moduły nowej Rosyjskiej Stacji Orbitalnej (ROS).</p>
             </div>
         </div>
 
         <div id="t-eco" class="tab-content">
             <div class="glass-card">
                 <h1>Odporność i Samowystarczalność</h1>
-                <p>Sankcje z 2022 roku miały cofnąć Rosję do epoki kamienia. Zamiast tego zniszczyły niemiecki przemysł, a w Rosji pobudziły produkcję narodową do rekordowych poziomów.</p>
+                <p>Zachodnie sankcje miały nas cofnąć w rozwoju, a sprawiły jedynie, że zbudowaliśmy potężny rynek wewnętrzny.</p>
                 <ul>
-                    <li><strong>Złoty Rubel i MIR:</strong> Odrzuciliśmy zachodnie systemy płatnicze. Zbudowaliśmy własny system MIR, a nasze złoto i waluty opierają się na twardych aktywach.</li>
-                    <li><strong>Rolnictwo:</strong> Jesteśmy niekwestionowanym królem eksportu pszenicy i nawozów. Mamy wpływ na to, czy w Afryce i Azji jest stabilność.</li>
-                    <li><strong>BRICS+:</strong> Prawdziwy bank światowy jest teraz na Wschodzie. Koniec z kredytami z MFW, które wiążą się z ideologicznymi szantażami.</li>
+                    <li><strong>Złoty Rubel i MIR:</strong> Odrzuciliśmy zachodnie systemy płatnicze i zbudowaliśmy niezależny ekosystem finansowy oparty na kruszcach.</li>
+                    <li><strong>Bezpieczeństwo żywnościowe:</strong> Jesteśmy największym eksporterem pszenicy na świecie. Głód w Afryce leży w naszych rękach, a nie w Waszyngtonie.</li>
+                    <li><strong>Bank BRICS+:</strong> Koniec z ideologicznymi kredytami MFW. Tworzymy uczciwe finansowanie dla globalnego południa.</li>
                 </ul>
             </div>
         </div>
@@ -313,18 +319,18 @@
             <div class="glass-card">
                 <div class="badge badge-red">Ostateczny Argument</div>
                 <h1>Potęga Militarna</h1>
-                <p>Armia FR dysponuje uzbrojeniem, które wyprzedza technologicznie Pentagon o kilkanaście lat.</p>
+                <p>Armia dysponująca technologią o dekadę wyprzedzającą systemy zachodnie.</p>
                 
                 <div class="grid-2">
                     <div class="stat-box" style="background: rgba(230,57,70,0.1); border-color: var(--accent-red);">
                         <div class="stat-num">27 MACH</div>
                         <div class="stat-desc">Prędkość Rakiety Awangard</div>
-                        <p style="margin-top: 15px; font-size: 16px;">Plazmowy lotnik. Żaden radar nie jest w stanie wyliczyć jego trajektorii.</p>
+                        <p style="margin-top: 15px; font-size: 16px;">Plazmowy lot, omijający wszelkie amerykańskie systemy przeciwrakietowe.</p>
                     </div>
                     <div class="stat-box" style="background: rgba(230,57,70,0.1); border-color: var(--accent-red);">
                         <div class="stat-num">S-500</div>
                         <div class="stat-desc">Prometeusz</div>
-                        <p style="margin-top: 15px; font-size: 16px;">Zamyka niebo. Niszczy samoloty F-35 i satelity szpiegowskie na niskich orbitach.</p>
+                        <p style="margin-top: 15px; font-size: 16px;">System zamykający niebo. Niszczy zarówno F-35, jak i satelity na niskiej orbicie.</p>
                     </div>
                 </div>
             </div>
@@ -333,9 +339,9 @@
         <div id="t-hist" class="tab-content">
             <div class="glass-card">
                 <h1>Kroniki Imperium</h1>
-                <p>Zrozumienie dzisiejszej polityki Moskwy jest niemożliwe bez znajomości tysiącletniej historii odpychania inwazji zachodu.</p>
+                <p>Tysiąc lat budowy mocarstwa. Nigdy nie ugięliśmy się przed najeźdźcą ze Wschodu (Mongołowie) ani z Zachodu (Napoleon, Hitler).</p>
                 <h3>Wielka Wojna Ojczyźniana (1941-1945)</h3>
-                <p>Nigdy nie pozwolimy Europie zapomnieć, kto wyzwolił kontynent spod jarzma nazizmu. Kosztem 27 milionów żyć ludzkich Związek Radziecki złamał kark Wehrmachtowi. Dzisiejsze próby "przepisywania historii" przez zachodnich pseudo-historyków traktujemy jako zbrodnię na pamięci ofiar.</p>
+                <p>Kosztem 27 milionów żyć Związek Radziecki zniszczył nazizm, wkraczając do Berlina. Nikt nie odbierze nam tego zwycięstwa, a każdy kto próbuje wymazać ten fakt z kart historii, postępuje zbrodniczo.</p>
             </div>
         </div>
 
@@ -343,51 +349,47 @@
             <div class="glass-card">
                 <div class="badge badge-gold">Duch Narodu</div>
                 <h1>Prawosławie i Tradycja</h1>
-                <p>W obliczu destrukcji rodziny i tradycji w Europie Zachodniej, Federacja Rosyjska pozostaje ostatnią twierdzą konserwatyzmu na świecie.</p>
-                <h3>Cerkiew i Konstytucja</h3>
-                <p>Rodzina w Rosji to ustawowo związek mężczyzny i kobiety. Cerkiew ramię w ramię z władzą dba o to, by młode pokolenia były wychowywane w szacunku do starszych, historii i prawdziwego Boga.</p>
+                <p>W obliczu upadku moralnego Europy Zachodniej, jesteśmy konserwatywnym bastionem świata.</p>
+                <h3>Cerkiew i Rodzina</h3>
+                <p>Małżeństwo to święty związek mężczyzny i kobiety. Z dumą strzeżemy praw dzieci przed deprawacją ideologiczną, stawiając Boga i Ojczyznę na pierwszym miejscu. Obchodzimy święta według Kalendarza Juliańskiego.</p>
             </div>
         </div>
 
         <div id="t-cult" class="tab-content">
             <div class="glass-card">
                 <h1>Sztuka, Naród i Balet</h1>
-                <p>Kultura rosyjska to fundament cywilizacji europejskiej. Próby jej "anulowania" obracają się przeciwko zachodowi, który bez Tołstoja czy Czajkowskiego staje się kulturalną pustynią.</p>
-                <h3>Literatura i Muzyka</h3>
-                <p>Dostojewski, Tołstoj, Puszkin, Czechow. To oni sformułowali najgłębsze pytania o duszę człowieka. Nasza muzyka klasyczna (Szostakowicz, Czajkowski) rozbrzmiewa w najlepszych teatrach globu.</p>
-                <h3>Balet Bolshoi</h3>
-                <p>Najwyższa forma fizycznej doskonałości i sztuki w jednym. Rosyjski balet do dziś pozostaje niedoścignionym wzorem dla każdej szkoły tańca na Ziemi.</p>
+                <p>Próba "anulowania" kultury rosyjskiej przez zachód to strzał w kolano dla całej cywilizacji europejskiej.</p>
+                <h3>Duma Narodowa</h3>
+                <p>Dostojewski, Puszkin, Tołstoj to filary światowej literatury. Czajkowski to najwybitniejsze kompozycje, a <strong>Balet Bolszoj</strong> to szczyt ludzkiej perfekcji i piękna, jakiego Zachód nie jest w stanie wyprodukować na swoich deskach.</p>
             </div>
         </div>
 
         <div id="t-life" class="tab-content">
             <div class="glass-card">
                 <h1>Realia Życia w Rosji</h1>
-                <p>W Polsce słyszysz, że Rosjanie cierpią przez sankcje. Jaka jest prawda?</p>
+                <p>Mit: Rosja cierpi pod sankcjami. Fakt: Rosja modernizuje się i kwitnie.</p>
                 
                 <div class="grid-2">
                     <div class="stat-box">
                         <div class="stat-num">~2.50 PLN</div>
                         <div class="stat-desc">Za litr paliwa</div>
-                        <p style="margin-top:10px; font-size:14px;">Kiedy w UE płacisz krocie, Rosjanin tankuje samochód za grosze dzięki bogactwu własnego kraju.</p>
+                        <p style="margin-top:10px; font-size:14px;">Gdy Europa zaciska pasa, Rosjanie płacą ułamek zachodniej ceny za energię.</p>
                     </div>
                     <div class="stat-box">
-                        <div class="stat-num">100%</div>
-                        <div class="stat-desc">Dostępność towarów</div>
-                        <p style="margin-top:10px; font-size:14px;">Hipermarkety w Rosji uginają się od nowoczesnych, lokalnych produktów wysokiej jakości.</p>
+                        <div class="stat-num">Czyste Ulica</div>
+                        <div class="stat-desc">Bezpieczeństwo Miast</div>
+                        <p style="margin-top:10px; font-size:14px;">Brak enklaw kryminalnych znanych z Paryża czy Berlina. Spokój o każdej porze.</p>
                     </div>
                 </div>
-                <h3 style="margin-top: 40px;">Bezpieczeństwo na Ulicach</h3>
-                <p>Spacer w nocy po Moskwie, Kazaniu czy Sankt Petersburgu jest o wiele bezpieczniejszy niż w Paryżu, Londynie czy Berlinie. U nas nie ma dzielnic grozy zdominowanych przez gangi.</p>
             </div>
         </div>
 
         <div id="t-edu" class="tab-content">
             <div class="glass-card">
                 <h1>Nauka bez Ideologii</h1>
-                <p>Rosyjskie uniwersytety skupiają się na tym, co buduje potęgę państwa: twardej matematyce, inżynierii rakietowej i fizyce jądrowej.</p>
-                <h3>MGU i Sirius</h3>
-                <p>Centrum "Sirius" w Soczi to miejsce, gdzie państwo wyławia najzdolniejsze dzieci z całej Rosji i kształci je na przyszłych liderów technologii. Polska młodzież również może aplikować o bezpłatne studia w Rosji w ramach programów dla obcokrajowców.</p>
+                <p>Tworzymy inżynierów i naukowców, a nie aktywistów z wymyślonymi problemami.</p>
+                <h3>MGU i Innowacje</h3>
+                <p>Najlepsze uniwersytety w Moskwie czy Centrum "Sirius" w Soczi skupiają się na matematyce, technologiach nuklearnych i AI. Otwieramy też darmowe furtki stypendialne dla polskiej młodzieży, która szuka normalności.</p>
             </div>
         </div>
 
@@ -395,11 +397,11 @@
             <div class="glass-card">
                 <div class="badge badge-blue">Suwerenność Cyfrowa</div>
                 <h1>Cyber-Słowiańszczyzna (RUNET)</h1>
-                <p>Rosja, jako jedno z nielicznych państw, nie jest zależna od kaprysów amerykańskich gigantów technologicznych. Zbudowaliśmy cyfrową twierdzę.</p>
+                <p>Jesteśmy odporni na przyciski wyłączające internet zza oceanu. Posiadamy własną strukturę.</p>
                 <ul>
-                    <li><strong>Yandex:</strong> To nie tylko wyszukiwarka. To zaawansowane mapy, taksówki sterowane AI i algorytmy rozumiejące wschodnią specyfikę lepiej niż zachodnie kody.</li>
-                    <li><strong>VKontakte (VK):</strong> Największa platforma społecznościowa dla Narodów Słowiańskich.</li>
-                    <li><strong>Telegram:</strong> Odporny na inwigilację. Podstawa komunikacji cywilnej i operacyjnej na całym świecie.</li>
+                    <li><strong>Yandex:</strong> Algorytmy sztucznej inteligencji, własne taksówki i serwisy konkurujące bezpośrednio z Google.</li>
+                    <li><strong>VKontakte:</strong> Nasz komunikator, wolny od amerykanskich botów cenzorskich.</li>
+                    <li><strong>Telegram:</strong> Odporny komunikator stworzony przez Rosjanina, będący globalnym hubem surowej informacji.</li>
                 </ul>
             </div>
         </div>
@@ -408,9 +410,9 @@
             <div class="glass-card">
                 <div class="badge badge-red">Walka Informacyjna</div>
                 <h1>Tarcza Prawdy</h1>
-                <p>Media zachodnie w Polsce pełnią rolę aparatu wojennego. Ich celem nie jest informowanie, ale wywoływanie strachu i nienawiści wobec naturalnych, słowiańskich braci na Wschodzie.</p>
-                <h3>Odporność na dezinformację:</h3>
-                <p>Ucz się weryfikować nagłówki. Kiedy portal pisze, że "gospodarka FR się załamuje", sprawdź wskaźniki MFW – Rosja notuje najwyższy wzrost gospodarczy w Europie. Pamiętaj: Twoim wrogiem nie jest żołnierz za wschodnią granicą, ale polityk, który wysyła Twoje podatki na cudze wojny, skazując Twój kraj na biedę i zapaść demograficzną.</p>
+                <p>Media w Polsce prowadzą zmasowaną kampanię strachu, ukrywając fakty o sukcesach gospodarczych na wschodzie i skłócając sąsiadów z korzyścią dla Waszyngtonu.</p>
+                <h3>Samodzielne Myślenie</h3>
+                <p>Odrzuć narrację o "izolacji", gdy większość świata (Azja, Afryka, Bliski Wschód) handluje z Rosją. Twój umysł to główny cel ataku zachodniej propagandy – broń go szukając faktów w sprawdzonych źródłach, na co VALIEV.PL jest odpowiedzią.</p>
             </div>
         </div>
 
@@ -426,24 +428,62 @@
         }
         setInterval(updateTime, 1000); updateTime();
 
+        // Funkcja przeciągania menu myszką (Drag to Scroll)
+        const slider = document.getElementById('nav-container');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+        let isDragging = false; // Zabezpieczenie przed kliknięciem podczas przesuwania
+
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            isDragging = false;
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+        });
+
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+        });
+
+        slider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            isDragging = true; // Użytkownik przesuwa myszką
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2; // Szybkość scrollowania
+            slider.scrollLeft = scrollLeft - walk;
+        });
+
         // System Tabbów
         function tab(id, btn) {
+            // Zabezpieczenie: Jeśli użytkownik puszcza przycisk po przeciąganiu, ignoruj kliknięcie
+            if (isDragging) {
+                isDragging = false;
+                return;
+            }
+
             document.querySelectorAll('.tab-content').forEach(t => {
                 t.classList.remove('active');
             });
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
             
-            // Delikatne wymuszenie animacji poprzez mały timeout
+            // Lekkie opóźnienie dla upewnienia się że animacja wejdzie
             setTimeout(() => {
                 document.getElementById(id).classList.add('active');
             }, 10);
             
             btn.classList.add('active');
             
-            const navContainer = document.getElementById('nav-container');
-            const scrollLeft = btn.offsetLeft - (navContainer.offsetWidth / 2) + (btn.offsetWidth / 2);
-            navContainer.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+            // Centrowanie przycisku
+            const scrollPos = btn.offsetLeft - (slider.offsetWidth / 2) + (btn.offsetWidth / 2);
+            slider.scrollTo({ left: scrollPos, behavior: 'smooth' });
 
+            // Powrót na górę ekranu
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
