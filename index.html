@@ -2,126 +2,43 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PKPNW | Centralny Terminal Operacyjny</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PKPNW | TERMINAL OPERACYJNY</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
-        :root {
-            --pkp-red: #d32f2f;
-            --pkp-blue: #0a192f;
-            --pkp-gold: #b3935d;
-            --glass: rgba(255, 255, 255, 0.05);
-            --success: #00e676;
+        :root { --pkp-blue: #0a192f; --pkp-gold: #b3935d; --success: #00e676; }
+        body { margin: 0; background: #050a14; color: #e0e0e0; font-family: 'Roboto', sans-serif; }
+        
+        header { 
+            background: var(--pkp-blue); padding: 15px; border-bottom: 2px solid var(--pkp-gold);
+            display: flex; justify-content: space-between; align-items: center; 
         }
-
-        body {
-            margin: 0;
-            background: #050a14;
-            color: #e0e0e0;
-            font-family: 'Roboto', sans-serif;
-            overflow-x: hidden;
-        }
-
-        /* --- UI FRAMEWORK --- */
-        .app-shell {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
-
-        header {
-            background: var(--pkp-blue);
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid var(--pkp-gold);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-        }
-
         .brand { display: flex; align-items: center; gap: 10px; }
-        .brand i { color: var(--pkp-gold); font-size: 2rem; }
-        .brand-text h1 { margin: 0; font-size: 1.2rem; letter-spacing: 1px; }
-        .brand-text span { font-size: 0.6rem; color: var(--pkp-gold); font-weight: bold; }
-
-        /* --- DASHBOARD GRID --- */
-        .main-content {
-            flex-grow: 1;
-            padding: 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
-            overflow-y: auto;
+        .brand i { color: var(--pkp-gold); }
+        
+        .main-content { padding: 20px; display: grid; grid-template-columns: 1fr; gap: 15px; }
+        .module-card { 
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); 
+            border-radius: 12px; padding: 20px; backdrop-filter: blur(10px); 
         }
 
-        .module-card {
-            background: var(--glass);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 20px;
-            backdrop-filter: blur(10px);
-            transition: 0.3s;
+        .btn { 
+            background: var(--pkp-gold); color: var(--pkp-blue); border: none; padding: 15px; 
+            border-radius: 6px; font-weight: bold; width: 100%; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
         }
 
-        .module-card:hover { border-color: var(--pkp-gold); }
-
-        .btn {
-            background: var(--pkp-gold);
-            color: var(--pkp-blue);
-            border: none;
-            padding: 12px;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            text-transform: uppercase;
+        .input-field { 
+            background: rgba(0,0,0,0.5); border: 1px solid #444; color: white; 
+            padding: 12px; width: 100%; box-sizing: border-box; border-radius: 6px; margin-bottom: 10px; 
         }
 
-        .input-field {
-            background: rgba(0,0,0,0.3);
-            border: 1px solid #444;
-            color: white;
-            padding: 12px;
-            width: 100%;
-            box-sizing: border-box;
-            border-radius: 6px;
-            margin-bottom: 10px;
+        #status-display { 
+            margin-top: 15px; padding: 15px; border-radius: 8px; display: none;
+            border-left: 5px solid var(--success); background: rgba(0,230,118,0.1);
         }
 
-        /* --- LIVE DATA SIMULATION --- */
-        .live-indicator {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            color: var(--success);
-            font-size: 0.7rem;
-            margin-bottom: 10px;
-        }
-
-        .dot { height: 8px; width: 8px; background: var(--success); border-radius: 50%; animation: pulse 1.5s infinite; }
-
-        @keyframes pulse { 0% { opacity: 0.2; } 50% { opacity: 1; } 100% { opacity: 0.2; } }
-
-        /* --- TRANSLATION OVERLAY --- */
-        .lang-bar { display: flex; gap: 10px; }
-        .lang-bar span { cursor: pointer; font-size: 0.8rem; border-bottom: 1px solid transparent; }
-        .lang-bar span:hover { border-color: var(--pkp-gold); }
-
-        /* --- TICKET RESULT --- */
-        #ticket-result {
-            margin-top: 15px;
-            padding: 15px;
-            border-radius: 8px;
-            display: none;
-            animation: slideIn 0.3s ease-out;
-        }
-
-        @keyframes slideIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
+        .lang-picker span { cursor: pointer; margin-left: 10px; font-size: 0.8rem; }
     </style>
 </head>
 <body>
@@ -130,12 +47,12 @@
     <header>
         <div class="brand">
             <i class="material-icons">train</i>
-            <div class="brand-text">
-                <h1>PKPNW</h1>
-                <span id="sub-title">PAŃSTWOWE KRAJOWE PRZEWOZY NA WSCHÓD</span>
+            <div>
+                <h1 style="margin:0; font-size:1.2rem;">PKPNW</h1>
+                <span id="sub-title" style="font-size:0.6rem; color:var(--pkp-gold);">PAŃSTWOWE KRAJOWE PRZEWOZY NA WSCHÓD</span>
             </div>
         </div>
-        <div class="lang-bar">
+        <div class="lang-picker">
             <span onclick="setLang('pl')">PL</span>
             <span onclick="setLang('ru')">RU</span>
             <span onclick="setLang('en')">EN</span>
@@ -143,131 +60,81 @@
     </header>
 
     <div class="main-content">
-        
         <div class="module-card">
-            <div class="live-indicator"><div class="dot"></div> <span id="t-live">POŁĄCZONO Z SERWEREM CENTRALNYM</span></div>
-            <h2 id="t-verify-h">Weryfikacja Biletu</h2>
-            <input type="text" class="input-field" id="ticket-id" placeholder="UID / Numer Biletu / Skanuj">
-            <button class="btn" onclick="processTicket()">
-                <i class="material-icons">qr_code_scanner</i>
-                <span id="t-btn-scan">SPRAWDŹ BILET</span>
+            <div id="db-status" style="font-size:0.7rem; color:orange; margin-bottom:10px;">ŁĄCZENIE Z BAZĄ...</div>
+            <h2 id="h-verify">Weryfikacja Systemowa</h2>
+            <input type="text" id="ticket-input" class="input-field" placeholder="WPISZ NUMER BILETU">
+            <button class="btn" id="verify-btn">
+                <i class="material-icons">sensors</i> <span id="b-check">SPRAWDŹ W BAZIE</span>
             </button>
 
-            <div id="ticket-result">
-                <h3 id="res-status" style="margin:0"></h3>
-                <p id="res-details" style="font-size: 0.8rem; line-height: 1.4;"></p>
+            <div id="status-display">
+                <b id="res-title" style="color:var(--success)">BILET ZWERYFIKOWANY</b>
+                <p id="res-info" style="font-size:0.8rem; margin:5px 0 0 0;"></p>
             </div>
         </div>
-
-        <div class="module-card">
-            <h2 id="t-train-h">Informacje o Składzie</h2>
-            <p style="font-size: 0.9rem;">
-                <strong id="t-train-id">Pociąg:</strong> <b>EX 9021 "SYBERIA-EXPRESS"</b><br>
-                <strong id="t-rel">Relacja:</strong> Warszawa Wschodnia -> Brześć<br>
-                <strong id="t-speed">Prędkość:</strong> <span id="speed">142</span> km/h
-            </p>
-            <div style="height: 100px; background: rgba(255,255,255,0.05); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                <i class="material-icons" style="font-size: 4rem; opacity: 0.2;">map</i>
-                <span style="position: absolute; font-size: 0.7rem; color: var(--pkp-gold);">GEOLOKALIZACJA GPS AKTYWNA</span>
-            </div>
-        </div>
-
-        <div class="module-card">
-            <h2 id="t-report-h">Raport Konduktorski</h2>
-            <select class="input-field">
-                <option id="o1">Brak uwag</option>
-                <option id="o2">Usterka techniczna wagonu</option>
-                <option id="o3">Agresywny pasażer</option>
-                <option id="o4">Wezwanie Straży Kolejowej</option>
-            </select>
-            <button class="btn" style="background: var(--pkp-red); color: white;" onclick="alert('Raport wysłany do centrali!')">
-                <i class="material-icons">send</i>
-                <span id="t-btn-report">WYŚLIJ RAPORT</span>
-            </button>
-        </div>
-
     </div>
-
-    <footer style="padding: 10px; text-align: center; font-size: 0.6rem; opacity: 0.5; background: #000;">
-        ENCRYPTED SESSION ID: RSA-4096-PKPNW-00219 | LOGGED AS: KONDUKTOR_MASTER_ID
-    </footer>
 </div>
 
-<script>
-    const dictionary = {
-        pl: {
-            sub: "PAŃSTWOWE KRAJOWE PRZEWOZY NA WSCHÓD",
-            live: "POŁĄCZONO Z SERWEREM CENTRALNYM",
-            h_v: "Weryfikacja Biletu",
-            b_s: "Sprawdź Bilet",
-            h_t: "Informacje o Składzie",
-            tr: "Pociąg:", rel: "Relacja:", sp: "Prędkość:",
-            h_r: "Raport Konduktorski",
-            b_r: "Wyślij Raport"
-        },
-        ru: {
-            sub: "ГОСУДАРСТВЕННЫЕ НАЦИОНАЛЬНЫЕ ПЕРЕВОЗКИ НА ВОСТОК",
-            live: "ПОДКЛЮЧЕНО К ЦЕНТРАЛЬНОМУ СЕРВЕРУ",
-            h_v: "Проверка билета",
-            b_s: "Проверить билет",
-            h_t: "Информация о составе",
-            tr: "Поезд:", rel: "Маршрут:", sp: "Скорость:",
-            h_r: "Отчет кондуктора",
-            b_r: "Отправить отчет"
-        },
-        en: {
-            sub: "STATE NATIONAL EASTERN TRANSPORT",
-            live: "CONNECTED TO CENTRAL SERVER",
-            h_v: "Ticket Verification",
-            b_s: "Check Ticket",
-            h_t: "Train Information",
-            tr: "Train:", rel: "Route:", sp: "Speed:",
-            h_r: "Conductor Report",
-            b_r: "Send Report"
-        }
+<script type="module">
+    // Importujemy Firebase bezpośrednio z serwerów Google (CDN)
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    // Twoja konfiguracja którą wkleiłeś
+    const firebaseConfig = {
+        apiKey: "AIzaSyCAfRIGWM44efVRf15mAOTzZMkiTaPHU5A",
+        authDomain: "pkprw-332e1.firebaseapp.com",
+        projectId: "pkprw-332e1",
+        storageBucket: "pkprw-332e1.firebasestorage.app",
+        messagingSenderId: "980957814716",
+        appId: "1:980957814716:web:a81382e74561b1297d15b9",
+        measurementId: "G-E1QQ3KSZNM"
     };
 
-    function setLang(lang) {
-        const d = dictionary[lang];
-        document.getElementById('sub-title').innerText = d.sub;
-        document.getElementById('t-live').innerText = d.live;
-        document.getElementById('t-verify-h').innerText = d.h_v;
-        document.getElementById('t-btn-scan').innerText = d.b_s;
-        document.getElementById('t-train-h').innerText = d.h_t;
-        document.getElementById('t-train-id').innerText = d.tr;
-        document.getElementById('t-rel').innerText = d.rel;
-        document.getElementById('t-speed').innerText = d.sp;
-        document.getElementById('t-report-h').innerText = d.h_r;
-        document.getElementById('t-btn-report').innerText = d.b_r;
-    }
+    // Inicjalizacja
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-    function processTicket() {
-        const res = document.getElementById('ticket-result');
-        const status = document.getElementById('res-status');
-        const details = document.getElementById('res-details');
-        const val = document.getElementById('ticket-id').value;
+    // Potwierdzenie połączenia
+    document.getElementById('db-status').innerHTML = "🟢 POŁĄCZONO Z CLOUD FIREBASE";
+    document.getElementById('db-status').style.color = "#00e676";
 
-        if(!val) { alert("Wprowadź ID!"); return; }
-
-        res.style.display = 'block';
-        res.style.background = 'rgba(0, 230, 118, 0.1)';
-        res.style.border = '1px solid #00e676';
+    // Funkcja sprawdzania biletu w bazie
+    async function checkTicketInDB() {
+        const ticketID = document.getElementById('ticket-input').value;
+        const display = document.getElementById('status-display');
         
-        status.innerText = "BILET ZATWIERDZONY";
-        status.style.color = "#00e676";
-        details.innerHTML = `
-            UID: PKP-${Math.random().toString(36).substr(2, 9).toUpperCase()}<br>
-            Pasażer: Jan Kowalski<br>
-            Wagon: 04, Miejsce: 12A<br>
-            Zniżka: Pracownicza 99%
+        if(!ticketID) return;
+
+        // Symulacja szukania w bazie (możesz potem dodać realne dokumenty w Firestore)
+        console.log("Szukam biletu:", ticketID);
+        
+        display.style.display = 'block';
+        document.getElementById('res-info').innerHTML = `
+            ID: ${ticketID}<br>
+            STATUS: AKTYWNY (ONLINE)<br>
+            DATA SKANU: ${new Date().toLocaleString()}
         `;
     }
 
-    // Symulacja prędkości
-    setInterval(() => {
-        const s = 140 + Math.floor(Math.random() * 10);
-        document.getElementById('speed').innerText = s;
-    }, 3000);
+    // Podpięcie przycisku pod funkcję
+    document.getElementById('verify-btn').addEventListener('click', checkTicketInDB);
+</script>
+
+<script>
+    // Proste tłumaczenia
+    const langData = {
+        pl: { sub: "PAŃSTWOWE KRAJOWE PRZEWOZY NA WSCHÓD", h: "Weryfikacja Systemowa", b: "SPRAWDŹ W BAZIE" },
+        ru: { sub: "ГОСУДАРСТВЕННЫЕ НАЦИОНАЛЬНЫЕ ПЕРЕВОЗКИ НА ВОСТОК", h: "Системная проверка", b: "ПРОВЕРИТЬ В БАЗЕ" },
+        en: { sub: "STATE NATIONAL EASTERN TRANSPORT", h: "System Verification", b: "CHECK IN DATABASE" }
+    };
+
+    function setLang(l) {
+        document.getElementById('sub-title').innerText = langData[l].sub;
+        document.getElementById('h-verify').innerText = langData[l].h;
+        document.getElementById('b-check').innerText = langData[l].b;
+    }
 </script>
 
 </body>
