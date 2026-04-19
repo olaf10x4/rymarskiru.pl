@@ -2,301 +2,186 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>VALIEV.PL | Portal Informacyjny</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOP - System Obsługi Pasażera</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap');
-
         :root {
-            --accent: #FFCC00;
-            --accent-red: #E63946;
-            --text: #ffffff;
-            --muted: #a8a8b3;
-            --glass-bg: rgba(12, 12, 16, 0.9);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --radius: 20px;
+            --primary: #003366;
+            --accent: #ffcc00;
+            --bg: #f4f7f9;
+            --text: #333;
+            --success: #28a745;
         }
 
-        * { box-sizing: border-box; transition: 0.3s; }
-        
-        body { 
-            margin: 0; padding: 0; color: var(--text); font-family: 'Inter', sans-serif; 
-            background: #030305 url('https://images.unsplash.com/photo-1513622470522-26c3111825af?q=80&w=2000&auto=format&fit=crop') center/cover fixed;
-            overflow: hidden; 
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
         }
 
-        .overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: -1; }
-
-        /* --- LAYOUT 2-KOLUMNOWY --- */
-        .layout-wrapper { display: flex; height: 100vh; width: 100vw; }
-
-        /* --- LEWY SIDEBAR --- */
-        .sidebar {
-            width: 350px; background: rgba(5, 5, 8, 0.95); border-right: 1px solid var(--glass-border); 
-            display: flex; flex-direction: column; padding: 40px 30px; z-index: 100;
+        /* Top Bar */
+        .top-bar {
+            background: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
-        .logo-container { margin-bottom: 50px; text-align: center; }
-        .logo-icon { font-size: 50px; margin-bottom: 10px; text-shadow: 0 0 20px rgba(255, 204, 0, 0.5); }
-        .logo-text { font-weight: 900; font-size: 40px; margin: 0; letter-spacing: -2px; color: #fff; }
-        .logo-text span { color: var(--accent); }
-        .logo-sub { font-size: 11px; color: var(--muted); font-weight: 800; letter-spacing: 4px; text-transform: uppercase; margin-top: 5px; }
-
-        .nav-menu { display: flex; flex-direction: column; gap: 15px; }
-        .nav-btn {
-            background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); color: var(--muted);
-            padding: 20px; border-radius: 15px; font-weight: 800; font-size: 16px; text-transform: uppercase; letter-spacing: 1px;
-            cursor: pointer; text-align: left; display: flex; align-items: center; gap: 15px;
+        .lang-switch button {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid white;
+            color: white;
+            cursor: pointer;
+            padding: 5px 10px;
+            font-size: 12px;
         }
-        .nav-btn:hover { background: rgba(255,255,255,0.1); color: #fff; transform: translateX(5px); }
-        .nav-btn.active { background: var(--accent); color: #000; border-color: var(--accent); box-shadow: 0 5px 25px rgba(255,204,0,0.3); }
 
-        /* --- PRAWY KONTENT --- */
-        .main-content {
-            flex-grow: 1; overflow-y: auto; padding: 50px; scrollbar-width: thin; scrollbar-color: var(--accent) transparent;
+        /* Main Container */
+        .container {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 15px;
         }
-        
-        .tab-content { display: none; animation: fadeUp 0.4s ease-out forwards; max-width: 1000px; margin: 0 auto; }
-        .tab-content.active { display: block; }
-        @keyframes fadeUp { from{opacity:0; transform:translateY(20px);} to { opacity: 1; transform: translateY(0); } }
 
-        /* --- ARTYKUŁY --- */
-        .article-card {
-            background: var(--glass-bg); border: 1px solid var(--glass-border);
-            border-radius: 25px; overflow: hidden; margin-bottom: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        /* Login Screen */
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
-        .article-img { width: 100%; height: 400px; object-fit: cover; border-bottom: 1px solid var(--glass-border); background: #111; }
-        .article-body { padding: 40px; }
-        
-        .badge { display: inline-block; padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; background: rgba(255,204,0,0.15); color: var(--accent); border: 1px solid var(--accent); }
-        .article-date { font-size: 14px; color: var(--muted); font-weight: bold; margin-bottom: 15px; display: block; }
-        .article-title { font-size: 40px; font-weight: 900; margin: 0 0 20px 0; color: #fff; line-height: 1.2; }
-        .article-text { font-size: 18px; line-height: 1.9; color: #d1d1d6; margin: 0 0 20px 0; }
-        
-        /* UI ADMINA */
-        .glass-panel { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 40px; }
-        h1 { font-size: 45px; font-weight: 900; margin: 0 0 10px 0; }
-        p { font-size: 18px; color: var(--muted); margin-bottom: 30px; }
-        
-        .chat-input { width: 100%; background: #000; border: 2px solid var(--glass-border); color: #fff; padding: 20px; border-radius: 15px; font-size: 16px; outline: none; margin-bottom: 20px;}
-        .chat-input:focus { border-color: var(--accent); }
-        .chat-btn { background: var(--accent); color: #000; border: none; padding: 20px; border-radius: 15px; font-weight: 900; font-size: 16px; cursor: pointer; width: 100%; margin-bottom: 10px;}
-        .chat-btn:hover { background: #fff; }
 
-        @media (max-width: 1024px) {
-            .layout-wrapper { flex-direction: column; }
-            .sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--glass-border); padding: 20px; }
-            .nav-menu { flex-direction: row; overflow-x: auto; }
-            .nav-btn { white-space: nowrap; padding: 15px; }
-            .main-content { padding: 20px; }
-            .article-img { height: 250px; }
-            .article-title { font-size: 28px; }
+        h2 { margin-top: 0; color: var(--primary); font-size: 1.4rem; }
+
+        .input-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem; }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .btn-main {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        /* Verification Screen (Hidden by default) */
+        #verify-screen { display: none; }
+
+        .status-box {
+            border: 2px solid #ddd;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+
+        .valid { border-color: var(--success); color: var(--success); background: #f0fff0; }
+
+        .footer-info {
+            text-align: center;
+            font-size: 11px;
+            color: #888;
+            margin-top: 30px;
         }
     </style>
 </head>
 <body>
-    <div class="overlay"></div>
 
-    <div class="layout-wrapper">
-        
-        <aside class="sidebar">
-            <div class="logo-container">
-                <div class="logo-icon">🌐</div>
-                <h1 class="logo-text">VALIEV<span>.PL</span></h1>
-                <div class="logo-sub">Główny Serwis Wiadomości</div>
-            </div>
+<div class="top-bar">
+    <div style="font-weight: bold; letter-spacing: 1px;">SOP v4.8.2</div>
+    <div class="lang-switch">
+        <button onclick="changeLang('pl')">PL</button>
+        <button onclick="changeLang('en')">EN</button>
+    </div>
+</div>
 
-            <nav class="nav-menu">
-                <button class="nav-btn active" onclick="tab('t-news', this)">📰 Wiadomości</button>
-                <button class="nav-btn" style="color: var(--accent-red); border-color: var(--accent-red);" onclick="tab('t-admin', this)">🔒 Panel Wydawcy</button>
-            </nav>
-        </aside>
-
-        <main class="main-content">
-
-            <div id="t-news" class="tab-content active">
-                
-                <div id="local-news-feed"></div>
-
-                <div class="article-card">
-                    <img src="https://images.unsplash.com/photo-1513622470522-26c3111825af?q=80&w=1200" class="article-img">
-                    <div class="article-body">
-                        <div class="badge">Start Systemu</div>
-                        <span class="article-date">TERAZ</span>
-                        <h2 class="article-title">System VALIEV zaktualizowany</h2>
-                        <p class="article-text">Portal informacyjny działa w nowym, czystym trybie. Przejdź do Panelu Wydawcy w lewym menu, aby rozpocząć dodawanie własnych artykułów na stronę główną.</p>
-                    </div>
-                </div>
-
-            </div>
-
-            <div id="t-admin" class="tab-content">
-                
-                <div class="glass-panel" id="login-section">
-                    <div class="badge" style="background: rgba(230,57,70,0.2); color: var(--accent-red); border-color: var(--accent-red);">Autoryzacja</div>
-                    <h1>Zaloguj się</h1>
-                    <p>Wprowadź login i hasło, aby uzyskać dostęp do kreatora artykułów.</p>
-                    
-                    <input type="text" id="admin-user" class="chat-input" placeholder="Login...">
-                    <input type="password" id="admin-pass" class="chat-input" placeholder="Hasło...">
-                    <button class="chat-btn" onclick="checkLogin()">WEJDŹ DO PANELU</button>
-                    <p id="login-error" style="color: var(--accent-red); display: none; font-weight: bold; margin-top: 15px;">Odmowa dostępu. Błędny login lub hasło.</p>
-                </div>
-
-                <div class="glass-panel" id="admin-panel" style="display: none; border-color: #30d158;">
-                    <div class="badge" style="background: rgba(48,209,88,0.2); color: #30d158; border-color: #30d158;">Zalogowano jako: olafzka</div>
-                    <h1>Dodaj Nowy Artykuł</h1>
-                    <p>Wpisz treść artykułu. Po kliknięciu ZAPISZ, artykuł pojawi się natychmiast na stronie głównej w zakładce Wiadomości.</p>
-                    
-                    <input type="text" id="art-badge" class="chat-input" placeholder="Kategoria (np. Geopolityka, Wojsko)...">
-                    <input type="text" id="art-title" class="chat-input" placeholder="Tytuł artykułu...">
-                    <textarea id="art-content" class="chat-input" placeholder="Treść artykułu..." style="height: 200px; resize: vertical;"></textarea>
-                    <input type="text" id="art-img-url" class="chat-input" placeholder="Link URL do zdjęcia (np. https://...)">
-                    
-                    <button class="chat-btn" style="background: #30d158; color: #000;" onclick="addLocalArticle()">OPUBLIKUJ NA STRONIE GŁÓWNEJ</button>
-                    
-                    <button class="chat-btn" style="background: transparent; border: 1px solid var(--accent-blue); color: var(--accent-blue);" onclick="generateHTML()">GENERUJ KOD HTML DO SKOPIOWANIA</button>
-
-                    <div id="html-output-area" style="display:none; margin-top: 20px;">
-                        <textarea id="html-code-result" class="chat-input" style="height: 150px; font-family: monospace; font-size: 14px;" readonly></textarea>
-                    </div>
-
-                    <button class="chat-btn" style="background: transparent; border: 1px solid var(--accent-red); color: var(--accent-red); margin-top: 30px;" onclick="logoutAdmin()">WYLOGUJ SIĘ</button>
-                </div>
-            </div>
-
-        </main>
+<div class="container">
+    <div id="login-screen" class="card">
+        <h2 data-pl="Logowanie Pracownika" data-en="Staff Login">Logowanie Pracownika</h2>
+        <div class="input-group">
+            <label data-pl="ID Konduktora" data-en="Conductor ID">ID Konduktora</label>
+            <input type="text" value="KON-192-00">
+        </div>
+        <div class="input-group">
+            <label data-pl="Hasło / Kod PIN" data-en="Password / PIN">Hasło / Kod PIN</label>
+            <input type="password" value="********">
+        </div>
+        <button class="btn-main" onclick="handleLogin()" data-pl="ZALOGUJ SIĘ" data-en="SIGN IN">ZALOGUJ SIĘ</button>
     </div>
 
-    <script>
-        // System Tabbów
-        function tab(id, btn) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            setTimeout(() => document.getElementById(id).classList.add('active'), 10);
-            document.querySelector('.main-content').scrollTo({ top: 0, behavior: 'smooth' });
-        }
+    <div id="verify-screen" class="card">
+        <h2 data-pl="Weryfikacja Biletu" data-en="Ticket Verification">Weryfikacja Biletu</h2>
+        <div class="input-group">
+            <input type="text" id="ticket-id" placeholder="Wprowadź nr biletu / Skanuj">
+        </div>
+        <button class="btn-main" onclick="verifyTicket()" data-pl="SPRAWDŹ" data-en="VERIFY">SPRAWDŹ</button>
 
-        // ==========================================
-        // SYSTEM WIADOMOŚCI I LOGOWANIA
-        // ==========================================
+        <div id="result" class="status-box">
+            <span data-pl="Oczekiwanie na dane..." data-en="Awaiting data...">Oczekiwanie na dane...</span>
+        </div>
+
+        <button onclick="location.reload()" style="background:none; border:none; color: #888; cursor:pointer; width:100%;" data-pl="Wyloguj" data-en="Logout">Wyloguj</button>
+    </div>
+
+    <div class="footer-info">
+        &copy; 2026 Rail Systems International. Terminal ID: 44-X9.
+    </div>
+</div>
+
+<script>
+    function changeLang(lang) {
+        document.querySelectorAll('[data-pl]').forEach(el => {
+            el.innerText = el.getAttribute('data-' + lang);
+        });
+    }
+
+    function handleLogin() {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('verify-screen').style.display = 'block';
+    }
+
+    function verifyTicket() {
+        const res = document.getElementById('result');
+        const input = document.getElementById('ticket-id').value;
         
-        // 1. Ładowanie artykułów na stronę główną
-        function loadLocalArticles() {
-            const feed = document.getElementById('local-news-feed');
-            const articles = JSON.parse(localStorage.getItem('valiev_news_portal')) || [];
-            feed.innerHTML = '';
-            
-            const isAdmin = localStorage.getItem('isAdmin') === 'true';
-
-            articles.forEach(art => {
-                let imgHtml = art.image ? `<img src="${art.image}" class="article-img">` : '';
-                let delBtn = isAdmin ? `<button style="background:var(--accent-red); color:#fff; border:none; padding:10px 15px; border-radius:10px; cursor:pointer; margin-top:20px; font-weight:bold;" onclick="delLocalArticle(${art.id})">USUŃ TEN ARTYKUŁ</button>` : '';
-                
-                feed.innerHTML += `
-                    <div class="article-card">
-                        ${imgHtml}
-                        <div class="article-body">
-                            <div class="badge">${art.badge}</div>
-                            <span class="article-date">${art.date}</span>
-                            <h2 class="article-title">${art.title}</h2>
-                            <p class="article-text">${art.content.replace(/\n/g, '<br><br>')}</p>
-                            ${delBtn}
-                        </div>
-                    </div>
-                `;
-            });
-        }
-        window.addEventListener('DOMContentLoaded', loadLocalArticles);
-
-        // 2. System Logowania (olafzka / olafx115)
-        function checkLogin() {
-            const user = document.getElementById('admin-user').value;
-            const pass = document.getElementById('admin-pass').value;
-            
-            if((user === 'olafzka' && pass === 'olafx115') || localStorage.getItem('isAdmin') === 'true') {
-                localStorage.setItem('isAdmin', 'true');
-                document.getElementById('login-section').style.display = 'none';
-                document.getElementById('admin-panel').style.display = 'block';
-                loadLocalArticles(); // Przeładuj żeby pokazać przyciski "Usuń"
-            } else {
-                document.getElementById('login-error').style.display = 'block';
-            }
-        }
-        if(localStorage.getItem('isAdmin') === 'true') checkLogin();
-
-        function logoutAdmin() {
-            localStorage.removeItem('isAdmin');
-            document.getElementById('login-section').style.display = 'block';
-            document.getElementById('admin-panel').style.display = 'none';
-            document.getElementById('admin-pass').value = '';
-            loadLocalArticles(); // Przeładuj żeby schować przyciski "Usuń"
-            tab('t-news', document.querySelectorAll('.nav-btn')[0]);
+        if(input.length < 3) {
+            alert("Błąd: Wprowadź poprawny numer.");
+            return;
         }
 
-        // 3. Zapisywanie Artykułu
-        function addLocalArticle() {
-            const title = document.getElementById('art-title').value;
-            const content = document.getElementById('art-content').value;
-            const badge = document.getElementById('art-badge').value || 'Raport';
-            const imgUrl = document.getElementById('art-img-url').value;
-            
-            if(!title || !content) { alert('Musisz wpisać tytuł i treść!'); return; }
+        res.innerHTML = "WERYFIKACJA...";
+        res.className = "status-box";
 
-            const date = new Date().toLocaleString('pl-PL', {day:'2-digit', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit'}).toUpperCase();
-            let newArticle = { id: Date.now(), title, content, badge, date, image: imgUrl };
-
-            let articles = JSON.parse(localStorage.getItem('valiev_news_portal')) || [];
-            articles.unshift(newArticle); // Dodaje jako pierwszy na górze
-            localStorage.setItem('valiev_news_portal', JSON.stringify(articles));
-            
-            // Wyczyść formularz
-            document.getElementById('art-title').value = '';
-            document.getElementById('art-content').value = '';
-            document.getElementById('art-img-url').value = '';
-            
-            alert('Artykuł dodany! Pojawił się w zakładce Wiadomości.');
-            loadLocalArticles();
-            tab('t-news', document.querySelectorAll('.nav-btn')[0]); // Przerzuć od razu na stronę główną
-        }
-
-        function delLocalArticle(id) {
-            if(confirm("Czy na pewno chcesz usunąć ten wpis?")) {
-                let articles = JSON.parse(localStorage.getItem('valiev_news_portal')) || [];
-                articles = articles.filter(a => a.id !== id);
-                localStorage.setItem('valiev_news_portal', JSON.stringify(articles));
-                loadLocalArticles();
-            }
-        }
-
-        // 4. Generator Kodu HTML (gdybyś chciał wkleić na stałe)
-        function generateHTML() {
-            const title = document.getElementById('art-title').value;
-            const content = document.getElementById('art-content').value.replace(/\n/g, '</p>\n                        <p class="article-text">');
-            const badge = document.getElementById('art-badge').value || 'Raport';
-            const imgUrl = document.getElementById('art-img-url').value;
-            
-            if(!title || !content) { alert('Tytuł i treść są wymagane!'); return; }
-            const date = new Date().toLocaleString('pl-PL', {day:'2-digit', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit'}).toUpperCase();
-
-            let imgTag = imgUrl ? `\n                    <img src="${imgUrl}" class="article-img">` : '';
-
-            let finalHTML = `
-                <div class="article-card">${imgTag}
-                    <div class="article-body">
-                        <div class="badge">${badge}</div>
-                        <span class="article-date">${date}</span>
-                        <h2 class="article-title">${title}</h2>
-                        <p class="article-text">${content}</p>
-                    </div>
+        setTimeout(() => {
+            res.classList.add('valid');
+            res.innerHTML = `
+                <div style="font-size: 1.2rem; font-weight:bold;">BILET WAŻNY / VALID</div>
+                <div style="font-size: 0.8rem; margin-top: 10px; color: #333;">
+                    TRASA: Warszawa Centralna - Gdynia Główna<br>
+                    KLASA: 1 | MIEJSCE: 42<br>
+                    DATA: 19.04.2026
                 </div>
             `;
+        }, 800);
+    }
+</script>
 
-            document.getElementById('html-output-area').style.display = 'block';
-            document.getElementById('html-code-result').value = finalHTML;
-        }
-    </script>
 </body>
 </html>
