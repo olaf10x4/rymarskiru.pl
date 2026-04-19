@@ -3,183 +3,229 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOP - System Obsługi Pasażera</title>
+    <title>PKPNW - System Operacyjny</title>
     <style>
         :root {
-            --primary: #003366;
-            --accent: #ffcc00;
-            --bg: #f4f7f9;
-            --text: #333;
-            --success: #28a745;
+            --pkp-blue: #002347;
+            --pkp-gold: #c5a059;
+            --bg-light: #f0f2f5;
+            --success: #27ae60;
+            --danger: #c0392b;
         }
 
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-light);
             margin: 0;
-            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            color: #333;
         }
 
-        /* Top Bar */
-        .top-bar {
-            background: var(--primary);
+        /* Header */
+        header {
+            background: var(--pkp-blue);
             color: white;
-            padding: 10px 20px;
+            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border-bottom: 3px solid var(--pkp-gold);
         }
 
-        .lang-switch button {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid white;
+        .logo-area b { font-size: 1.4rem; letter-spacing: 2px; }
+        .logo-area span { display: block; font-size: 0.7rem; opacity: 0.8; }
+
+        .lang-picker button {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.3);
             color: white;
+            padding: 5px 8px;
             cursor: pointer;
-            padding: 5px 10px;
-            font-size: 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
         }
 
-        /* Main Container */
-        .container {
-            max-width: 500px;
-            margin: 20px auto;
-            padding: 15px;
+        /* Container */
+        .app-container {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
 
-        /* Login Screen */
         .card {
             background: white;
-            border-radius: 8px;
-            padding: 25px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
-        h2 { margin-top: 0; color: var(--primary); font-size: 1.4rem; }
+        h2 { text-align: center; color: var(--pkp-blue); margin-bottom: 25px; }
 
-        .input-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem; }
+        .input-box { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; }
         input {
             width: 100%;
             padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
             box-sizing: border-box;
+            font-size: 1rem;
+            transition: 0.3s;
         }
+        input:focus { border-color: var(--pkp-blue); outline: none; }
 
-        .btn-main {
+        .btn-action {
             width: 100%;
-            padding: 15px;
-            background: var(--primary);
+            padding: 14px;
+            background: var(--pkp-blue);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             font-weight: bold;
+            font-size: 1rem;
             cursor: pointer;
-            text-transform: uppercase;
+            transition: background 0.3s;
         }
+        .btn-action:hover { background: #003a75; }
 
-        /* Verification Screen (Hidden by default) */
-        #verify-screen { display: none; }
-
-        .status-box {
-            border: 2px solid #ddd;
-            padding: 20px;
+        /* Statuses */
+        #result-area {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
             text-align: center;
-            margin: 20px 0;
-            border-radius: 8px;
-            background: #fafafa;
+            display: none;
         }
+        .status-ok { background: #eafff2; border: 2px solid var(--success); color: var(--success); }
 
-        .valid { border-color: var(--success); color: var(--success); background: #f0fff0; }
-
-        .footer-info {
+        footer {
+            background: #ddd;
+            padding: 10px;
+            font-size: 0.7rem;
             text-align: center;
-            font-size: 11px;
-            color: #888;
-            margin-top: 30px;
+            color: #666;
         }
     </style>
 </head>
 <body>
 
-<div class="top-bar">
-    <div style="font-weight: bold; letter-spacing: 1px;">SOP v4.8.2</div>
-    <div class="lang-switch">
-        <button onclick="changeLang('pl')">PL</button>
-        <button onclick="changeLang('en')">EN</button>
+<header>
+    <div class="logo-area">
+        <b>PKPNW</b>
+        <span id="sub-title">PAŃSTWOWE KRAJOWE PRZEWOZY NA WSCHOD</span>
+    </div>
+    <div class="lang-picker">
+        <button onclick="setLang('pl')">PL</button>
+        <button onclick="setLang('ru')">RU</button>
+        <button onclick="setLang('en')">EN</button>
+    </div>
+</header>
+
+<div class="app-container">
+    <div id="login-panel" class="card">
+        <h2 id="h-login">Logowanie Systemowe</h2>
+        <div class="input-box">
+            <label id="l-user">ID Konduktora / Login</label>
+            <input type="text" id="user-id" placeholder="np. 44021">
+        </div>
+        <div class="input-box">
+            <label id="l-pass">Hasło / Haslo</label>
+            <input type="password" id="user-pass">
+        </div>
+        <button class="btn-action" onclick="doLogin()" id="b-login">ZALOGUJ</button>
+    </div>
+
+    <div id="main-panel" class="card" style="display: none;">
+        <h2 id="h-verify">Weryfikacja Biletu</h2>
+        <div class="input-box">
+            <label id="l-ticket">Numer Biletu (E-Ticket ID)</label>
+            <input type="text" id="t-number" placeholder="Wpisz lub skanuj">
+        </div>
+        <button class="btn-action" onclick="checkTicket()" id="b-verify">SPRAWDŹ BILET</button>
+
+        <div id="result-area" class="status-ok">
+            <strong id="r-status">BILET WAŻNY</strong>
+            <p id="r-info" style="font-size: 0.8rem;"></p>
+        </div>
+        
+        <p onclick="location.reload()" style="text-align:center; cursor:pointer; color: #888; margin-top: 15px; font-size: 0.8rem;">Wyloguj / Logout</p>
     </div>
 </div>
 
-<div class="container">
-    <div id="login-screen" class="card">
-        <h2 data-pl="Logowanie Pracownika" data-en="Staff Login">Logowanie Pracownika</h2>
-        <div class="input-group">
-            <label data-pl="ID Konduktora" data-en="Conductor ID">ID Konduktora</label>
-            <input type="text" value="KON-192-00">
-        </div>
-        <div class="input-group">
-            <label data-pl="Hasło / Kod PIN" data-en="Password / PIN">Hasło / Kod PIN</label>
-            <input type="password" value="********">
-        </div>
-        <button class="btn-main" onclick="handleLogin()" data-pl="ZALOGUJ SIĘ" data-en="SIGN IN">ZALOGUJ SIĘ</button>
-    </div>
-
-    <div id="verify-screen" class="card">
-        <h2 data-pl="Weryfikacja Biletu" data-en="Ticket Verification">Weryfikacja Biletu</h2>
-        <div class="input-group">
-            <input type="text" id="ticket-id" placeholder="Wprowadź nr biletu / Skanuj">
-        </div>
-        <button class="btn-main" onclick="verifyTicket()" data-pl="SPRAWDŹ" data-en="VERIFY">SPRAWDŹ</button>
-
-        <div id="result" class="status-box">
-            <span data-pl="Oczekiwanie na dane..." data-en="Awaiting data...">Oczekiwanie na dane...</span>
-        </div>
-
-        <button onclick="location.reload()" style="background:none; border:none; color: #888; cursor:pointer; width:100%;" data-pl="Wyloguj" data-en="Logout">Wyloguj</button>
-    </div>
-
-    <div class="footer-info">
-        &copy; 2026 Rail Systems International. Terminal ID: 44-X9.
-    </div>
-</div>
+<footer>
+    SYSTEM OPERACYJNY PKPNW v8.0.1 | TERMINAL ID: TERMINAL-W04
+</footer>
 
 <script>
-    function changeLang(lang) {
-        document.querySelectorAll('[data-pl]').forEach(el => {
-            el.innerText = el.getAttribute('data-' + lang);
-        });
-    }
-
-    function handleLogin() {
-        document.getElementById('login-screen').style.display = 'none';
-        document.getElementById('verify-screen').style.display = 'block';
-    }
-
-    function verifyTicket() {
-        const res = document.getElementById('result');
-        const input = document.getElementById('ticket-id').value;
-        
-        if(input.length < 3) {
-            alert("Błąd: Wprowadź poprawny numer.");
-            return;
+    const translations = {
+        pl: {
+            sub: "PAŃSTWOWE KRAJOWE PRZEWOZY NA WSCHOD",
+            h_login: "Logowanie Systemowe",
+            l_user: "ID Konduktora",
+            l_pass: "Hasło",
+            b_login: "ZALOGUJ",
+            h_verify: "Weryfikacja Biletu",
+            l_ticket: "Numer Biletu",
+            b_verify: "SPRAWDŹ BILET",
+            r_status: "BILET WAŻNY",
+            r_info: "Trasa: Warszawa -> Mińsk | Klasa: 2"
+        },
+        ru: {
+            sub: "ГОСУДАРСТВЕННЫЕ НАЦИОНАЛЬНЫЕ ПЕРЕВОЗКИ НА ВОСТОК",
+            h_login: "Вход в систему",
+            l_user: "ID Кондуктора",
+            l_pass: "Пароль",
+            b_login: "ВОЙТИ",
+            h_verify: "Проверка билета",
+            l_ticket: "Номер билета",
+            b_verify: "ПРОВЕРИТЬ БИЛЕТ",
+            r_status: "БИЛЕТ ДЕЙСТВИТЕЛЕН",
+            r_info: "Маршрут: Варшава -> Минск | Класс: 2"
+        },
+        en: {
+            sub: "STATE NATIONAL EASTERN TRANSPORT",
+            h_login: "Staff Login",
+            l_user: "Conductor ID",
+            l_pass: "Password",
+            b_login: "LOGIN",
+            h_verify: "Ticket Verification",
+            l_ticket: "Ticket Number",
+            b_verify: "VERIFY TICKET",
+            r_status: "TICKET VALID",
+            r_info: "Route: Warsaw -> Minsk | Class: 2"
         }
+    };
 
-        res.innerHTML = "WERYFIKACJA...";
-        res.className = "status-box";
+    function setLang(lang) {
+        const t = translations[lang];
+        document.getElementById('sub-title').innerText = t.sub;
+        document.getElementById('h-login').innerText = t.h_login;
+        document.getElementById('l-user').innerText = t.l_user;
+        document.getElementById('l-pass').innerText = t.l_pass;
+        document.getElementById('b-login').innerText = t.b_login;
+        document.getElementById('h-verify').innerText = t.h_verify;
+        document.getElementById('l-ticket').innerText = t.l_ticket;
+        document.getElementById('b-verify').innerText = t.b_verify;
+        document.getElementById('r-status').innerText = t.r_status;
+        document.getElementById('r-info').innerText = t.r_info;
+    }
 
-        setTimeout(() => {
-            res.classList.add('valid');
-            res.innerHTML = `
-                <div style="font-size: 1.2rem; font-weight:bold;">BILET WAŻNY / VALID</div>
-                <div style="font-size: 0.8rem; margin-top: 10px; color: #333;">
-                    TRASA: Warszawa Centralna - Gdynia Główna<br>
-                    KLASA: 1 | MIEJSCE: 42<br>
-                    DATA: 19.04.2026
-                </div>
-            `;
-        }, 800);
+    function doLogin() {
+        document.getElementById('login-panel').style.display = 'none';
+        document.getElementById('main-panel').style.display = 'block';
+    }
+
+    function checkTicket() {
+        const res = document.getElementById('result-area');
+        res.style.display = 'block';
+        res.style.opacity = '0.5';
+        setTimeout(() => { res.style.opacity = '1'; }, 200);
     }
 </script>
 
