@@ -2,231 +2,272 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PKPNW - System Operacyjny</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PKPNW | Centralny Terminal Operacyjny</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         :root {
-            --pkp-blue: #002347;
-            --pkp-gold: #c5a059;
-            --bg-light: #f0f2f5;
-            --success: #27ae60;
-            --danger: #c0392b;
+            --pkp-red: #d32f2f;
+            --pkp-blue: #0a192f;
+            --pkp-gold: #b3935d;
+            --glass: rgba(255, 255, 255, 0.05);
+            --success: #00e676;
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-light);
             margin: 0;
+            background: #050a14;
+            color: #e0e0e0;
+            font-family: 'Roboto', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* --- UI FRAMEWORK --- */
+        .app-shell {
             display: flex;
             flex-direction: column;
             height: 100vh;
-            color: #333;
         }
 
-        /* Header */
         header {
             background: var(--pkp-blue);
-            color: white;
             padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 3px solid var(--pkp-gold);
+            border-bottom: 2px solid var(--pkp-gold);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
 
-        .logo-area b { font-size: 1.4rem; letter-spacing: 2px; }
-        .logo-area span { display: block; font-size: 0.7rem; opacity: 0.8; }
+        .brand { display: flex; align-items: center; gap: 10px; }
+        .brand i { color: var(--pkp-gold); font-size: 2rem; }
+        .brand-text h1 { margin: 0; font-size: 1.2rem; letter-spacing: 1px; }
+        .brand-text span { font-size: 0.6rem; color: var(--pkp-gold); font-weight: bold; }
 
-        .lang-picker button {
-            background: transparent;
-            border: 1px solid rgba(255,255,255,0.3);
-            color: white;
-            padding: 5px 8px;
-            cursor: pointer;
-            border-radius: 4px;
-            font-size: 0.8rem;
-        }
-
-        /* Container */
-        .app-container {
+        /* --- DASHBOARD GRID --- */
+        .main-content {
             flex-grow: 1;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            overflow-y: auto;
+        }
+
+        .module-card {
+            background: var(--glass);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            transition: 0.3s;
+        }
+
+        .module-card:hover { border-color: var(--pkp-gold); }
+
+        .btn {
+            background: var(--pkp-gold);
+            color: var(--pkp-blue);
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            gap: 10px;
+            text-transform: uppercase;
         }
 
-        .card {
-            background: white;
-            width: 100%;
-            max-width: 400px;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        h2 { text-align: center; color: var(--pkp-blue); margin-bottom: 25px; }
-
-        .input-box { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; }
-        input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            box-sizing: border-box;
-            font-size: 1rem;
-            transition: 0.3s;
-        }
-        input:focus { border-color: var(--pkp-blue); outline: none; }
-
-        .btn-action {
-            width: 100%;
-            padding: 14px;
-            background: var(--pkp-blue);
+        .input-field {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid #444;
             color: white;
-            border: none;
+            padding: 12px;
+            width: 100%;
+            box-sizing: border-box;
             border-radius: 6px;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background 0.3s;
+            margin-bottom: 10px;
         }
-        .btn-action:hover { background: #003a75; }
 
-        /* Statuses */
-        #result-area {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 6px;
-            text-align: center;
-            display: none;
-        }
-        .status-ok { background: #eafff2; border: 2px solid var(--success); color: var(--success); }
-
-        footer {
-            background: #ddd;
-            padding: 10px;
+        /* --- LIVE DATA SIMULATION --- */
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--success);
             font-size: 0.7rem;
-            text-align: center;
-            color: #666;
+            margin-bottom: 10px;
         }
+
+        .dot { height: 8px; width: 8px; background: var(--success); border-radius: 50%; animation: pulse 1.5s infinite; }
+
+        @keyframes pulse { 0% { opacity: 0.2; } 50% { opacity: 1; } 100% { opacity: 0.2; } }
+
+        /* --- TRANSLATION OVERLAY --- */
+        .lang-bar { display: flex; gap: 10px; }
+        .lang-bar span { cursor: pointer; font-size: 0.8rem; border-bottom: 1px solid transparent; }
+        .lang-bar span:hover { border-color: var(--pkp-gold); }
+
+        /* --- TICKET RESULT --- */
+        #ticket-result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
     </style>
 </head>
 <body>
 
-<header>
-    <div class="logo-area">
-        <b>PKPNW</b>
-        <span id="sub-title">PAŃSTWOWE KRAJOWE PRZEWOZY NA WSCHOD</span>
-    </div>
-    <div class="lang-picker">
-        <button onclick="setLang('pl')">PL</button>
-        <button onclick="setLang('ru')">RU</button>
-        <button onclick="setLang('en')">EN</button>
-    </div>
-</header>
+<div class="app-shell">
+    <header>
+        <div class="brand">
+            <i class="material-icons">train</i>
+            <div class="brand-text">
+                <h1>PKPNW</h1>
+                <span id="sub-title">PAŃSTWOWE KRAJOWE PRZEWOZY NA WSCHÓD</span>
+            </div>
+        </div>
+        <div class="lang-bar">
+            <span onclick="setLang('pl')">PL</span>
+            <span onclick="setLang('ru')">RU</span>
+            <span onclick="setLang('en')">EN</span>
+        </div>
+    </header>
 
-<div class="app-container">
-    <div id="login-panel" class="card">
-        <h2 id="h-login">Logowanie Systemowe</h2>
-        <div class="input-box">
-            <label id="l-user">ID Konduktora / Login</label>
-            <input type="text" id="user-id" placeholder="np. 44021">
-        </div>
-        <div class="input-box">
-            <label id="l-pass">Hasło / Haslo</label>
-            <input type="password" id="user-pass">
-        </div>
-        <button class="btn-action" onclick="doLogin()" id="b-login">ZALOGUJ</button>
-    </div>
-
-    <div id="main-panel" class="card" style="display: none;">
-        <h2 id="h-verify">Weryfikacja Biletu</h2>
-        <div class="input-box">
-            <label id="l-ticket">Numer Biletu (E-Ticket ID)</label>
-            <input type="text" id="t-number" placeholder="Wpisz lub skanuj">
-        </div>
-        <button class="btn-action" onclick="checkTicket()" id="b-verify">SPRAWDŹ BILET</button>
-
-        <div id="result-area" class="status-ok">
-            <strong id="r-status">BILET WAŻNY</strong>
-            <p id="r-info" style="font-size: 0.8rem;"></p>
-        </div>
+    <div class="main-content">
         
-        <p onclick="location.reload()" style="text-align:center; cursor:pointer; color: #888; margin-top: 15px; font-size: 0.8rem;">Wyloguj / Logout</p>
+        <div class="module-card">
+            <div class="live-indicator"><div class="dot"></div> <span id="t-live">POŁĄCZONO Z SERWEREM CENTRALNYM</span></div>
+            <h2 id="t-verify-h">Weryfikacja Biletu</h2>
+            <input type="text" class="input-field" id="ticket-id" placeholder="UID / Numer Biletu / Skanuj">
+            <button class="btn" onclick="processTicket()">
+                <i class="material-icons">qr_code_scanner</i>
+                <span id="t-btn-scan">SPRAWDŹ BILET</span>
+            </button>
+
+            <div id="ticket-result">
+                <h3 id="res-status" style="margin:0"></h3>
+                <p id="res-details" style="font-size: 0.8rem; line-height: 1.4;"></p>
+            </div>
+        </div>
+
+        <div class="module-card">
+            <h2 id="t-train-h">Informacje o Składzie</h2>
+            <p style="font-size: 0.9rem;">
+                <strong id="t-train-id">Pociąg:</strong> <b>EX 9021 "SYBERIA-EXPRESS"</b><br>
+                <strong id="t-rel">Relacja:</strong> Warszawa Wschodnia -> Brześć<br>
+                <strong id="t-speed">Prędkość:</strong> <span id="speed">142</span> km/h
+            </p>
+            <div style="height: 100px; background: rgba(255,255,255,0.05); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                <i class="material-icons" style="font-size: 4rem; opacity: 0.2;">map</i>
+                <span style="position: absolute; font-size: 0.7rem; color: var(--pkp-gold);">GEOLOKALIZACJA GPS AKTYWNA</span>
+            </div>
+        </div>
+
+        <div class="module-card">
+            <h2 id="t-report-h">Raport Konduktorski</h2>
+            <select class="input-field">
+                <option id="o1">Brak uwag</option>
+                <option id="o2">Usterka techniczna wagonu</option>
+                <option id="o3">Agresywny pasażer</option>
+                <option id="o4">Wezwanie Straży Kolejowej</option>
+            </select>
+            <button class="btn" style="background: var(--pkp-red); color: white;" onclick="alert('Raport wysłany do centrali!')">
+                <i class="material-icons">send</i>
+                <span id="t-btn-report">WYŚLIJ RAPORT</span>
+            </button>
+        </div>
+
     </div>
+
+    <footer style="padding: 10px; text-align: center; font-size: 0.6rem; opacity: 0.5; background: #000;">
+        ENCRYPTED SESSION ID: RSA-4096-PKPNW-00219 | LOGGED AS: KONDUKTOR_MASTER_ID
+    </footer>
 </div>
 
-<footer>
-    SYSTEM OPERACYJNY PKPNW v8.0.1 | TERMINAL ID: TERMINAL-W04
-</footer>
-
 <script>
-    const translations = {
+    const dictionary = {
         pl: {
-            sub: "PAŃSTWOWE KRAJOWE PRZEWOZY NA WSCHOD",
-            h_login: "Logowanie Systemowe",
-            l_user: "ID Konduktora",
-            l_pass: "Hasło",
-            b_login: "ZALOGUJ",
-            h_verify: "Weryfikacja Biletu",
-            l_ticket: "Numer Biletu",
-            b_verify: "SPRAWDŹ BILET",
-            r_status: "BILET WAŻNY",
-            r_info: "Trasa: Warszawa -> Mińsk | Klasa: 2"
+            sub: "PAŃSTWOWE KRAJOWE PRZEWOZY NA WSCHÓD",
+            live: "POŁĄCZONO Z SERWEREM CENTRALNYM",
+            h_v: "Weryfikacja Biletu",
+            b_s: "Sprawdź Bilet",
+            h_t: "Informacje o Składzie",
+            tr: "Pociąg:", rel: "Relacja:", sp: "Prędkość:",
+            h_r: "Raport Konduktorski",
+            b_r: "Wyślij Raport"
         },
         ru: {
             sub: "ГОСУДАРСТВЕННЫЕ НАЦИОНАЛЬНЫЕ ПЕРЕВОЗКИ НА ВОСТОК",
-            h_login: "Вход в систему",
-            l_user: "ID Кондуктора",
-            l_pass: "Пароль",
-            b_login: "ВОЙТИ",
-            h_verify: "Проверка билета",
-            l_ticket: "Номер билета",
-            b_verify: "ПРОВЕРИТЬ БИЛЕТ",
-            r_status: "БИЛЕТ ДЕЙСТВИТЕЛЕН",
-            r_info: "Маршрут: Варшава -> Минск | Класс: 2"
+            live: "ПОДКЛЮЧЕНО К ЦЕНТРАЛЬНОМУ СЕРВЕРУ",
+            h_v: "Проверка билета",
+            b_s: "Проверить билет",
+            h_t: "Информация о составе",
+            tr: "Поезд:", rel: "Маршрут:", sp: "Скорость:",
+            h_r: "Отчет кондуктора",
+            b_r: "Отправить отчет"
         },
         en: {
             sub: "STATE NATIONAL EASTERN TRANSPORT",
-            h_login: "Staff Login",
-            l_user: "Conductor ID",
-            l_pass: "Password",
-            b_login: "LOGIN",
-            h_verify: "Ticket Verification",
-            l_ticket: "Ticket Number",
-            b_verify: "VERIFY TICKET",
-            r_status: "TICKET VALID",
-            r_info: "Route: Warsaw -> Minsk | Class: 2"
+            live: "CONNECTED TO CENTRAL SERVER",
+            h_v: "Ticket Verification",
+            b_s: "Check Ticket",
+            h_t: "Train Information",
+            tr: "Train:", rel: "Route:", sp: "Speed:",
+            h_r: "Conductor Report",
+            b_r: "Send Report"
         }
     };
 
     function setLang(lang) {
-        const t = translations[lang];
-        document.getElementById('sub-title').innerText = t.sub;
-        document.getElementById('h-login').innerText = t.h_login;
-        document.getElementById('l-user').innerText = t.l_user;
-        document.getElementById('l-pass').innerText = t.l_pass;
-        document.getElementById('b-login').innerText = t.b_login;
-        document.getElementById('h-verify').innerText = t.h_verify;
-        document.getElementById('l-ticket').innerText = t.l_ticket;
-        document.getElementById('b-verify').innerText = t.b_verify;
-        document.getElementById('r-status').innerText = t.r_status;
-        document.getElementById('r-info').innerText = t.r_info;
+        const d = dictionary[lang];
+        document.getElementById('sub-title').innerText = d.sub;
+        document.getElementById('t-live').innerText = d.live;
+        document.getElementById('t-verify-h').innerText = d.h_v;
+        document.getElementById('t-btn-scan').innerText = d.b_s;
+        document.getElementById('t-train-h').innerText = d.h_t;
+        document.getElementById('t-train-id').innerText = d.tr;
+        document.getElementById('t-rel').innerText = d.rel;
+        document.getElementById('t-speed').innerText = d.sp;
+        document.getElementById('t-report-h').innerText = d.h_r;
+        document.getElementById('t-btn-report').innerText = d.b_r;
     }
 
-    function doLogin() {
-        document.getElementById('login-panel').style.display = 'none';
-        document.getElementById('main-panel').style.display = 'block';
-    }
+    function processTicket() {
+        const res = document.getElementById('ticket-result');
+        const status = document.getElementById('res-status');
+        const details = document.getElementById('res-details');
+        const val = document.getElementById('ticket-id').value;
 
-    function checkTicket() {
-        const res = document.getElementById('result-area');
+        if(!val) { alert("Wprowadź ID!"); return; }
+
         res.style.display = 'block';
-        res.style.opacity = '0.5';
-        setTimeout(() => { res.style.opacity = '1'; }, 200);
+        res.style.background = 'rgba(0, 230, 118, 0.1)';
+        res.style.border = '1px solid #00e676';
+        
+        status.innerText = "BILET ZATWIERDZONY";
+        status.style.color = "#00e676";
+        details.innerHTML = `
+            UID: PKP-${Math.random().toString(36).substr(2, 9).toUpperCase()}<br>
+            Pasażer: Jan Kowalski<br>
+            Wagon: 04, Miejsce: 12A<br>
+            Zniżka: Pracownicza 99%
+        `;
     }
+
+    // Symulacja prędkości
+    setInterval(() => {
+        const s = 140 + Math.floor(Math.random() * 10);
+        document.getElementById('speed').innerText = s;
+    }, 3000);
 </script>
 
 </body>
