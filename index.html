@@ -3,215 +3,257 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PKP Wschód - Panel Operacyjny</title>
+    <title>PKP WSCHÓD - System Operacyjny</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --pkp-blue: #001a4d;
-            --student-green: #10b981;
-            --premium-gold: #fbbf24;
-            --bg-light: #f8fafc;
+            --primary: #002d72;
+            --accent: #f29400;
+            --student: #10b981;
+            --dark-card: #1e293b;
+            --bg: #f1f5f9;
         }
 
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            margin: 0; 
-            background: var(--bg-light);
-            padding-bottom: 90px;
-        }
+        * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { margin: 0; background: var(--bg); overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
 
-        /* --- PROFIL KONDUKTORA --- */
-        .conductor-header {
-            background: var(--pkp-blue);
+        /* --- HEADER & STATUS --- */
+        .top-nav {
+            background: var(--primary);
             color: white;
-            padding: 25px 20px 50px 20px;
-            border-bottom-left-radius: 30px;
-            border-bottom-right-radius: 30px;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        .profile-row { display: flex; align-items: center; gap: 15px; }
-        .avatar-container {
-            width: 60px; height: 60px;
-            border-radius: 50%;
-            border: 2px solid var(--premium-gold);
-            overflow: hidden;
-            background: #fff;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .avatar-container i { color: var(--pkp-blue); font-size: 30px; }
-
-        .badge-rank {
-            background: var(--premium-gold);
-            color: #000;
-            font-size: 10px;
-            font-weight: 800;
-            padding: 2px 8px;
-            border-radius: 10px;
-            text-transform: uppercase;
-        }
-
-        /* --- KARTA STUDENTA / PROMOCJI --- */
-        .promo-card {
-            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-            margin: -30px 20px 20px 20px;
-            padding: 20px;
+        .online-indicator {
+            background: rgba(16, 185, 129, 0.2);
+            color: #4ade80;
+            padding: 4px 10px;
             border-radius: 20px;
-            color: white;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+            font-size: 11px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
-        .promo-card i {
-            position: absolute; right: -10px; bottom: -10px;
-            font-size: 80px; opacity: 0.2;
-        }
-
-        /* --- PANEL KONTROLNY --- */
-        .control-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+        /* --- GŁÓWNY KONTENER Z ZAKŁADKAMI --- */
+        .tab-content {
+            flex: 1;
+            overflow-y: auto;
+            display: none;
             padding: 20px;
         }
+        .tab-content.active { display: block; }
 
-        .control-item {
+        /* --- ZAKŁADKA 1: KOKPIT --- */
+        .search-engine {
             background: white;
+            padding: 20px;
+            border-radius: 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        .station-input {
+            width: 100%;
             padding: 15px;
-            border-radius: 18px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            text-align: center;
+            margin: 8px 0;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            background: #f8fafc;
         }
 
-        .control-item i { font-size: 24px; color: var(--pkp-blue); margin-bottom: 10px; display: block; }
+        /* --- ZAKŁADKA 2: MAPA --- */
+        #map { height: 100%; width: 100%; border-radius: 0; }
 
-        /* --- DARMOWE PRZEJAZDY --- */
-        .free-ticket-label {
-            background: #fef3c7;
-            color: #92400e;
-            padding: 4px 12px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 12px;
-            border: 1px dashed #d97706;
+        /* --- ZAKŁADKA 3: KONDUKTOR (Władysław Walijew) --- */
+        .profile-card {
+            background: var(--dark-card);
+            color: white;
+            padding: 25px;
+            border-radius: 24px;
+            margin-bottom: 20px;
+        }
+        .report-form textarea {
+            width: 100%;
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            margin-top: 10px;
         }
 
-        /* Animacja bicia serca dla statusu LIVE */
-        .status-pulse {
-            width: 10px; height: 10px; background: #ef4444;
-            border-radius: 50%; display: inline-block;
-            box-shadow: 0 0 0 rgba(239, 68, 68, 0.7);
-            animation: pulse 1.5s infinite;
+        /* --- FUNKCJE ONLINE (CZAT) --- */
+        .chat-box {
+            background: white;
+            border-radius: 15px;
+            height: 200px;
+            overflow-y: auto;
+            padding: 15px;
+            border: 1px solid #e2e8f0;
+            margin-top: 10px;
+            font-size: 13px;
         }
 
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        /* --- DOLNE MENU --- */
+        .bottom-tabs {
+            background: white;
+            height: 75px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+        .tab-btn {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .tab-btn.active { color: var(--primary); }
+        .tab-btn i { font-size: 22px; margin-bottom: 4px; }
+
+        /* --- PRZYCISK "DARMOWY" --- */
+        .btn-free {
+            background: var(--student);
+            color: white;
+            width: 100%;
+            border: none;
+            padding: 18px;
+            border-radius: 15px;
+            font-weight: 800;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
         }
     </style>
 </head>
 <body>
 
-    <header class="conductor-header">
-        <div class="profile-row">
-            <div class="avatar-container">
-                <i class="fa-solid fa-user-tie"></i>
-            </div>
-            <div>
-                <span class="badge-rank">Starszy Konduktor</span>
-                <div style="font-size: 1.2rem; font-weight: 800;">Władysław Walijew</div>
-                <div style="font-size: 0.8rem; opacity: 0.8;">ID Przebiegu: #WW-2026-X</div>
-            </div>
+    <header class="top-nav">
+        <div>
+            <span style="font-weight: 800; letter-spacing: 1px;">PKP WSCHÓD</span>
+        </div>
+        <div class="online-indicator">
+            <i class="fa-solid fa-circle" style="font-size: 8px;"></i> POŁĄCZONO ONLINE
         </div>
     </header>
 
-    <div class="promo-card">
-        <i class="fa-solid fa-graduation-cap"></i>
-        <div style="font-weight: 800; font-size: 1.1rem;">STREFA STUDENTA</div>
-        <p style="font-size: 0.85rem; margin: 5px 0 15px 0;">Wszyscy studenci ze wschodnich uczelni podróżują dziś <b>ZA DARMO</b> na trasie Warszawa - Terespol.</p>
-        <div style="background: rgba(255,255,255,0.2); display: inline-block; padding: 5px 12px; border-radius: 10px; font-size: 0.8rem;">
-            Weryfikacja mObywatel: AKTYWNA
+    <div id="home" class="tab-content active">
+        <div class="search-engine">
+            <h3 style="margin-top:0">Planuj Podróż</h3>
+            <input type="text" class="station-input" placeholder="Z: np. Warszawa Wschodnia" id="from">
+            <input type="text" class="station-input" placeholder="DO: np. Terespol" id="to">
+            <div style="display: flex; gap: 10px;">
+                <input type="date" class="station-input" style="flex: 1;">
+                <input type="time" class="station-input" style="flex: 1;">
+            </div>
+            <button class="btn-free" onclick="searchAction()">WYSZUKAJ (STUDENT 0 ZŁ)</button>
+        </div>
+
+        <div style="background: #fff; padding: 15px; border-radius: 20px;">
+            <h4>Aktywne Komunikaty</h4>
+            <div style="color: #ef4444; font-size: 13px;">
+                <i class="fa-solid fa-triangle-exclamation"></i> Mgła na odcinku Siedlce - Łuków. Możliwe opóźnienia.
+            </div>
         </div>
     </div>
 
-    <div class="control-grid">
-        <div class="control-item">
-            <i class="fa-solid fa-id-card-clip"></i>
-            <strong>Moje Dyżury</strong>
-        </div>
-        <div class="control-item">
-            <i class="fa-solid fa-map-location"></i>
-            <strong>Mapa Tori</strong>
-        </div>
-        <div class="control-item">
-            <i class="fa-solid fa-wifi"></i>
-            <strong>Hotspot 5G</strong>
-        </div>
-        <div class="control-item" style="border: 2px solid var(--student-green);">
-            <i class="fa-solid fa-check-double" style="color: var(--student-green);"></i>
-            <strong>Bilety 0 zł</strong>
-        </div>
+    <div id="map-tab" class="tab-content" style="padding:0">
+        <div id="map"></div>
     </div>
 
-    <div style="padding: 0 20px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <h3 style="margin:0;">Pociągi pod nadzorem</h3>
-            <span style="font-size: 0.8rem;"><span class="status-pulse"></span> LIVE</span>
-        </div>
-
-        <div style="background: white; padding: 15px; border-radius: 20px; margin-bottom: 15px; border-left: 5px solid var(--pkp-blue);">
-            <div style="display: flex; justify-content: space-between;">
+    <div id="conductor" class="tab-content">
+        <div class="profile-card">
+            <div style="display:flex; align-items:center; gap:15px;">
+                <div style="width:50px; height:50px; background:var(--accent); border-radius:50%; display:flex; align-items:center; justify-content:center;">
+                    <i class="fa-solid fa-user-shield" style="font-size:24px; color:white"></i>
+                </div>
                 <div>
-                    <b style="font-size: 1rem;">IC 12101 "PODLASIE"</b>
-                    <div style="font-size: 0.8rem; color: #64748b;">Kierunek: Terespol Granica</div>
-                </div>
-                <div class="free-ticket-label">DARMOWY DLA STUDENTA</div>
-            </div>
-            <div style="margin-top: 15px; display: flex; gap: 10px;">
-                <div style="flex: 1; background: #f1f5f9; padding: 10px; border-radius: 10px; font-size: 0.75rem;">
-                    Opiekun: <b>W. Walijew</b>
-                </div>
-                <div style="flex: 1; background: #f1f5f9; padding: 10px; border-radius: 10px; font-size: 0.75rem; text-align: center;">
-                    Dostępność: <b>85%</b>
+                    <div style="font-weight:bold; font-size:1.2rem;">Władysław Walijew</div>
+                    <div style="font-size:12px; color:var(--accent)">System Operator / Konduktor</div>
                 </div>
             </div>
+        </div>
+
+        <div class="report-form">
+            <h4>Raport Online ze Składu</h4>
+            <div class="chat-box" id="chat">
+                <div>[10:15] Dyspozytornia: Władysław, potwierdź odjazd IC 12101.</div>
+                <div>[10:16] <b>W. Walijew</b>: Pociąg gotowy do odjazdu. 45 studentów na pokładzie.</div>
+            </div>
+            <textarea id="msg" placeholder="Napisz do dyspozytorni..."></textarea>
+            <button class="btn-free" style="background:var(--primary)" onclick="sendMsg()">WYŚLIJ RAPORT</button>
         </div>
     </div>
 
-    <button onclick="startScanner()" style="position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: var(--pkp-blue); color: white; border: none; padding: 15px 30px; border-radius: 50px; font-weight: bold; box-shadow: 0 10px 20px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 10px; z-index: 1000;">
-        <i class="fa-solid fa-qrcode"></i> SKANUJ LEGITYMACJĘ
-    </button>
-
-    <nav style="position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #e2e8f0; z-index: 999;">
-        <div style="color: var(--pkp-blue); text-align: center;">
-            <i class="fa-solid fa-train" style="font-size: 20px;"></i>
-            <div style="font-size: 10px;">Trasy</div>
-        </div>
-        <div style="color: #94a3b8; text-align: center;">
-            <i class="fa-solid fa-users" style="font-size: 20px;"></i>
-            <div style="font-size: 10px;">Pasażerowie</div>
-        </div>
-        <div style="color: #94a3b8; text-align: center;">
-            <i class="fa-solid fa-gear" style="font-size: 20px;"></i>
-            <div style="font-size: 10px;">Ustawienia</div>
-        </div>
+    <nav class="bottom-tabs">
+        <button class="tab-btn active" onclick="openTab(event, 'home')">
+            <i class="fa-solid fa-house-chimney"></i>
+            Start
+        </button>
+        <button class="tab-btn" onclick="openTab(event, 'map-tab')">
+            <i class="fa-solid fa-map-location-dot"></i>
+            Mapa Live
+        </button>
+        <button class="tab-btn" onclick="openTab(event, 'conductor')">
+            <i class="fa-solid fa-user-tie"></i>
+            Panel W.W.
+        </button>
     </nav>
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        function startScanner() {
-            alert("Uruchamiam skaner mObywatel 4.0... Weryfikacja zniżki studenckiej 100% dla Pana Władysława.");
-        }
-        
-        // Dodatkowe powiadomienie
-        setTimeout(() => {
-            console.log("System PKP Wschód gotowy. Operator: Władysław Walijew.");
-        }, 1000);
-    </script>
+        // System Zakładek
+        function openTab(evt, tabName) {
+            let contents = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < contents.length; i++) contents[i].classList.remove("active");
+            
+            let btns = document.getElementsByClassName("tab-btn");
+            for (let i = 0; i < btns.length; i++) btns[i].classList.remove("active");
 
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+
+            if(tabName === 'map-tab') {
+                setTimeout(() => { map.invalidateSize(); }, 200);
+            }
+        }
+
+        // Inicjalizacja Mapy
+        const map = L.map('map').setView([52.2, 22.5], 8);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+        L.tileLayer('https://{s}.tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png').addTo(map);
+
+        // Funkcje Online
+        function sendMsg() {
+            let msg = document.getElementById('msg').value;
+            if(msg) {
+                let chat = document.getElementById('chat');
+                chat.innerHTML += `<div>[Teraz] <b>W. Walijew</b>: ${msg}</div>`;
+                document.getElementById('msg').value = '';
+                chat.scrollTop = chat.scrollHeight;
+            }
+        }
+
+        function searchAction() {
+            let from = document.getElementById('from').value;
+            let to = document.getElementById('to').value;
+            alert(`🔍 SZUKANIE POŁĄCZENIA ONLINE...\nZ: ${from}\nDO: ${to}\n\nStatus: Znaleziono przejazd darmowy dla studenta!`);
+        }
+    </script>
 </body>
 </html>
