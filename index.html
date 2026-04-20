@@ -3,257 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PKP WSCHÓD - System Operacyjny</title>
+    <title>PKP WSCHÓD - TERMINAL OPERACYJNY</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --primary: #002d72;
-            --accent: #f29400;
-            --student: #10b981;
-            --dark-card: #1e293b;
-            --bg: #f1f5f9;
+            --neon-blue: #00f2ff;
+            --danger-red: #ff0055;
+            --money-gold: #ffcc00;
+            --dark: #0a0a0a;
         }
 
-        * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { margin: 0; background: var(--bg); overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
-
-        /* --- HEADER & STATUS --- */
-        .top-nav {
-            background: var(--primary);
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        body { 
+            font-family: 'Share Tech Mono', monospace; 
+            margin: 0; 
+            background: var(--dark); 
+            color: white; 
+            padding-bottom: 20px;
         }
 
-        .online-indicator {
-            background: rgba(16, 185, 129, 0.2);
-            color: #4ade80;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        /* --- GŁÓWNY KONTENER Z ZAKŁADKAMI --- */
-        .tab-content {
-            flex: 1;
-            overflow-y: auto;
-            display: none;
+        /* --- TERMINAL HEADER --- */
+        .header-main {
+            border-bottom: 2px solid var(--neon-blue);
             padding: 20px;
+            background: rgba(0, 242, 255, 0.05);
+            text-align: center;
         }
-        .tab-content.active { display: block; }
 
-        /* --- ZAKŁADKA 1: KOKPIT --- */
-        .search-engine {
-            background: white;
+        .user-id { font-family: 'Syncopate', sans-serif; font-size: 1.2rem; color: var(--neon-blue); }
+        .live-clock { color: var(--danger-red); font-size: 1.1rem; margin-top: 5px; }
+
+        /* --- GRAFIK SZCZEGÓŁOWY --- */
+        .mission-box {
+            margin: 15px;
             padding: 20px;
-            border-radius: 24px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
+            border: 1px solid #333;
+            border-radius: 5px;
+            background: #111;
         }
-        .station-input {
-            width: 100%;
+
+        .status-active { color: var(--neon-blue); font-weight: bold; border: 1px solid var(--neon-blue); padding: 2px 10px; display: inline-block; margin-bottom: 10px; }
+        .status-wait { color: #666; border: 1px solid #333; padding: 2px 10px; display: inline-block; margin-bottom: 10px; }
+
+        /* --- TRASA --- */
+        .route-display {
             padding: 15px;
-            margin: 8px 0;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 1rem;
-            background: #f8fafc;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            border-left: 1px solid var(--neon-blue);
+            margin: 20px;
         }
 
-        /* --- ZAKŁADKA 2: MAPA --- */
-        #map { height: 100%; width: 100%; border-radius: 0; }
+        .route-display b { color: var(--money-gold); }
 
-        /* --- ZAKŁADKA 3: KONDUKTOR (Władysław Walijew) --- */
-        .profile-card {
-            background: var(--dark-card);
-            color: white;
-            padding: 25px;
-            border-radius: 24px;
-            margin-bottom: 20px;
+        /* --- KALKULATOR ZAROBKÓW --- */
+        .wallet-display {
+            margin: 15px;
+            background: linear-gradient(to right, #111, #002222);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--money-gold);
         }
-        .report-form textarea {
-            width: 100%;
-            border-radius: 12px;
+
+        .price-tag { font-size: 2.5rem; color: var(--money-gold); display: block; text-shadow: 0 0 10px rgba(255,204,0,0.5); }
+
+        /* --- MODUŁ MAJÓWKA --- */
+        .holiday-sector {
+            margin: 15px;
             padding: 15px;
-            border: 1px solid #ddd;
-            margin-top: 10px;
+            background: #1a1a1a;
+            border-radius: 5px;
+            border-left: 5px solid var(--danger-red);
         }
 
-        /* --- FUNKCJE ONLINE (CZAT) --- */
-        .chat-box {
-            background: white;
-            border-radius: 15px;
-            height: 200px;
-            overflow-y: auto;
+        .countdown-timer { font-size: 1.2rem; color: var(--danger-red); }
+
+        /* --- BUTTONS --- */
+        .btn-sync {
+            width: calc(100% - 30px);
+            margin: 15px;
             padding: 15px;
-            border: 1px solid #e2e8f0;
-            margin-top: 10px;
-            font-size: 13px;
-        }
-
-        /* --- DOLNE MENU --- */
-        .bottom-tabs {
-            background: white;
-            height: 75px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            border-top: 1px solid #e2e8f0;
-            padding-bottom: 10px;
-        }
-        .tab-btn {
             background: none;
-            border: none;
-            color: #94a3b8;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-size: 11px;
-            font-weight: 600;
+            border: 1px solid var(--neon-blue);
+            color: var(--neon-blue);
+            font-family: 'Syncopate', sans-serif;
             cursor: pointer;
             transition: 0.3s;
         }
-        .tab-btn.active { color: var(--primary); }
-        .tab-btn i { font-size: 22px; margin-bottom: 4px; }
-
-        /* --- PRZYCISK "DARMOWY" --- */
-        .btn-free {
-            background: var(--student);
-            color: white;
-            width: 100%;
-            border: none;
-            padding: 18px;
-            border-radius: 15px;
-            font-weight: 800;
-            margin-top: 10px;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-        }
+        .btn-sync:hover { background: var(--neon-blue); color: black; }
     </style>
 </head>
 <body>
 
-    <header class="top-nav">
-        <div>
-            <span style="font-weight: 800; letter-spacing: 1px;">PKP WSCHÓD</span>
-        </div>
-        <div class="online-indicator">
-            <i class="fa-solid fa-circle" style="font-size: 8px;"></i> POŁĄCZONO ONLINE
-        </div>
+    <header class="header-main">
+        <div class="user-id">WŁADYSŁAW WALIJEW</div>
+        <div class="live-clock" id="clock">00:00:00</div>
     </header>
 
-    <div id="home" class="tab-content active">
-        <div class="search-engine">
-            <h3 style="margin-top:0">Planuj Podróż</h3>
-            <input type="text" class="station-input" placeholder="Z: np. Warszawa Wschodnia" id="from">
-            <input type="text" class="station-input" placeholder="DO: np. Terespol" id="to">
-            <div style="display: flex; gap: 10px;">
-                <input type="date" class="station-input" style="flex: 1;">
-                <input type="time" class="station-input" style="flex: 1;">
-            </div>
-            <button class="btn-free" onclick="searchAction()">WYSZUKAJ (STUDENT 0 ZŁ)</button>
-        </div>
-
-        <div style="background: #fff; padding: 15px; border-radius: 20px;">
-            <h4>Aktywne Komunikaty</h4>
-            <div style="color: #ef4444; font-size: 13px;">
-                <i class="fa-solid fa-triangle-exclamation"></i> Mgła na odcinku Siedlce - Łuków. Możliwe opóźnienia.
-            </div>
-        </div>
+    <div class="mission-box">
+        <div class="status-active">MISJA: MARATON TYGODNIOWY</div>
+        <p>> START: Dzisiaj (Poniedziałek) 18:00</p>
+        <p>> KONIEC: Czwartek rano (05:30/07:00)</p>
+        <p>> ZMIANA: 15H (12h Pociąg | 3h Biuro)</p>
     </div>
 
-    <div id="map-tab" class="tab-content" style="padding:0">
-        <div id="map"></div>
+    <div class="route-display">
+        [POŁĄCZENIE AKTYWNE]<br>
+        LOK: <b>Kamień Pomorski</b><br>
+        PRZESIADKA: <b>Szczecin Główny</b><br>
+        MAGISTRALA: <b>Warszawa</b><br>
+        DEST: <b>Terespol</b>
     </div>
 
-    <div id="conductor" class="tab-content">
-        <div class="profile-card">
-            <div style="display:flex; align-items:center; gap:15px;">
-                <div style="width:50px; height:50px; background:var(--accent); border-radius:50%; display:flex; align-items:center; justify-content:center;">
-                    <i class="fa-solid fa-user-shield" style="font-size:24px; color:white"></i>
-                </div>
-                <div>
-                    <div style="font-weight:bold; font-size:1.2rem;">Władysław Walijew</div>
-                    <div style="font-size:12px; color:var(--accent)">System Operator / Konduktor</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="report-form">
-            <h4>Raport Online ze Składu</h4>
-            <div class="chat-box" id="chat">
-                <div>[10:15] Dyspozytornia: Władysław, potwierdź odjazd IC 12101.</div>
-                <div>[10:16] <b>W. Walijew</b>: Pociąg gotowy do odjazdu. 45 studentów na pokładzie.</div>
-            </div>
-            <textarea id="msg" placeholder="Napisz do dyspozytorni..."></textarea>
-            <button class="btn-free" style="background:var(--primary)" onclick="sendMsg()">WYŚLIJ RAPORT</button>
-        </div>
+    <div class="wallet-display">
+        <span style="font-size: 0.8rem;">SZACOWANY ZAROBEK (Z DODATKAMI NOCNYMI):</span>
+        <span class="price-tag" id="cash">----.--</span>
+        <span style="font-size: 0.7rem; color: #34d399;">STUDENCI: 0 ZŁ | SYSTEM ZWERYFIKOWANY</span>
     </div>
 
-    <nav class="bottom-tabs">
-        <button class="tab-btn active" onclick="openTab(event, 'home')">
-            <i class="fa-solid fa-house-chimney"></i>
-            Start
-        </button>
-        <button class="tab-btn" onclick="openTab(event, 'map-tab')">
-            <i class="fa-solid fa-map-location-dot"></i>
-            Mapa Live
-        </button>
-        <button class="tab-btn" onclick="openTab(event, 'conductor')">
-            <i class="fa-solid fa-user-tie"></i>
-            Panel W.W.
-        </button>
-    </nav>
+    <div class="holiday-sector">
+        <div class="status-wait">OCZEKIWANIE NA MAJÓWKĘ</div>
+        <div>NASTĘPNA ZMIANA: Koniec Kwietnia - 02.05</div>
+        <div class="countdown-timer" id="majowka-timer">Obliczanie czasu...</div>
+    </div>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <button class="btn-sync" onclick="sync()">SYNCHRONIZUJ SYSTEM</button>
+
     <script>
-        // System Zakładek
-        function openTab(evt, tabName) {
-            let contents = document.getElementsByClassName("tab-content");
-            for (let i = 0; i < contents.length; i++) contents[i].classList.remove("active");
+        // Zegar czasu rzeczywistego
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000);
+
+        // Licznik do Majówki (odliczamy do 28 kwietnia rano)
+        function updateMajowka() {
+            const now = new Date().getTime();
+            const startMajowka = new Date("April 28, 2026 18:00:00").getTime();
+            const distance = startMajowka - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             
-            let btns = document.getElementsByClassName("tab-btn");
-            for (let i = 0; i < btns.length; i++) btns[i].classList.remove("active");
-
-            document.getElementById(tabName).classList.add("active");
-            evt.currentTarget.classList.add("active");
-
-            if(tabName === 'map-tab') {
-                setTimeout(() => { map.invalidateSize(); }, 200);
+            if (distance > 0) {
+                document.getElementById('majowka-timer').innerText = days + "D " + hours + "H DO STARTU MAJÓWKI";
+            } else {
+                document.getElementById('majowka-timer').innerText = "MAJÓWKA: SYSTEM AKTYWNY";
             }
         }
+        setInterval(updateMajowka, 1000);
 
-        // Inicjalizacja Mapy
-        const map = L.map('map').setView([52.2, 22.5], 8);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-        L.tileLayer('https://{s}.tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png').addTo(map);
-
-        // Funkcje Online
-        function sendMsg() {
-            let msg = document.getElementById('msg').value;
-            if(msg) {
-                let chat = document.getElementById('chat');
-                chat.innerHTML += `<div>[Teraz] <b>W. Walijew</b>: ${msg}</div>`;
-                document.getElementById('msg').value = '';
-                chat.scrollTop = chat.scrollHeight;
-            }
+        function sync() {
+            // Kalkulacja: 3 noce (Pon/Wt, Wt/Śr, Śr/Czw) po 15h
+            const stawkaZaZmiane = 850; // Przykładowa stawka "na dużo" za całą zmianę 15h z nocką
+            const suma = stawkaZaZmiane * 3;
+            document.getElementById('cash').innerText = suma.toFixed(2) + " PLN";
+            alert("System PKP Wschód zaktualizowany!\n\nPracujesz: Pon, Wt, Śr (nocne zmiany).\nKoniec: Czwartek rano.\nWolne: Do końca kwietnia.");
         }
 
-        function searchAction() {
-            let from = document.getElementById('from').value;
-            let to = document.getElementById('to').value;
-            alert(`🔍 SZUKANIE POŁĄCZENIA ONLINE...\nZ: ${from}\nDO: ${to}\n\nStatus: Znaleziono przejazd darmowy dla studenta!`);
-        }
+        window.onload = () => {
+            updateClock();
+            updateMajowka();
+            sync();
+        };
     </script>
 </body>
 </html>
