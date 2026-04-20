@@ -3,255 +3,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PKP Wschód - NextGen</title>
+    <title>PKP Wschód - Panel Operacyjny</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --glass: rgba(255, 255, 255, 0.9);
-            --primary: #0044cc;
-            --accent: #ff9f1c;
-            --dark: #0f172a;
-            --success: #10b981;
-            --card-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+            --pkp-blue: #001a4d;
+            --student-green: #10b981;
+            --premium-gold: #fbbf24;
+            --bg-light: #f8fafc;
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { 
-            font-family: 'Outfit', sans-serif; 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
             margin: 0; 
-            background: #f1f5f9; 
-            color: var(--dark);
-            padding-bottom: 80px; /* Miejsce na dolne menu */
+            background: var(--bg-light);
+            padding-bottom: 90px;
         }
 
-        /* --- NAGŁÓWEK --- */
-        header {
-            background: var(--dark);
+        /* --- PROFIL KONDUKTORA --- */
+        .conductor-header {
+            background: var(--pkp-blue);
             color: white;
-            padding: 20px;
-            border-radius: 0 0 25px 25px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            padding: 25px 20px 50px 20px;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
         }
 
-        .user-profile { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
-        .avatar { width: 45px; height: 45px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: bold; }
-
-        /* --- WYSZUKIWARKA (Neumorphism) --- */
-        .search-section {
-            padding: 0 20px;
-            margin-top: -30px;
-        }
-        .search-card {
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: var(--card-shadow);
-        }
-        .input-box {
-            display: flex;
-            align-items: center;
-            background: #f8fafc;
-            padding: 12px;
-            border-radius: 12px;
-            margin-bottom: 10px;
-            border: 1px solid #e2e8f0;
-        }
-        .input-box i { color: var(--primary); margin-right: 10px; }
-        .input-box input { border: none; background: transparent; outline: none; width: 100%; font-family: 'Outfit'; }
-
-        /* --- LIVE MAP (Mała na telefon) --- */
-        #map {
-            height: 200px;
-            margin: 20px;
-            border-radius: 20px;
-            box-shadow: var(--card-shadow);
-            z-index: 1;
-        }
-
-        /* --- POCIĄGI LIVE --- */
-        .live-trains { padding: 0 20px; }
-        .train-item {
-            background: white;
-            margin-bottom: 15px;
-            padding: 15px;
-            border-radius: 18px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-            border-left: 6px solid var(--primary);
-        }
-        .train-info b { font-size: 1.1rem; display: block; }
-        .train-status { text-align: right; }
-        .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; }
-        .badge-green { background: #dcfce7; color: #166534; }
-
-        /* --- WAGONY (Detale) --- */
-        .comp-scroll {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            padding: 10px 20px;
-            scrollbar-width: none;
-        }
-        .wagon-icon {
-            min-width: 60px; height: 35px;
-            background: var(--dark); color: white;
-            border-radius: 6px; font-size: 0.7rem;
-            display: flex; align-items: center; justify-content: center;
-        }
-
-        /* --- DOLNE MENU (TAB BAR) --- */
-        .nav-bar {
-            position: fixed;
-            bottom: 0; width: 100%;
-            background: white;
-            display: flex;
-            justify-content: space-around;
-            padding: 15px 0;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
-            border-radius: 25px 25px 0 0;
-            z-index: 2000;
-        }
-        .nav-item { text-align: center; color: #94a3b8; font-size: 0.8rem; text-decoration: none; }
-        .nav-item.active { color: var(--primary); }
-        .nav-item i { font-size: 1.4rem; display: block; margin-bottom: 4px; }
-
-        /* --- PRZYCISK QR --- */
-        .qr-fab {
-            position: fixed;
-            bottom: 90px; right: 20px;
-            background: var(--accent);
+        .profile-row { display: flex; align-items: center; gap: 15px; }
+        .avatar-container {
             width: 60px; height: 60px;
             border-radius: 50%;
+            border: 2px solid var(--premium-gold);
+            overflow: hidden;
+            background: #fff;
             display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 1.5rem;
-            box-shadow: 0 10px 20px rgba(255, 159, 28, 0.4);
-            z-index: 1000;
+        }
+        .avatar-container i { color: var(--pkp-blue); font-size: 30px; }
+
+        .badge-rank {
+            background: var(--premium-gold);
+            color: #000;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 10px;
+            text-transform: uppercase;
         }
 
-        /* Animacje */
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-        .live-dot { height: 8px; width: 8px; background: red; border-radius: 50%; display: inline-block; animation: pulse 1s infinite; }
+        /* --- KARTA STUDENTA / PROMOCJI --- */
+        .promo-card {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            margin: -30px 20px 20px 20px;
+            padding: 20px;
+            border-radius: 20px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .promo-card i {
+            position: absolute; right: -10px; bottom: -10px;
+            font-size: 80px; opacity: 0.2;
+        }
+
+        /* --- PANEL KONTROLNY --- */
+        .control-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .control-item {
+            background: white;
+            padding: 15px;
+            border-radius: 18px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .control-item i { font-size: 24px; color: var(--pkp-blue); margin-bottom: 10px; display: block; }
+
+        /* --- DARMOWE PRZEJAZDY --- */
+        .free-ticket-label {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 12px;
+            border: 1px dashed #d97706;
+        }
+
+        /* Animacja bicia serca dla statusu LIVE */
+        .status-pulse {
+            width: 10px; height: 10px; background: #ef4444;
+            border-radius: 50%; display: inline-block;
+            box-shadow: 0 0 0 rgba(239, 68, 68, 0.7);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="user-profile">
-            <div class="avatar">JK</div>
-            <div>
-                <div style="font-size: 0.8rem; opacity: 0.7;">Witaj z powrotem,</div>
-                <div style="font-weight: 600;">Jan Kowalski (Konduktor)</div>
+    <header class="conductor-header">
+        <div class="profile-row">
+            <div class="avatar-container">
+                <i class="fa-solid fa-user-tie"></i>
             </div>
-            <i class="fa-regular fa-bell" style="margin-left: auto; font-size: 1.2rem;"></i>
+            <div>
+                <span class="badge-rank">Starszy Konduktor</span>
+                <div style="font-size: 1.2rem; font-weight: 800;">Władysław Walijew</div>
+                <div style="font-size: 0.8rem; opacity: 0.8;">ID Przebiegu: #WW-2026-X</div>
+            </div>
         </div>
-        <div style="font-size: 1.5rem; font-weight: 800;">Gdzie jedziemy?</div>
     </header>
 
-    <div class="search-section">
-        <div class="search-card">
-            <div class="input-box">
-                <i class="fa-solid fa-location-dot"></i>
-                <input type="text" placeholder="Stacja początkowa" value="Warszawa Wschodnia">
-            </div>
-            <div class="input-box">
-                <i class="fa-solid fa-train-subway"></i>
-                <input type="text" placeholder="Stacja docelowa" value="Lublin Główny">
-            </div>
-            <button style="width: 100%; background: var(--primary); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: bold; font-size: 1rem;">
-                SPRAWDŹ POŁĄCZENIA
-            </button>
+    <div class="promo-card">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <div style="font-weight: 800; font-size: 1.1rem;">STREFA STUDENTA</div>
+        <p style="font-size: 0.85rem; margin: 5px 0 15px 0;">Wszyscy studenci ze wschodnich uczelni podróżują dziś <b>ZA DARMO</b> na trasie Warszawa - Terespol.</p>
+        <div style="background: rgba(255,255,255,0.2); display: inline-block; padding: 5px 12px; border-radius: 10px; font-size: 0.8rem;">
+            Weryfikacja mObywatel: AKTYWNA
         </div>
     </div>
 
-    <div id="map"></div>
+    <div class="control-grid">
+        <div class="control-item">
+            <i class="fa-solid fa-id-card-clip"></i>
+            <strong>Moje Dyżury</strong>
+        </div>
+        <div class="control-item">
+            <i class="fa-solid fa-map-location"></i>
+            <strong>Mapa Tori</strong>
+        </div>
+        <div class="control-item">
+            <i class="fa-solid fa-wifi"></i>
+            <strong>Hotspot 5G</strong>
+        </div>
+        <div class="control-item" style="border: 2px solid var(--student-green);">
+            <i class="fa-solid fa-check-double" style="color: var(--student-green);"></i>
+            <strong>Bilety 0 zł</strong>
+        </div>
+    </div>
 
-    <div class="live-trains">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-            <h3 style="margin: 0;">Pociągi na trasie <span class="live-dot"></span></h3>
-            <span style="font-size: 0.8rem; color: var(--primary);">Zobacz wszystkie</span>
+    <div style="padding: 0 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h3 style="margin:0;">Pociągi pod nadzorem</h3>
+            <span style="font-size: 0.8rem;"><span class="status-pulse"></span> LIVE</span>
         </div>
 
-        <div class="train-item">
-            <div class="train-info">
-                <b>IC 12102 NIEMCEWICZ</b>
-                <span style="font-size: 0.8rem; color: #64748b;">Peron 2 • Tor 4</span>
-                <div class="comp-scroll" style="padding: 10px 0 0 0;">
-                    <div class="wagon-icon">LOK</div>
-                    <div class="wagon-icon" style="background: var(--accent);">1 KL</div>
-                    <div class="wagon-icon">WARS</div>
-                    <div class="wagon-icon">2 KL</div>
+        <div style="background: white; padding: 15px; border-radius: 20px; margin-bottom: 15px; border-left: 5px solid var(--pkp-blue);">
+            <div style="display: flex; justify-content: space-between;">
+                <div>
+                    <b style="font-size: 1rem;">IC 12101 "PODLASIE"</b>
+                    <div style="font-size: 0.8rem; color: #64748b;">Kierunek: Terespol Granica</div>
+                </div>
+                <div class="free-ticket-label">DARMOWY DLA STUDENTA</div>
+            </div>
+            <div style="margin-top: 15px; display: flex; gap: 10px;">
+                <div style="flex: 1; background: #f1f5f9; padding: 10px; border-radius: 10px; font-size: 0.75rem;">
+                    Opiekun: <b>W. Walijew</b>
+                </div>
+                <div style="flex: 1; background: #f1f5f9; padding: 10px; border-radius: 10px; font-size: 0.75rem; text-align: center;">
+                    Dostępność: <b>85%</b>
                 </div>
             </div>
-            <div class="train-status">
-                <div class="badge badge-green">O CZASIE</div>
-                <div style="margin-top: 5px; font-weight: bold;">14:20</div>
-            </div>
-        </div>
-
-        <div class="train-item" style="border-left-color: var(--accent);">
-            <div class="train-info">
-                <b>TLK 38104 BYSTRZYCA</b>
-                <span style="font-size: 0.8rem; color: #64748b;">Peron 1 • Tor 1</span>
-            </div>
-            <div class="train-status">
-                <div class="badge" style="background: #fee2e2; color: #991b1b;">+10 MIN</div>
-                <div style="margin-top: 5px; font-weight: bold; color: #991b1b;">15:05</div>
-            </div>
         </div>
     </div>
 
-    <div class="qr-fab">
-        <i class="fa-solid fa-qrcode"></i>
-    </div>
+    <button onclick="startScanner()" style="position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: var(--pkp-blue); color: white; border: none; padding: 15px 30px; border-radius: 50px; font-weight: bold; box-shadow: 0 10px 20px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 10px; z-index: 1000;">
+        <i class="fa-solid fa-qrcode"></i> SKANUJ LEGITYMACJĘ
+    </button>
 
-    <nav class="nav-bar">
-        <a href="#" class="nav-item active">
-            <i class="fa-solid fa-house"></i>
-            Start
-        </a>
-        <a href="#" class="nav-item">
-            <i class="fa-solid fa-ticket"></i>
-            Bilety
-        </a>
-        <a href="#" class="nav-item">
-            <i class="fa-solid fa-map-location-dot"></i>
-            Mapa
-        </a>
-        <a href="#" class="nav-item">
-            <i class="fa-solid fa-user-gear"></i>
-            Panel
-        </a>
+    <nav style="position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #e2e8f0; z-index: 999;">
+        <div style="color: var(--pkp-blue); text-align: center;">
+            <i class="fa-solid fa-train" style="font-size: 20px;"></i>
+            <div style="font-size: 10px;">Trasy</div>
+        </div>
+        <div style="color: #94a3b8; text-align: center;">
+            <i class="fa-solid fa-users" style="font-size: 20px;"></i>
+            <div style="font-size: 10px;">Pasażerowie</div>
+        </div>
+        <div style="color: #94a3b8; text-align: center;">
+            <i class="fa-solid fa-gear" style="font-size: 20px;"></i>
+            <div style="font-size: 10px;">Ustawienia</div>
+        </div>
     </nav>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // Mapa dopasowana do telefonów
-        const map = L.map('map', { zoomControl: false }).setView([52.2, 22.5], 8);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+        function startScanner() {
+            alert("Uruchamiam skaner mObywatel 4.0... Weryfikacja zniżki studenckiej 100% dla Pana Władysława.");
+        }
         
-        // Dodanie pociągów jako ikony
-        const trainIcon = L.divIcon({
-            className: 'custom-div-icon',
-            html: "<div style='background:blue; width:12px; height:12px; border-radius:50%; border:2px solid white;'></div>",
-            iconSize: [12, 12]
-        });
-
-        L.marker([52.23, 21.01], {icon: trainIcon}).addTo(map).bindPopup("IC NIEMCEWICZ");
-        L.marker([51.24, 22.56], {icon: trainIcon}).addTo(map).bindPopup("TLK BYSTRZYCA");
-
-        // Symulacja "dużo rzeczy" - powiadomienie push
+        // Dodatkowe powiadomienie
         setTimeout(() => {
-            alert("🔔 Powiadomienie: Twój pociąg IC 12102 wjechał na stację Siedlce.");
-        }, 5000);
+            console.log("System PKP Wschód gotowy. Operator: Władysław Walijew.");
+        }, 1000);
     </script>
+
 </body>
 </html>
