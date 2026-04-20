@@ -1,141 +1,63 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PKPNW | TERMINAL OPERACYJNY</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <style>
-        :root { --pkp-blue: #0a192f; --pkp-gold: #b3935d; --success: #00e676; }
-        body { margin: 0; background: #050a14; color: #e0e0e0; font-family: 'Roboto', sans-serif; }
-        
-        header { 
-            background: var(--pkp-blue); padding: 15px; border-bottom: 2px solid var(--pkp-gold);
-            display: flex; justify-content: space-between; align-items: center; 
-        }
-        .brand { display: flex; align-items: center; gap: 10px; }
-        .brand i { color: var(--pkp-gold); }
-        
-        .main-content { padding: 20px; display: grid; grid-template-columns: 1fr; gap: 15px; }
-        .module-card { 
-            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); 
-            border-radius: 12px; padding: 20px; backdrop-filter: blur(10px); 
-        }
+## Konferencje 2021
 
-        .btn { 
-            background: var(--pkp-gold); color: var(--pkp-blue); border: none; padding: 15px; 
-            border-radius: 6px; font-weight: bold; width: 100%; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-        }
+### Grudzień
+| Nazwa | Miasto | Data | Strona | Nagrania | CFP | Tematyka| Warsztaty |
+|----------|:-------------:|:------|:------|:------|:------|:------|:------|
+| Krakowskie Dni Informatyki	| On-Line	| 2021-12-01 - 2021-12-02	| [link](https://kdi.org.pl/)	| |  | versatile | |
 
-        .input-field { 
-            background: rgba(0,0,0,0.5); border: 1px solid #444; color: white; 
-            padding: 12px; width: 100%; box-sizing: border-box; border-radius: 6px; margin-bottom: 10px; 
-        }
 
-        #status-display { 
-            margin-top: 15px; padding: 15px; border-radius: 8px; display: none;
-            border-left: 5px solid var(--success); background: rgba(0,230,118,0.1);
-        }
+### Listopad
+| Nazwa | Miasto | Data | Strona | Nagrania | CFP | Tematyka| Warsztaty |
+|----------|:-------------:|:------|:------|:------|:------|:------|:------|
+| ML in PL Conference	| On-Line	| 2021-11-05 - 2021-11-07	| [link](https://conference2021.mlinpl.org/)	| |  | machine learning | |
+| Expert Summit 2021	| On-Line	| 2021-11-04	| [link](https://expertsummit.pl/)	| |  | dotnet, azure | |
 
-        .lang-picker span { cursor: pointer; margin-left: 10px; font-size: 0.8rem; }
-    </style>
-</head>
-<body>
+### Październik
+| Nazwa | Miasto | Data | Strona | Nagrania | CFP | Tematyka| Warsztaty |
+|----------|:-------------:|:------|:------|:------|:------|:------|:------|
+| Infoshare	|  On-Line	| 2021-10-14 - 2021-10-15	| [link](https://infoshare.pl/conference/)	| | [link](https://infoshare.pl/conference/call-for-speakers/) | versatile | |
+| Dotnetos	|  On-Line	| 2021-10-04 - 2021-10-06	| [link](https://conf.dotnetos.org/)	| | [link](https://conf.dotnetos.org/#cfp) | performance, .net | |
 
-<div class="app-shell">
-    <header>
-        <div class="brand">
-            <i class="material-icons">train</i>
-            <div>
-                <h1 style="margin:0; font-size:1.2rem;">PKPNW</h1>
-                <span id="sub-title" style="font-size:0.6rem; color:var(--pkp-gold);">PAŃSTWOWE KRAJOWE PRZEWOZY NA WSCHÓD</span>
-            </div>
-        </div>
-        <div class="lang-picker">
-            <span onclick="setLang('pl')">PL</span>
-            <span onclick="setLang('ru')">RU</span>
-            <span onclick="setLang('en')">EN</span>
-        </div>
-    </header>
+### Wrzesień
 
-    <div class="main-content">
-        <div class="module-card">
-            <div id="db-status" style="font-size:0.7rem; color:orange; margin-bottom:10px;">ŁĄCZENIE Z BAZĄ...</div>
-            <h2 id="h-verify">Weryfikacja Systemowa</h2>
-            <input type="text" id="ticket-input" class="input-field" placeholder="WPISZ NUMER BILETU">
-            <button class="btn" id="verify-btn">
-                <i class="material-icons">sensors</i> <span id="b-check">SPRAWDŹ W BAZIE</span>
-            </button>
+| Nazwa | Miasto | Data | Strona | Nagrania | CFP | Tematyka | Warsztaty |
+|----------|:-------------:|:------|:------|:------|:------|:------|:------|
+| Allegro Tech Meeting | On-Line | 2021-09-29 - 2021-09-30 | [link](https://app.evenea.pl/event/atm-2021/) |||versatile||
+| Code Europe | Warszawa | 2021-09-23 | [link](https://www.codeeurope.pl/) |||dotnet, java, js||
+| Code Europe | Gdańsk | 2021-09-21 | [link](https://www.codeeurope.pl/) |||dotnet, java, js||
+| BBDays4IT | Bielsko-Biała | 2021-09-11 | [link](https://bbdays4.it/) |||versatile||
+| ImproveIT | Gdańsk | 2021-09-11 | [link](https://improve-it.org/) |||QA, performance||
+| Confidence | On-Line | 2021-09-07 - 2021-09-08| [link](https://confidence-conference.org/) |||security||
+| segfault unconference | Kraków | 2021-09-06 - 2021-09-07| [link](https://segfault.events/unconference2021/) |||architecture||
 
-            <div id="status-display">
-                <b id="res-title" style="color:var(--success)">BILET ZWERYFIKOWANY</b>
-                <p id="res-info" style="font-size:0.8rem; margin:5px 0 0 0;"></p>
-            </div>
-        </div>
-    </div>
-</div>
 
-<script type="module">
-    // Importujemy Firebase bezpośrednio z serwerów Google (CDN)
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+### Sierpień
 
-    // Twoja konfiguracja którą wkleiłeś
-    const firebaseConfig = {
-        apiKey: "AIzaSyCAfRIGWM44efVRf15mAOTzZMkiTaPHU5A",
-        authDomain: "pkprw-332e1.firebaseapp.com",
-        projectId: "pkprw-332e1",
-        storageBucket: "pkprw-332e1.firebasestorage.app",
-        messagingSenderId: "980957814716",
-        appId: "1:980957814716:web:a81382e74561b1297d15b9",
-        measurementId: "G-E1QQ3KSZNM"
-    };
+| Nazwa | Miasto | Data | Strona | Nagrania | CFP | Tematyka | Warsztaty |
+|----------|:-------------:|:------|:------|:------|:------|:------|:------|
+| DynamIT | Kraków | 2021-08-27 - 2021-08-28 | [link](https://dynamit.pro/) ||[link](https://dynamit.pro/)|versatile||
+| Devoxx | Kraków | 2021-08-25 - 2021-08-27 | [link](https://devoxx.pl/) ||[link](https://devoxxpl20.cfp.dev/#/login)|java||
 
-    // Inicjalizacja
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
 
-    // Potwierdzenie połączenia
-    document.getElementById('db-status').innerHTML = "🟢 POŁĄCZONO Z CLOUD FIREBASE";
-    document.getElementById('db-status').style.color = "#00e676";
+### Czerwiec
 
-    // Funkcja sprawdzania biletu w bazie
-    async function checkTicketInDB() {
-        const ticketID = document.getElementById('ticket-input').value;
-        const display = document.getElementById('status-display');
-        
-        if(!ticketID) return;
+| Nazwa | Miasto | Data | Strona | Nagrania | CFP | Tematyka | Warsztaty |
+|----------|:-------------:|:------|:------|:------|:------|:------|:------|
+| CONFidence | Kraków | 2021-06-07 - 2021-06-08 | [link](https://app.evenea.pl/event/confidence2021/) | [link](https://www.youtube.com/user/PROIDEAconferences/playlists?sort=dd&shelf_id=8&view=50) | [link](https://confidence-conference.org/call_for_papers_2021.html) | security | |
+| Ya!vaconf | Warzszwa/Online | 2021-06-24 | [link](https://yavaconf.com/) | | [link](https://docs.google.com/forms/d/e/1FAIpQLSfIqIWIPBaSYv64vlPD6zJPbR0nb-pyT_w94teFOjQOp5-LXg/viewform) | versatile | |
 
-        // Symulacja szukania w bazie (możesz potem dodać realne dokumenty w Firestore)
-        console.log("Szukam biletu:", ticketID);
-        
-        display.style.display = 'block';
-        document.getElementById('res-info').innerHTML = `
-            ID: ${ticketID}<br>
-            STATUS: AKTYWNY (ONLINE)<br>
-            DATA SKANU: ${new Date().toLocaleString()}
-        `;
-    }
+### Maj
+| Nazwa | Miasto | Data | Strona | Nagrania | CFP | Tematyka | Warsztaty |
+|----------|:-------------:|:------|:------|:------|:------|:------|:------|
+| 4Developers | On-Line | 2021-05-24 - 2021-05-27   | [link](https://4developers.org.pl/festiwal-2021/) | | | .net, java, architecture | |
+| ARCHITEKTURA I KONTENERY | On-Line | 2021-05-17 | [link](https://architekturaikontenery.pl/) | | | containers, architecture | |
+| Azure Summit 2021 | On-Line | 2021-05-13 | [link](https://azuresummit.pl/) | | | cloud, devops | |
+| Lubelskie dni Informatyki | On-Line | 2021-05-29 - 2021-05-30 | [link](https://ldi.org.pl/) | | | versatile | |
+| Conselenium | On-Line | 2021-05-20 - 2021-06-17 | [link](https://conselenium.pl/) | | | testing, automation | |
 
-    // Podpięcie przycisku pod funkcję
-    document.getElementById('verify-btn').addEventListener('click', checkTicketInDB);
-</script>
+### Kwiecień
 
-<script>
-    // Proste tłumaczenia
-    const langData = {
-        pl: { sub: "PAŃSTWOWE KRAJOWE PRZEWOZY NA WSCHÓD", h: "Weryfikacja Systemowa", b: "SPRAWDŹ W BAZIE" },
-        ru: { sub: "ГОСУДАРСТВЕННЫЕ НАЦИОНАЛЬНЫЕ ПЕРЕВОЗКИ НА ВОСТОК", h: "Системная проверка", b: "ПРОВЕРИТЬ В БАЗЕ" },
-        en: { sub: "STATE NATIONAL EASTERN TRANSPORT", h: "System Verification", b: "CHECK IN DATABASE" }
-    };
-
-    function setLang(l) {
-        document.getElementById('sub-title').innerText = langData[l].sub;
-        document.getElementById('h-verify').innerText = langData[l].h;
-        document.getElementById('b-check').innerText = langData[l].b;
-    }
-</script>
-
-</body>
-</html>
+| Nazwa | Miasto | Data | Strona | Nagrania | CFP | Tematyka | Warsztaty |
+|----------|:-------------:|:------|:------|:------|:------|:------|:------|
+| DevOpsDays | Poznań | 2021-04-27 - 2021-04-28 | [link](https://devopsdays.org/events/2021-krakow/welcome//) ||[link](https://dodkrakow.pl/cfp2021/)|devops||
+| Warszawskie Dni Informatyki |On-Line | 2021-04-08 - 2021-04-09 | [link](https://warszawskiedniinformatyki.pl/) | | [link](https://docs.google.com/forms/d/e/1FAIpQLSf-weP23vhyj3lOUb7a-QHueYVNbSuMkii5dRvsRhEUy4dJJQ/viewform) | versatile |
